@@ -13,4 +13,11 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Suncloud"
-include ':app'
+include(":app")
+include(":forecast")
+include(":nationwide")
+include(":setting")
+include(":common")
+include(":common-ui")
+include(":domain")
+include(":data")
