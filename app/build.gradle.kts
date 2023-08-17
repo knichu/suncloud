@@ -62,6 +62,7 @@ dependencies {
     api(project(":forecast"))
     api(project(":nationwide"))
     api(project(":setting"))
+    api(project(":data"))
 
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
