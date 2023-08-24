@@ -3,8 +3,8 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-parcelize")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
+    kotlin(Plugins.KOTLIN_KAPT)
+    id(Plugins.HILT_PLUGIN)
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -22,12 +22,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // @InstallIn 무시 코드
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
-            }
-        }
+//        // @InstallIn 무시 코드
+//        javaCompileOptions {
+//            annotationProcessorOptions {
+//                arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
+//            }
+//        }
     }
 
     buildTypes {
@@ -74,4 +74,8 @@ dependencies {
 
     kapt("com.google.dagger:hilt-android-compiler:2.44")
     implementation("com.google.dagger:hilt-android:2.44")
+}
+
+kapt {
+    correctErrorTypes = true
 }

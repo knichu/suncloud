@@ -4,6 +4,6 @@ object DefaultConfig {
     const val BUILD_TOOLS_VERSION = "31.0.0"
     const val MIN_SDK_VERSION = 28
     const val TARGET_SDK_VERSION = 33
-    const val VERSION_CODE = 0
+    const val VERSION_CODE = 1
     const val VERSION_NAME = "0.1.0"
 }
