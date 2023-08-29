@@ -1,34 +1,29 @@
 package com.knichu.forecast.ui
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import com.knichu.forecast.BR
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import com.knichu.common_ui.base.BaseViewModelFragment
 import com.knichu.forecast.R
+import com.knichu.forecast.databinding.FragmentForecastBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ForecastFragment : Fragment() {
+class ForecastFragment : BaseViewModelFragment<FragmentForecastBinding, ForecastViewModel>(
+    R.layout.fragment_forecast,
+    BR.viewModel
+) {
 
-    companion object {
-        fun newInstance() = ForecastFragment()
-    }
-
-    private lateinit var viewModel: ForecastViewModel
+    override val viewModel: ForecastViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_forecast, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }

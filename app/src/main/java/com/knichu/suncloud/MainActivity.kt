@@ -3,7 +3,7 @@ package com.knichu.suncloud
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
-import com.knichu.common_ui.base.BaseActivity
+import com.knichu.suncloud.BR
 import com.knichu.common_ui.base.BaseViewModelActivity
 import com.knichu.suncloud.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
