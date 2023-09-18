@@ -1,4 +1,4 @@
-package com.knichu.data.dto.response.entity.short
+package com.knichu.data.dto.response.entity.shortWeather
 
 import com.google.gson.annotations.SerializedName
 
