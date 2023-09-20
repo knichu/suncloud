@@ -1,34 +1,29 @@
 package com.knichu.nationwide.ui
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import com.knichu.nationwide.BR
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import com.knichu.common_ui.base.BaseViewModelFragment
 import com.knichu.nationwide.R
+import com.knichu.nationwide.databinding.FragmentNationwideBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NationwideFragment : Fragment() {
+class NationwideFragment : BaseViewModelFragment<FragmentNationwideBinding, NationwideViewModel>(
+    R.layout.fragment_nationwide,
+    BR.viewModel
+) {
 
-    companion object {
-        fun newInstance() = NationwideFragment()
-    }
-
-    private lateinit var viewModel: NationwideViewModel
+    override val viewModel: NationwideViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_nationwide, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(NationwideViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }

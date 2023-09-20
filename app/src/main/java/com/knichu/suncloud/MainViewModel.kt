@@ -1,7 +1,7 @@
 package com.knichu.suncloud
 
-import androidx.lifecycle.ViewModel
+import com.knichu.common.base.BaseViewModel
 
-class MainViewModel : ViewModel() {
+class MainViewModel : BaseViewModel() {
     // TODO: Implement the ViewModel
 }

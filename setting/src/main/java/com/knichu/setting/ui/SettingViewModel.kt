@@ -1,7 +1,9 @@
 package com.knichu.setting.ui
 
-import androidx.lifecycle.ViewModel
+import com.knichu.common.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 
-class SettingViewModel : ViewModel() {
+@HiltViewModel
+class SettingViewModel : BaseViewModel() {
     // TODO: Implement the ViewModel
 }
