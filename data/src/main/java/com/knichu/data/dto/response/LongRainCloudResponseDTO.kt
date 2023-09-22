@@ -3,27 +3,27 @@ package com.knichu.data.dto.response
 import com.google.gson.annotations.SerializedName
 
 data class LongRainCloudResponseDTO(
-    @field:SerializedName("response") val lRCResponse: LRCResponse? = null
+    @field:SerializedName("response") val response: LongRainCloudResponse? = null
 ) {
-    data class LRCResponse(
-        @field:SerializedName("header") val lRCHeader: LRCHeader,
-        @field:SerializedName("body") val lRCBody: LRCBody? = null
+    data class LongRainCloudResponse(
+        @field:SerializedName("header") val header: LongRainCloudHeader? = null,
+        @field:SerializedName("body") val body: LongRainCloudBody? = null
     )
 
-    data class LRCHeader(
-        @field:SerializedName("resultCode") val resultCode: String,
-        @field:SerializedName("resultMsg") val resultMsg: String
+    data class LongRainCloudHeader(
+        @field:SerializedName("resultCode") val resultCode: String? = null,
+        @field:SerializedName("resultMsg") val resultMsg: String? = null
     )
 
-    data class LRCBody(
+    data class LongRainCloudBody(
         @field:SerializedName("dataType") val dataType: String? = null,
-        @field:SerializedName("items") val lRCItem: List<LRCItem>? = null,
+        @field:SerializedName("items") val items: List<LongRainCloudItem>? = null,
         @field:SerializedName("pageNo") val pageNo: Long? = null,
         @field:SerializedName("numOfRows") val numOfRows: Long? = null,
         @field:SerializedName("totalCount") val totalCount: Long? = null
     )
 
-    data class LRCItem(
+    data class LongRainCloudItem(
         @field:SerializedName("regId") val regId: String? = null,
         @field:SerializedName("rnSt3Am") val rnSt3Am: Long? = null,
         @field:SerializedName("rnSt3Pm") val rnSt3Pm: Long? = null,

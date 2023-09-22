@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName
 
 data class AirPollutionResponseDTO(
     @field:SerializedName("coord") val coord: LonLat? = null,
-    @field:SerializedName("list") val aPList: List<APList>? = null
+    @field:SerializedName("list") val list: List<AirPollutionList>? = null
 ) {
     data class LonLat(
         @field:SerializedName("lon") val lon: Double? = null,
         @field:SerializedName("lat") val lat: Double? = null
     )
 
-    data class APList(
+    data class AirPollutionList(
         @field:SerializedName("main") val main: Main? = null,
         @field:SerializedName("components") val components: Components? = null,
         @field:SerializedName("dt") val dt: Long? = null

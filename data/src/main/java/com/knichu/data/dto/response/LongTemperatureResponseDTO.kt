@@ -3,27 +3,27 @@ package com.knichu.data.dto.response
 import com.google.gson.annotations.SerializedName
 
 data class LongTemperatureResponseDTO(
-    @field:SerializedName("response") val lTResponse: LTResponse? = null
+    @field:SerializedName("response") val response: LongTemperatureResponse? = null
 ) {
-    data class LTResponse(
-        @field:SerializedName("header") val lTHeader: LTHeader,
-        @field:SerializedName("body") val lTBody: LTBody? = null
+    data class LongTemperatureResponse(
+        @field:SerializedName("header") val header: LongTemperatureHeader? = null,
+        @field:SerializedName("body") val body: LongTemperatureBody? = null
     )
 
-    data class LTHeader(
-        @field:SerializedName("resultCode") val resultCode: String,
-        @field:SerializedName("resultMsg") val resultMsg: String
+    data class LongTemperatureHeader(
+        @field:SerializedName("resultCode") val resultCode: String? = null,
+        @field:SerializedName("resultMsg") val resultMsg: String? = null
     )
 
-    data class LTBody(
+    data class LongTemperatureBody(
         @field:SerializedName("dataType") val dataType: String? = null,
-        @field:SerializedName("items") val lTItem: List<LTItem>? = null,
+        @field:SerializedName("items") val items: List<LongTemperatureItem>? = null,
         @field:SerializedName("pageNo") val pageNo: Long? = null,
         @field:SerializedName("numOfRows") val numOfRows: Long? = null,
         @field:SerializedName("totalCount") val totalCount: Long? = null
     )
 
-    data class LTItem(
+    data class LongTemperatureItem(
         @field:SerializedName("regId") val regId: String? = null,
         @field:SerializedName("taMin3") val taMin3: Long? = null,
         @field:SerializedName("taMin3Low") val taMin3Low: Long? = null,

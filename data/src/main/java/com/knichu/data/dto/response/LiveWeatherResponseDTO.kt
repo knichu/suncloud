@@ -3,27 +3,27 @@ package com.knichu.data.dto.response
 import com.google.gson.annotations.SerializedName
 
 data class LiveWeatherResponseDTO(
-    @field:SerializedName("response") val lWResponse: LWResponse? = null
+    @field:SerializedName("response") val response: LiveWeatherResponse? = null
 ) {
-    data class LWResponse(
-        @field:SerializedName("header") val lWHeader: LWHeader,
-        @field:SerializedName("body") val lWBody: LWBody? = null
+    data class LiveWeatherResponse(
+        @field:SerializedName("header") val header: LiveWeatherHeader? = null,
+        @field:SerializedName("body") val body: LiveWeatherBody? = null
     )
 
-    data class LWHeader(
-        @field:SerializedName("resultCode") val resultCode: String,
-        @field:SerializedName("resultMsg") val resultMsg: String
+    data class LiveWeatherHeader(
+        @field:SerializedName("resultCode") val resultCode: String? = null,
+        @field:SerializedName("resultMsg") val resultMsg: String? = null
     )
 
-    data class LWBody(
+    data class LiveWeatherBody(
         @field:SerializedName("dataType") val dataType: String? = null,
-        @field:SerializedName("items") val lWItem: List<LWItem>? = null,
+        @field:SerializedName("items") val items: List<LiveWeatherItem>? = null,
         @field:SerializedName("pageNo") val pageNo: Long? = null,
         @field:SerializedName("numOfRows") val numOfRows: Long? = null,
         @field:SerializedName("totalCount") val totalCount: Long? = null
     )
 
-    data class LWItem(
+    data class LiveWeatherItem(
         @field:SerializedName("baseDate") val baseDate: String? = null,
         @field:SerializedName("baseTime") val baseTime: String? = null,
         @field:SerializedName("category") val category: String? = null,

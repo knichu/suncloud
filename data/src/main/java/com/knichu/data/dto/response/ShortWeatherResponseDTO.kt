@@ -3,27 +3,27 @@ package com.knichu.data.dto.response
 import com.google.gson.annotations.SerializedName
 
 data class ShortWeatherResponseDTO(
-    @field:SerializedName("response") val sWResponse: SWResponse? = null
+    @field:SerializedName("response") val response: ShortWeatherResponse? = null
 ) {
-    data class SWResponse(
-        @field:SerializedName("header") val sWHeader: SWHeader? = null,
-        @field:SerializedName("body") val sWBody: SWBody? = null
+    data class ShortWeatherResponse(
+        @field:SerializedName("header") val header: ShortWeatherHeader? = null,
+        @field:SerializedName("body") val body: ShortWeatherBody? = null
     )
 
-    data class SWHeader(
+    data class ShortWeatherHeader(
         @field:SerializedName("resultCode") val resultCode: String? = null,
         @field:SerializedName("resultMsg") val resultMsg: String? = null
     )
 
-    data class SWBody(
+    data class ShortWeatherBody(
         @field:SerializedName("dataType") val dataType: String? = null,
-        @field:SerializedName("items") val sWItem: List<SWItem>? = null,
+        @field:SerializedName("items") val items: List<ShortWeatherItem>? = null,
         @field:SerializedName("pageNo") val pageNo: Long? = null,
         @field:SerializedName("numOfRows") val numOfRows: Long? = null,
         @field:SerializedName("totalCount") val totalCount: Long? = null
     )
 
-    data class SWItem(
+    data class ShortWeatherItem(
         @field:SerializedName("baseDate") val baseDate: String? = null,
         @field:SerializedName("baseTime") val baseTime: String? = null,
         @field:SerializedName("category") val category: String? = null,
