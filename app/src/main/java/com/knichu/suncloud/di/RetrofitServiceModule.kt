@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -15,11 +16,13 @@ object RetrofitServiceModule {
 
     @Provides
     @Singleton
+    @AirPollutionQualifier
     fun providesAirPollutionService(retrofit: Retrofit): AirPollutionService =
         retrofit.create(AirPollutionService::class.java)
 
     @Provides
     @Singleton
+    @WeatherQualifier
     fun providesWeatherService(retrofit: Retrofit): WeatherService =
         retrofit.create(WeatherService::class.java)
 }

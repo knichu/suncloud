@@ -33,6 +33,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @AirPollutionQualifier
     fun provideAirPollutionRetrofit(okHttpClient: OkHttpClient) : Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL_AIR_POLLUTION)
@@ -43,6 +44,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @WeatherQualifier
     fun provideWeatherRetrofit(okHttpClient: OkHttpClient) : Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL_WEATHER)
