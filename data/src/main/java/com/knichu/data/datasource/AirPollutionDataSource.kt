@@ -8,7 +8,7 @@ import javax.inject.Inject
 class AirPollutionDataSource @Inject constructor(
     private val airPollutionService: AirPollutionService
 ) : BaseNetworkDataSource() {
-    suspend fun signUpJunior(airPollutionRequest: AirPollutionRequestDTO): AirPollutionResponseDTO {
+    suspend fun getAirPollution(airPollutionRequest: AirPollutionRequestDTO): AirPollutionResponseDTO {
         return checkResponse(airPollutionService.getAirPollution(airPollutionRequest))
     }
 }
