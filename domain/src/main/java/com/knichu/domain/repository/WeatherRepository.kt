@@ -13,9 +13,9 @@ import com.knichu.domain.vo.WeatherForecastTextVO
 import io.reactivex.rxjava3.core.Single
 
 interface WeatherRepository {
-    fun getLiveWeather(param: LiveWeatherRequestParam): Result<Single<LiveWeatherVO>>
-    fun getShortWeather(param: ShortWeatherRequestParam): Result<Single<ShortWeatherVO>>
-    fun getLongRainCloud(param: LongRainCloudRequestParam): Result<Single<LongRainCloudVO>>
-    fun getLongTemperature(param: LongTemperatureRequestParam): Result<Single<LongTemperatureVO>>
-    fun getWeatherForecastText(param: WeatherForecastTextRequestParam): Result<Single<WeatherForecastTextVO>>
+    fun getLiveWeather(param: LiveWeatherRequestParam): Single<LiveWeatherVO>
+    fun getShortWeather(param: ShortWeatherRequestParam): Single<ShortWeatherVO>
+    fun getLongRainCloud(param: LongRainCloudRequestParam): Single<LongRainCloudVO>
+    fun getLongTemperature(param: LongTemperatureRequestParam): Single<LongTemperatureVO>
+    fun getWeatherForecastText(param: WeatherForecastTextRequestParam): Single<WeatherForecastTextVO>
 }
