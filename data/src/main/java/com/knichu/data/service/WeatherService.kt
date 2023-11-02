@@ -10,28 +10,29 @@ import com.knichu.data.dto.response.LongRainCloudResponseDTO
 import com.knichu.data.dto.response.LongTemperatureResponseDTO
 import com.knichu.data.dto.response.ShortWeatherResponseDTO
 import com.knichu.data.dto.response.WeatherForecastTextResponseDTO
+import io.reactivex.rxjava3.core.Single
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 
 interface WeatherService {
     @GET("VilageFcstInfoService_2.0/getUltraSrtNcst")
-    suspend fun getLiveWeather(@Body liveWeatherRequest: LiveWeatherRequestDTO):
-            Response<LiveWeatherResponseDTO>
+    fun getLiveWeather(@Body liveWeatherRequest: LiveWeatherRequestDTO):
+            Single<Response<LiveWeatherResponseDTO>>
 
     @GET("VilageFcstInfoService_2.0/getVilageFcst")
-    suspend fun getShortWeather(@Body shortWeatherRequest: ShortWeatherRequestDTO):
-            Response<ShortWeatherResponseDTO>
+    fun getShortWeather(@Body shortWeatherRequest: ShortWeatherRequestDTO):
+            Single<Response<ShortWeatherResponseDTO>>
 
     @GET("MidFcstInfoService/getMidLandFcst")
-    suspend fun getLongRainCloud(@Body longRainCloudRequest: LongRainCloudRequestDTO):
-            Response<LongRainCloudResponseDTO>
+    fun getLongRainCloud(@Body longRainCloudRequest: LongRainCloudRequestDTO):
+            Single<Response<LongRainCloudResponseDTO>>
 
     @GET("MidFcstInfoService/getMidTa")
-    suspend fun getLongTemperature(@Body longTemperatureRequest: LongTemperatureRequestDTO):
-            Response<LongTemperatureResponseDTO>
+    fun getLongTemperature(@Body longTemperatureRequest: LongTemperatureRequestDTO):
+            Single<Response<LongTemperatureResponseDTO>>
 
     @GET("MidFcstInfoService/getMidFcst")
-    suspend fun getWeatherForecastText(@Body weatherForecastTextRequest: WeatherForecastTextRequestDTO):
-            Response<WeatherForecastTextResponseDTO>
+    fun getWeatherForecastText(@Body weatherForecastTextRequest: WeatherForecastTextRequestDTO):
+            Single<Response<WeatherForecastTextResponseDTO>>
 }
