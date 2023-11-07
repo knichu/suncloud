@@ -18,6 +18,7 @@ import com.knichu.domain.vo.LongTemperatureVO
 import com.knichu.domain.vo.ShortWeatherVO
 import com.knichu.domain.vo.WeatherForecastTextVO
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
@@ -37,6 +38,9 @@ class WeatherRepositoryImpl @Inject constructor(
                 ny = param.ny
             )
         )
+            .subscribeOn(Schedulers.io())
+            .map { responseDTO -> responseDTO.toDomain() }
+            .onErrorReturn { LiveWeatherVO() }
     }
 
     override fun getShortWeather(param: ShortWeatherRequestParam): Single<ShortWeatherVO> {
@@ -52,6 +56,9 @@ class WeatherRepositoryImpl @Inject constructor(
                 ny = param.ny
             )
         )
+            .subscribeOn(Schedulers.io())
+            .map { responseDTO -> responseDTO.toDomain() }
+            .onErrorReturn { ShortWeatherVO() }
     }
 
     override fun getLongRainCloud(param: LongRainCloudRequestParam): Single<LongRainCloudVO> {
@@ -65,6 +72,9 @@ class WeatherRepositoryImpl @Inject constructor(
                 tmFc = param.tmFc
             )
         )
+            .subscribeOn(Schedulers.io())
+            .map { responseDTO -> responseDTO.toDomain() }
+            .onErrorReturn { LongRainCloudVO() }
     }
 
     override fun getLongTemperature(param: LongTemperatureRequestParam): Single<LongTemperatureVO> {
@@ -78,6 +88,9 @@ class WeatherRepositoryImpl @Inject constructor(
                 tmFc = param.tmFc
             )
         )
+            .subscribeOn(Schedulers.io())
+            .map { responseDTO -> responseDTO.toDomain() }
+            .onErrorReturn { LongTemperatureVO() }
     }
 
     override fun getWeatherForecastText(param: WeatherForecastTextRequestParam): Single<WeatherForecastTextVO> {
@@ -91,5 +104,8 @@ class WeatherRepositoryImpl @Inject constructor(
                 tmFc = param.tmFc
             )
         )
+            .subscribeOn(Schedulers.io())
+            .map { responseDTO -> responseDTO.toDomain() }
+            .onErrorReturn { WeatherForecastTextVO() }
     }
 }

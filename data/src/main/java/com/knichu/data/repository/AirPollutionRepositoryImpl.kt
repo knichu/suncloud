@@ -5,7 +5,9 @@ import com.knichu.data.dto.request.AirPollutionRequestDTO
 import com.knichu.domain.param.AirPollutionRequestParam
 import com.knichu.domain.repository.AirPollutionRepository
 import com.knichu.domain.vo.AirPollutionVO
+import com.knichu.domain.vo.LiveWeatherVO
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class AirPollutionRepositoryImpl @Inject constructor(
@@ -19,5 +21,8 @@ class AirPollutionRepositoryImpl @Inject constructor(
                 appid = param.appid
             )
         )
+            .subscribeOn(Schedulers.io())
+            .map { responseDTO -> responseDTO.toDomain() }
+            .onErrorReturn { AirPollutionVO() }
     }
 }
