@@ -15,6 +15,6 @@ class AirPollutionDataSource @Inject constructor(
     fun getAirPollution(airPollutionRequest: AirPollutionRequestDTO): Single<AirPollutionResponseDTO> {
         return airPollutionService.getAirPollution(airPollutionRequest)
             .subscribeOn(Schedulers.io())
-            .map { response -> checkResponse(response) }
+            .map { checkResponse(it) }
     }
 }

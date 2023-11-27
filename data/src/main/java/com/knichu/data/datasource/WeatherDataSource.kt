@@ -30,7 +30,7 @@ class WeatherDataSource @Inject constructor(
     ): Single<LiveWeatherResponseDTO> {
         return weatherService.getLiveWeather(liveWeatherRequest)
             .subscribeOn(Schedulers.io())
-            .map { response -> checkResponse(response) }
+            .map { checkResponse(it) }
     }
 
     fun getShortWeather(
@@ -38,7 +38,7 @@ class WeatherDataSource @Inject constructor(
     ): Single<ShortWeatherResponseDTO> {
         return weatherService.getShortWeather(shortWeatherRequest)
             .subscribeOn(Schedulers.io())
-            .map { response -> checkResponse(response) }
+            .map { checkResponse(it) }
     }
 
     fun getLongRainCloud(
@@ -46,7 +46,7 @@ class WeatherDataSource @Inject constructor(
     ): Single<LongRainCloudResponseDTO> {
         return weatherService.getLongRainCloud(longRainCloudRequest)
             .subscribeOn(Schedulers.io())
-            .map { response -> checkResponse(response) }
+            .map { checkResponse(it) }
     }
 
     fun getLongTemperature(
@@ -54,7 +54,7 @@ class WeatherDataSource @Inject constructor(
     ): Single<LongTemperatureResponseDTO> {
         return weatherService.getLongTemperature(longTemperatureRequest)
             .subscribeOn(Schedulers.io())
-            .map { response -> checkResponse(response) }
+            .map { checkResponse(it) }
     }
 
     fun getWeatherForecastText(
@@ -62,6 +62,6 @@ class WeatherDataSource @Inject constructor(
     ): Single<WeatherForecastTextResponseDTO> {
         return weatherService.getWeatherForecastText(weatherForecastTextRequest)
             .subscribeOn(Schedulers.io())
-            .map { response -> checkResponse(response) }
+            .map { checkResponse(it) }
     }
 }
