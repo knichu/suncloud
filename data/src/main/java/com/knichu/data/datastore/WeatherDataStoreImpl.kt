@@ -42,9 +42,9 @@ class WeatherDataStoreImpl @Inject constructor(
     override fun storeCity(cityName: String): Single<Preferences> {
         return rxDataStore.updateDataAsync { pref ->
             val mutablePreferences = pref.toMutablePreferences()
-            val existingData = mutablePreferences[CITY_LIST_KEY]?.toListOfString()
-            val updatedData = existingData?.plus(cityName)
-            mutablePreferences[CITY_LIST_KEY] = updatedData!!.toJsonString()
+            val existingData = mutablePreferences[CITY_LIST_KEY]?.toListOfString() ?: listOf(DEFAULT_CITY)
+            val updatedData = existingData.plus(cityName)
+            mutablePreferences[CITY_LIST_KEY] = updatedData.toJsonString()
             Single.just(mutablePreferences)
         }
     }
