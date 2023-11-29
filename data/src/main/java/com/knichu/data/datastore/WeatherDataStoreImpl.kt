@@ -68,7 +68,7 @@ class WeatherDataStoreImpl @Inject constructor(
             val mutablePreferences = pref.toMutablePreferences()
             val existingData = mutablePreferences[CITY_LIST_KEY]?.toListOfString()
             val updatedData = existingData?.filter { it != cityName }
-            mutablePreferences[CITY_LIST_KEY] = updatedData!!.toJsonString()
+            mutablePreferences[CITY_LIST_KEY] = updatedData?.toJsonString() ?: listOf(DEFAULT_CITY).toJsonString()
             Single.just(mutablePreferences)
         }
     }
