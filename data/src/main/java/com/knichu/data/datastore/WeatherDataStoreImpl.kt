@@ -30,7 +30,7 @@ class WeatherDataStoreImpl @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     private val userTempUnitFlowable: Flowable<WeatherTempUnit> =
         rxDataStore.data().map { pref ->
-            val unitStr = pref[TEMP_UNIT_KEY] ?: ""
+            val unitStr = pref[TEMP_UNIT_KEY] ?: EMPTY_STRING
             if (unitStr.isEmpty()) WeatherTempUnit.CELSIUS else WeatherTempUnit.valueOf(unitStr.uppercase())
         }
     override fun getUserTempUnit(): Single<WeatherTempUnit> {
@@ -53,7 +53,7 @@ class WeatherDataStoreImpl @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     private val getCityListFlowable: Flowable<List<String>> =
         rxDataStore.data().map { pref ->
-            val cityListString = pref[CITY_LIST_KEY] ?: "Seoul"
+            val cityListString = pref[CITY_LIST_KEY] ?: listOf(DEFAULT_CITY).toJsonString()
             val cityList = cityListString.toListOfString()
             cityList
         }
@@ -86,10 +86,12 @@ class WeatherDataStoreImpl @Inject constructor(
 
     /**
      * 중요한 정보를 저장할 경우 BuildConfig를 통해 Key를 관리해야 합니다.
-     * 이 프로젝트의 경우 예시 프로젝트 임으로 해당 파일에 key를 관리했습니다.
+     * 이 프로젝트의 경우 예시 프로젝트 임의로 해당 파일에 key를 관리했습니다.
      */
     companion object {
         private val TEMP_UNIT_KEY = stringPreferencesKey("temp_unit_key")
         private val CITY_LIST_KEY = stringPreferencesKey("city_list_key")
+        private const val EMPTY_STRING = ""
+        private const val DEFAULT_CITY = "Seoul"
     }
 }
