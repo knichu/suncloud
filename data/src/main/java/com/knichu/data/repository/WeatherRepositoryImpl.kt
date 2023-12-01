@@ -40,7 +40,7 @@ class WeatherRepositoryImpl @Inject constructor(
         )
             .subscribeOn(Schedulers.io())
             .map { responseDTO -> responseDTO.toDomain() }
-            .onErrorReturn { LiveWeatherVO() }
+            .onErrorReturn { LiveWeatherVO(item = emptyList()) }
     }
 
     override fun getShortWeather(param: ShortWeatherRequestParam): Single<ShortWeatherVO> {
@@ -58,7 +58,7 @@ class WeatherRepositoryImpl @Inject constructor(
         )
             .subscribeOn(Schedulers.io())
             .map { responseDTO -> responseDTO.toDomain() }
-            .onErrorReturn { ShortWeatherVO() }
+            .onErrorReturn { ShortWeatherVO(item = emptyList()) }
     }
 
     override fun getLongRainCloud(param: LongRainCloudRequestParam): Single<LongRainCloudVO> {
