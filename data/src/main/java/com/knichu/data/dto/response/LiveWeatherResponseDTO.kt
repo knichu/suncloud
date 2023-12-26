@@ -1,6 +1,7 @@
 package com.knichu.data.dto.response
 
 import com.google.gson.annotations.SerializedName
+import com.knichu.domain.vo.LiveWeatherItemVO
 import com.knichu.domain.vo.LiveWeatherVO
 
 data class LiveWeatherResponseDTO(
@@ -8,12 +9,16 @@ data class LiveWeatherResponseDTO(
 ) {
     fun toDomain(): LiveWeatherVO {
         return LiveWeatherVO(
-            baseDate = requireNotNull(response?.body?.items?.firstOrNull()?.baseDate),
-            baseTime = requireNotNull(response?.body?.items?.firstOrNull()?.baseTime),
-            category = requireNotNull(response?.body?.items?.firstOrNull()?.category),
-            nx = requireNotNull(response?.body?.items?.firstOrNull()?.nx),
-            ny = requireNotNull(response?.body?.items?.firstOrNull()?.ny),
-            observeValue = requireNotNull(response?.body?.items?.firstOrNull()?.obsrValue)
+            item = response?.body?.items?.map {
+                LiveWeatherItemVO(
+                    baseDate = requireNotNull(it.baseDate),
+                    baseTime = requireNotNull(it.baseTime),
+                    category = requireNotNull(it.category),
+                    nx = requireNotNull(it.nx),
+                    ny = requireNotNull(it.ny),
+                    observeValue = requireNotNull(it.obsrValue)
+                )
+            } ?: emptyList()
         )
     }
 }

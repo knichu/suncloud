@@ -11,38 +11,57 @@ import com.knichu.data.dto.response.LongTemperatureResponseDTO
 import com.knichu.data.dto.response.ShortWeatherResponseDTO
 import com.knichu.data.dto.response.WeatherForecastTextResponseDTO
 import com.knichu.data.service.WeatherService
+import com.knichu.domain.vo.AirPollutionVO
+import com.knichu.domain.vo.LiveWeatherVO
+import com.knichu.domain.vo.LongRainCloudVO
+import com.knichu.domain.vo.LongTemperatureVO
+import com.knichu.domain.vo.ShortWeatherVO
+import com.knichu.domain.vo.WeatherForecastTextVO
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class WeatherDataSource @Inject constructor(
     private val weatherService: WeatherService
 ) : BaseNetworkDataSource() {
-    suspend fun getLiveWeather(
+    fun getLiveWeather(
         liveWeatherRequest: LiveWeatherRequestDTO
-    ): LiveWeatherResponseDTO {
-        return checkResponse(weatherService.getLiveWeather(liveWeatherRequest))
+    ): Single<LiveWeatherResponseDTO> {
+        return weatherService.getLiveWeather(liveWeatherRequest)
+            .subscribeOn(Schedulers.io())
+            .map { checkResponse(it) }
     }
 
-    suspend fun getShortWeather(
+    fun getShortWeather(
         shortWeatherRequest: ShortWeatherRequestDTO
-    ): ShortWeatherResponseDTO {
-        return checkResponse(weatherService.getShortWeather(shortWeatherRequest))
+    ): Single<ShortWeatherResponseDTO> {
+        return weatherService.getShortWeather(shortWeatherRequest)
+            .subscribeOn(Schedulers.io())
+            .map { checkResponse(it) }
     }
 
-    suspend fun getLongRainCloud(
+    fun getLongRainCloud(
         longRainCloudRequest: LongRainCloudRequestDTO
-    ): LongRainCloudResponseDTO {
-        return checkResponse(weatherService.getLongRainCloud(longRainCloudRequest))
+    ): Single<LongRainCloudResponseDTO> {
+        return weatherService.getLongRainCloud(longRainCloudRequest)
+            .subscribeOn(Schedulers.io())
+            .map { checkResponse(it) }
     }
 
-    suspend fun getLongTemperature(
+    fun getLongTemperature(
         longTemperatureRequest: LongTemperatureRequestDTO
-    ): LongTemperatureResponseDTO {
-        return checkResponse(weatherService.getLongTemperature(longTemperatureRequest))
+    ): Single<LongTemperatureResponseDTO> {
+        return weatherService.getLongTemperature(longTemperatureRequest)
+            .subscribeOn(Schedulers.io())
+            .map { checkResponse(it) }
     }
 
-    suspend fun getWeatherForecastText(
+    fun getWeatherForecastText(
         weatherForecastTextRequest: WeatherForecastTextRequestDTO
-    ): WeatherForecastTextResponseDTO {
-        return checkResponse(weatherService.getWeatherForecastText(weatherForecastTextRequest))
+    ): Single<WeatherForecastTextResponseDTO> {
+        return weatherService.getWeatherForecastText(weatherForecastTextRequest)
+            .subscribeOn(Schedulers.io())
+            .map { checkResponse(it) }
     }
 }

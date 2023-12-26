@@ -1,6 +1,7 @@
 package com.knichu.data.dto.response
 
 import com.google.gson.annotations.SerializedName
+import com.knichu.domain.vo.ShortWeatherItemVO
 import com.knichu.domain.vo.ShortWeatherVO
 
 data class ShortWeatherResponseDTO(
@@ -8,14 +9,18 @@ data class ShortWeatherResponseDTO(
 ) {
     fun toDomain(): ShortWeatherVO {
         return ShortWeatherVO(
-            baseDate = requireNotNull(response?.body?.items?.firstOrNull()?.baseDate),
-            baseTime = requireNotNull(response?.body?.items?.firstOrNull()?.baseTime),
-            category = requireNotNull(response?.body?.items?.firstOrNull()?.category),
-            forecastDate = requireNotNull(response?.body?.items?.firstOrNull()?.fcstDate),
-            forecastTime = requireNotNull(response?.body?.items?.firstOrNull()?.fcstTime),
-            forecastValue = requireNotNull(response?.body?.items?.firstOrNull()?.fcstValue),
-            nx = requireNotNull(response?.body?.items?.firstOrNull()?.nx),
-            ny = requireNotNull(response?.body?.items?.firstOrNull()?.ny)
+            item = response?.body?.items?.map {
+                ShortWeatherItemVO(
+                    baseDate = requireNotNull(it.baseDate),
+                    baseTime = requireNotNull(it.baseTime),
+                    category = requireNotNull(it.category),
+                    forecastDate = requireNotNull(it.fcstDate),
+                    forecastTime = requireNotNull(it.fcstTime),
+                    forecastValue = requireNotNull(it.fcstValue),
+                    nx = requireNotNull(it.nx),
+                    ny = requireNotNull(it.ny)
+                )
+            } ?: emptyList()
         )
     }
 }
