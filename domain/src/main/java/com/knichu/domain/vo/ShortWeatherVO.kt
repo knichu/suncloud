@@ -1,6 +1,10 @@
 package com.knichu.domain.vo
 
 data class ShortWeatherVO(
+    val item :List<ShortWeatherItemVO>
+)
+
+data class ShortWeatherItemVO(
     val baseDate: String? = null,
     val baseTime: String? = null,
     val category: String? = null,
