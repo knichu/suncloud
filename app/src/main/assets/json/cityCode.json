@@ -1,0 +1,1372 @@
+{
+  "cityList": [
+    {
+      "cityName": "서울",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B10101",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.978056",
+      "latitude": "37.566667"
+    },
+    {
+      "cityName": "부산",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20201",
+      "weatherForecastTextParam": "159",
+      "longitude": "129.075556",
+      "latitude": "35.179444"
+    },
+    {
+      "cityName": "대구",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10701",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.601389",
+      "latitude": "35.871389"
+    },
+    {
+      "cityName": "인천",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20201",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.705000",
+      "latitude": "37.453333"
+    },
+    {
+      "cityName": "광주",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20501",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.8525",
+      "latitude": "35.159444"
+    },
+    {
+      "cityName": "대전",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20401",
+      "weatherForecastTextParam": "133",
+      "longitude": "127.385",
+      "latitude": "36.350833"
+    },
+    {
+      "cityName": "울산",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20101",
+      "weatherForecastTextParam": "159",
+      "longitude": "129.311389",
+      "latitude": "35.538333"
+    },
+    {
+      "cityName": "세종",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20404",
+      "weatherForecastTextParam": "133",
+      "longitude": "127.288889",
+      "latitude": "36.480556"
+    },
+    {
+      "cityName": "가평",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20404",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.511777777777",
+      "latitude": "37.8288305555555"
+    },
+    {
+      "cityName": "고양",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20302",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.777055555555",
+      "latitude": "37.6559083333333"
+    },
+    {
+      "cityName": "과천",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B10102",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.9898",
+      "latitude": "37.4263722222222"
+    },
+    {
+      "cityName": "광명",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B10103",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.866708333333",
+      "latitude": "37.47575"
+    },
+    {
+      "cityName": "광주(경기도)",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20702",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.257786111111",
+      "latitude": "37.4145055555555"
+    },
+    {
+      "cityName": "구리",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20501",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.131863888888",
+      "latitude": "37.591625"
+    },
+    {
+      "cityName": "군포",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20610",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.9375",
+      "latitude": "37.3586583333333"
+    },
+    {
+      "cityName": "김포",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20102",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.717777777777",
+      "latitude": "37.6124583333333"
+    },
+    {
+      "cityName": "남양주",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20502",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.218633333333",
+      "latitude": "37.6331777777777"
+    },
+    {
+      "cityName": "동두천",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20401",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.062652777777",
+      "latitude": "37.9009166666666"
+    },
+    {
+      "cityName": "부천",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20204",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.766",
+      "latitude": "37.5035917"
+    },
+    {
+      "cityName": "성남",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20605",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.147719444444",
+      "latitude": "37.4474916666666"
+    },
+    {
+      "cityName": "수원",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20601",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.012222222222",
+      "latitude": "37.3010111111111"
+    },
+    {
+      "cityName": "시흥",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20202",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.805077777777",
+      "latitude": "37.3773194444444"
+    },
+    {
+      "cityName": "안산",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20203",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.846819444444",
+      "latitude": "37.2985194444444"
+    },
+    {
+      "cityName": "안성",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20611",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.281844444444",
+      "latitude": "37.005175"
+    },
+    {
+      "cityName": "안양",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20602",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.953355555555",
+      "latitude": "37.3897"
+    },
+    {
+      "cityName": "양주",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20304",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.047819444444",
+      "latitude": "37.78245"
+    },
+    {
+      "cityName": "양평",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20503",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.489886111111",
+      "latitude": "37.4889361111111"
+    },
+    {
+      "cityName": "여주",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20703",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.639622222222",
+      "latitude": "37.2953583333333"
+    },
+    {
+      "cityName": "연천",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20402",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.077066666666",
+      "latitude": "38.0933638888888"
+    },
+    {
+      "cityName": "오산",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20603",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.079641666666",
+      "latitude": "37.1469138888888"
+    },
+    {
+      "cityName": "용인",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20612",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.203844444444",
+      "latitude": "37.2314777777777"
+    },
+    {
+      "cityName": "의왕",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20609",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.970388888888",
+      "latitude": "37.34195"
+    },
+    {
+      "cityName": "의정부",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20301",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.035841666666",
+      "latitude": "37.7352888888888"
+    },
+    {
+      "cityName": "이천",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20701",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.443219444444",
+      "latitude": "37.2754361111111"
+    },
+    {
+      "cityName": "파주",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20305",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.781952777777",
+      "latitude": "37.7570833333333"
+    },
+    {
+      "cityName": "평택",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20606",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.114655555555",
+      "latitude": "36.9894388888888"
+    },
+    {
+      "cityName": "포천",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20403",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.202419444444",
+      "latitude": "37.8921555555555"
+    },
+    {
+      "cityName": "하남",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20504",
+      "weatherForecastTextParam": "109",
+      "longitude": "127.217",
+      "latitude": "37.5364972222222"
+    },
+    {
+      "cityName": "화성",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20604",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.833530555555",
+      "latitude": "37.1968166666666"
+    },
+    {
+      "cityName": "계룡",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20403",
+      "weatherForecastTextParam": "133",
+      "longitude": "127.250930555555",
+      "latitude": "36.2718361111111"
+    },
+    {
+      "cityName": "공주",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20402",
+      "weatherForecastTextParam": "133",
+      "longitude": "127.121119444444",
+      "latitude": "36.4436138888888"
+    },
+    {
+      "cityName": "괴산",
+      "longRainCloudParam": "11C10000",
+      "longTemperatureParam": "11C10303",
+      "weatherForecastTextParam": "131",
+      "longitude": "127.788830555555",
+      "latitude": "36.8124305555555"
+    },
+    {
+      "cityName": "금산",
+      "longRainCloudParam": "11C10000",
+      "longTemperatureParam": "11C20601",
+      "weatherForecastTextParam": "131",
+      "longitude": "127.490308333333",
+      "latitude": "36.1058694444444"
+    },
+    {
+      "cityName": "논산",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20602",
+      "weatherForecastTextParam": "133",
+      "longitude": "127.100911111111",
+      "latitude": "36.1842027777777"
+    },
+    {
+      "cityName": "단양",
+      "longRainCloudParam": "11C10000",
+      "longTemperatureParam": "11C10202",
+      "weatherForecastTextParam": "131",
+      "longitude": "128.367841666666",
+      "latitude": "36.9817805555555"
+    },
+    {
+      "cityName": "당진",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20103",
+      "weatherForecastTextParam": "133",
+      "longitude": "126.630252777777",
+      "latitude": "36.89075"
+    },
+    {
+      "cityName": "보령",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20201",
+      "weatherForecastTextParam": "133",
+      "longitude": "126.614886111111",
+      "latitude": "36.330575"
+    },
+    {
+      "cityName": "보은",
+      "longRainCloudParam": "11C10000",
+      "longTemperatureParam": "11C10302",
+      "weatherForecastTextParam": "131",
+      "longitude": "127.731608333333",
+      "latitude": "36.4865333333333"
+    },
+    {
+      "cityName": "부여",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20501",
+      "weatherForecastTextParam": "133",
+      "longitude": "126.911863888888",
+      "latitude": "36.2728222222222"
+    },
+    {
+      "cityName": "서산",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20101",
+      "weatherForecastTextParam": "133",
+      "longitude": "126.452163888888",
+      "latitude": "36.7820972222222"
+    },
+    {
+      "cityName": "서천",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20202",
+      "weatherForecastTextParam": "133",
+      "longitude": "126.693888888888",
+      "latitude": "36.0774055555555"
+    },
+    {
+      "cityName": "아산",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20302",
+      "weatherForecastTextParam": "133",
+      "longitude": "127.004641666666",
+      "latitude": "36.7871055555555"
+    },
+    {
+      "cityName": "영동",
+      "longRainCloudParam": "11C10000",
+      "longTemperatureParam": "11C10402",
+      "weatherForecastTextParam": "131",
+      "longitude": "127.785611111111",
+      "latitude": "36.1720583333333"
+    },
+    {
+      "cityName": "예산",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20303",
+      "weatherForecastTextParam": "133",
+      "longitude": "126.850874999999",
+      "latitude": "36.6798055555555"
+    },
+    {
+      "cityName": "옥천",
+      "longRainCloudParam": "11C10000",
+      "longTemperatureParam": "11C10403",
+      "weatherForecastTextParam": "131",
+      "longitude": "127.573633333333",
+      "latitude": "36.3035499999999"
+    },
+    {
+      "cityName": "음성",
+      "longRainCloudParam": "11C10000",
+      "longTemperatureParam": "11C10103",
+      "weatherForecastTextParam": "131",
+      "longitude": "127.692622222222",
+      "latitude": "36.9374055555555"
+    },
+    {
+      "cityName": "제천",
+      "longRainCloudParam": "11C10000",
+      "longTemperatureParam": "11C10201",
+      "weatherForecastTextParam": "131",
+      "longitude": "128.193152777777",
+      "latitude": "37.1297694444444"
+    },
+    {
+      "cityName": "증평",
+      "longRainCloudParam": "11C10000",
+      "longTemperatureParam": "11C10304",
+      "weatherForecastTextParam": "131",
+      "longitude": "127.583288888888",
+      "latitude": "36.7821805555555"
+    },
+    {
+      "cityName": "진천",
+      "longRainCloudParam": "11C10000",
+      "longTemperatureParam": "11C10102",
+      "weatherForecastTextParam": "131",
+      "longitude": "127.437644444444",
+      "latitude": "36.8525388888888"
+    },
+    {
+      "cityName": "천안",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20301",
+      "weatherForecastTextParam": "133",
+      "longitude": "127.152466666666",
+      "latitude": "36.804125"
+    },
+    {
+      "cityName": "청양",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20502",
+      "weatherForecastTextParam": "133",
+      "longitude": "126.804255555555",
+      "latitude": "36.4562694444444"
+    },
+    {
+      "cityName": "청주",
+      "longRainCloudParam": "11C10000",
+      "longTemperatureParam": "11C10301",
+      "weatherForecastTextParam": "131",
+      "longitude": "127.511730555555",
+      "latitude": "36.5839972222222"
+    },
+    {
+      "cityName": "충주",
+      "longRainCloudParam": "11C10000",
+      "longTemperatureParam": "11C10101",
+      "weatherForecastTextParam": "131",
+      "longitude": "127.928144444444",
+      "latitude": "36.9881805555555"
+    },
+    {
+      "cityName": "태안",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20102",
+      "weatherForecastTextParam": "133",
+      "longitude": "126.299975",
+      "latitude": "36.7426666666666"
+    },
+    {
+      "cityName": "홍성",
+      "longRainCloudParam": "11C20000",
+      "longTemperatureParam": "11C20104",
+      "weatherForecastTextParam": "133",
+      "longitude": "126.662908333333",
+      "latitude": "36.5983611111111"
+    },
+    {
+      "cityName": "강릉",
+      "longRainCloudParam": "11D20000",
+      "longTemperatureParam": "11D20501",
+      "weatherForecastTextParam": "105",
+      "longitude": "128.878497222222",
+      "latitude": "37.7491361111111"
+    },
+    {
+      "cityName": "고성(강원도)",
+      "longRainCloudParam": "11D20000",
+      "longTemperatureParam": "11D20402",
+      "weatherForecastTextParam": "105",
+      "longitude": "128.470163888888",
+      "latitude": "38.3779611111111"
+    },
+    {
+      "cityName": "동해",
+      "longRainCloudParam": "11D20000",
+      "longTemperatureParam": "11D20601",
+      "weatherForecastTextParam": "105",
+      "longitude": "129.116633333333",
+      "latitude": "37.5219305555555"
+    },
+    {
+      "cityName": "삼척",
+      "longRainCloudParam": "11D20000",
+      "longTemperatureParam": "11D20602",
+      "weatherForecastTextParam": "105",
+      "longitude": "129.167488888888",
+      "latitude": "37.4470861111111"
+    },
+    {
+      "cityName": "속초",
+      "longRainCloudParam": "11D20000",
+      "longTemperatureParam": "11D20401",
+      "weatherForecastTextParam": "105",
+      "longitude": "128.594166666666",
+      "latitude": "38.204275"
+    },
+    {
+      "cityName": "양구",
+      "longRainCloudParam": "11D10000",
+      "longTemperatureParam": "11D10202",
+      "weatherForecastTextParam": "105",
+      "longitude": "127.992244444444",
+      "latitude": "38.1072916666666"
+    },
+    {
+      "cityName": "양양",
+      "longRainCloudParam": "11D20000",
+      "longTemperatureParam": "11D20403",
+      "weatherForecastTextParam": "105",
+      "longitude": "128.621355555555",
+      "latitude": "38.0728333333333"
+    },
+    {
+      "cityName": "영월",
+      "longRainCloudParam": "11D10000",
+      "longTemperatureParam": "11D10501",
+      "weatherForecastTextParam": "105",
+      "longitude": "128.464019444444",
+      "latitude": "37.1808611111111"
+    },
+    {
+      "cityName": "원주",
+      "longRainCloudParam": "11D10000",
+      "longTemperatureParam": "11D10401",
+      "weatherForecastTextParam": "105",
+      "longitude": "127.922055555555",
+      "latitude": "37.3390833333333"
+    },
+    {
+      "cityName": "인제",
+      "longRainCloudParam": "11D10000",
+      "longTemperatureParam": "11D10201",
+      "weatherForecastTextParam": "105",
+      "longitude": "128.172697222222",
+      "latitude": "38.0669722222222"
+    },
+    {
+      "cityName": "정선",
+      "longRainCloudParam": "11D10000",
+      "longTemperatureParam": "11D10502",
+      "weatherForecastTextParam": "105",
+      "longitude": "128.663086111111",
+      "latitude": "37.3778083333333"
+    },
+    {
+      "cityName": "철원",
+      "longRainCloudParam": "11D10000",
+      "longTemperatureParam": "11D10101",
+      "weatherForecastTextParam": "105",
+      "longitude": "127.315733333333",
+      "latitude": "38.1440555555555"
+    },
+    {
+      "cityName": "춘천",
+      "longRainCloudParam": "11D10000",
+      "longTemperatureParam": "11D10301",
+      "weatherForecastTextParam": "105",
+      "longitude": "127.732311111111",
+      "latitude": "37.8785416666666"
+    },
+    {
+      "cityName": "태백",
+      "longRainCloudParam": "11D20000",
+      "longTemperatureParam": "11D20301",
+      "weatherForecastTextParam": "105",
+      "longitude": "128.987997222222",
+      "latitude": "37.1612277777777"
+    },
+    {
+      "cityName": "평창",
+      "longRainCloudParam": "11D10000",
+      "longTemperatureParam": "11D10503",
+      "weatherForecastTextParam": "105",
+      "longitude": "128.392352777777",
+      "latitude": "37.3679166666666"
+    },
+    {
+      "cityName": "홍천",
+      "longRainCloudParam": "11D10000",
+      "longTemperatureParam": "11D10302",
+      "weatherForecastTextParam": "105",
+      "longitude": "127.890841666666",
+      "latitude": "37.6944222222222"
+    },
+    {
+      "cityName": "화천",
+      "longRainCloudParam": "11D10000",
+      "longTemperatureParam": "11D10102",
+      "weatherForecastTextParam": "105",
+      "longitude": "127.710355555555",
+      "latitude": "38.1034083333333"
+    },
+    {
+      "cityName": "횡성",
+      "longRainCloudParam": "11D10000",
+      "longTemperatureParam": "11D10402",
+      "weatherForecastTextParam": "105",
+      "longitude": "127.987222222222",
+      "latitude": "37.4889583333333"
+    },
+    {
+      "cityName": "강진",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20303",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.769197222222",
+      "latitude": "34.6389111111111"
+    },
+    {
+      "cityName": "고창",
+      "longRainCloudParam": "11F10000",
+      "longTemperatureParam": "21F10601",
+      "weatherForecastTextParam": "146",
+      "longitude": "126.704108333333",
+      "latitude": "35.4327388888888"
+    },
+    {
+      "cityName": "고흥",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20403",
+      "weatherForecastTextParam": "156",
+      "longitude": "127.287055555555",
+      "latitude": "34.6080694444444"
+    },
+    {
+      "cityName": "곡성",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20602",
+      "weatherForecastTextParam": "156",
+      "longitude": "127.294108333333",
+      "latitude": "35.2789555555555"
+    },
+    {
+      "cityName": "광양",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20402",
+      "weatherForecastTextParam": "156",
+      "longitude": "127.698177777777",
+      "latitude": "34.9375361111111"
+    },
+    {
+      "cityName": "구례",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20601",
+      "weatherForecastTextParam": "156",
+      "longitude": "127.464933333333",
+      "latitude": "35.1994583333333"
+    },
+    {
+      "cityName": "군산",
+      "longRainCloudParam": "11F10000",
+      "longTemperatureParam": "21F10501",
+      "weatherForecastTextParam": "146",
+      "longitude": "126.738844444444",
+      "latitude": "35.9646416666666"
+    },
+    {
+      "cityName": "김제",
+      "longRainCloudParam": "11F10000",
+      "longTemperatureParam": "21F10502",
+      "weatherForecastTextParam": "146",
+      "longitude": "126.882752777777",
+      "latitude": "35.8005749999999"
+    },
+    {
+      "cityName": "나주",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20503",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.712866666666",
+      "latitude": "35.0128388888888"
+    },
+    {
+      "cityName": "남원",
+      "longRainCloudParam": "11F10000",
+      "longTemperatureParam": "11F10401",
+      "weatherForecastTextParam": "146",
+      "longitude": "127.3925",
+      "latitude": "35.4132555555555"
+    },
+    {
+      "cityName": "담양",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20504",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.990163888888",
+      "latitude": "35.318125"
+    },
+    {
+      "cityName": "목포",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "21F20801",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.394419444444",
+      "latitude": "34.8087888888888"
+    },
+    {
+      "cityName": "무안",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "21F20804",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.4837",
+      "latitude": "34.9873694444444"
+    },
+    {
+      "cityName": "무주",
+      "longRainCloudParam": "11F10000",
+      "longTemperatureParam": "11F10302",
+      "weatherForecastTextParam": "146",
+      "longitude": "127.662866666666",
+      "latitude": "36.0038277777777"
+    },
+    {
+      "cityName": "보성",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20404",
+      "weatherForecastTextParam": "156",
+      "longitude": "127.082088888888",
+      "latitude": "34.7683333333333"
+    },
+    {
+      "cityName": "부안",
+      "longRainCloudParam": "11F10000",
+      "longTemperatureParam": "21F10602",
+      "weatherForecastTextParam": "146",
+      "longitude": "126.735677777777",
+      "latitude": "35.7285333333333"
+    },
+    {
+      "cityName": "순창",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F10403",
+      "weatherForecastTextParam": "156",
+      "longitude": "127.139630555555",
+      "latitude": "35.3713888888888"
+    },
+    {
+      "cityName": "순천",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20603",
+      "weatherForecastTextParam": "156",
+      "longitude": "127.489330555555",
+      "latitude": "34.9476055555555"
+    },
+    {
+      "cityName": "신안",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "21F20803",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.381730555555",
+      "latitude": "34.7898111111111"
+    },
+    {
+      "cityName": "여수",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20401",
+      "weatherForecastTextParam": "156",
+      "longitude": "127.664386111111",
+      "latitude": "34.7573111111111"
+    },
+    {
+      "cityName": "영광",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "21F20102",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.514086111111",
+      "latitude": "35.2741666666666"
+    },
+    {
+      "cityName": "영암",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "21F20802",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.698619444444",
+      "latitude": "34.7969888888888"
+    },
+    {
+      "cityName": "완도",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20301",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.757097222222",
+      "latitude": "34.3078527777777"
+    },
+    {
+      "cityName": "완주",
+      "longRainCloudParam": "11F10000",
+      "longTemperatureParam": "11F10204",
+      "weatherForecastTextParam": "146",
+      "longitude": "127.149597222222",
+      "latitude": "35.8429694444444"
+    },
+    {
+      "cityName": "익산",
+      "longRainCloudParam": "11F10000",
+      "longTemperatureParam": "11F10202",
+      "weatherForecastTextParam": "146",
+      "longitude": "126.959852777777",
+      "latitude": "35.9452749999999"
+    },
+    {
+      "cityName": "임실",
+      "longRainCloudParam": "11F10000",
+      "longTemperatureParam": "11F10402",
+      "weatherForecastTextParam": "146",
+      "longitude": "127.284752777777",
+      "latitude": "35.6080638888888"
+    },
+    {
+      "cityName": "장성",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20502",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.786975",
+      "latitude": "35.2988111111111"
+    },
+    {
+      "cityName": "장수",
+      "longRainCloudParam": "11F10000",
+      "longTemperatureParam": "11F10301",
+      "weatherForecastTextParam": "146",
+      "longitude": "127.5233",
+      "latitude": "35.6442972222222"
+    },
+    {
+      "cityName": "장흥",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20304",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.909108333333",
+      "latitude": "34.678525"
+    },
+    {
+      "cityName": "전주",
+      "longRainCloudParam": "11F10000",
+      "longTemperatureParam": "11F10201",
+      "weatherForecastTextParam": "146",
+      "longitude": "127.121919444444",
+      "latitude": "35.8091888888888"
+    },
+    {
+      "cityName": "정읍",
+      "longRainCloudParam": "11F10000",
+      "longTemperatureParam": "11F10203",
+      "weatherForecastTextParam": "146",
+      "longitude": "126.858111111111",
+      "latitude": "35.5668722222222"
+    },
+    {
+      "cityName": "진도",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "21F20201",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.265544444444",
+      "latitude": "34.48375"
+    },
+    {
+      "cityName": "진안",
+      "longRainCloudParam": "11F10000",
+      "longTemperatureParam": "11F10303",
+      "weatherForecastTextParam": "146",
+      "longitude": "127.426966666666",
+      "latitude": "35.7887194444444"
+    },
+    {
+      "cityName": "함평",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "21F20101",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.518619444444",
+      "latitude": "35.0627444444444"
+    },
+    {
+      "cityName": "해남",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20302",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.601288888888",
+      "latitude": "34.5704361111111"
+    },
+    {
+      "cityName": "화순",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20505",
+      "weatherForecastTextParam": "156",
+      "longitude": "126.988566666666",
+      "latitude": "35.0614805555555"
+    },
+    {
+      "cityName": "서귀포",
+      "longRainCloudParam": "11G00000",
+      "longTemperatureParam": "11G00401",
+      "weatherForecastTextParam": "184",
+      "longitude": "126.512555555555",
+      "latitude": "33.25235"
+    },
+    {
+      "cityName": "제주",
+      "longRainCloudParam": "11G00000",
+      "longTemperatureParam": "11G00201",
+      "weatherForecastTextParam": "184",
+      "longitude": "126.533208333333",
+      "latitude": "33.4963111111111"
+    },
+    {
+      "cityName": "성산",
+      "longRainCloudParam": "11G00000",
+      "longTemperatureParam": "11G00101",
+      "weatherForecastTextParam": "184",
+      "longitude": "126.942581",
+      "latitude": "33.458128"
+    },
+    {
+      "cityName": "성판악",
+      "longRainCloudParam": "11G00000",
+      "longTemperatureParam": "11G00302",
+      "weatherForecastTextParam": "184",
+      "longitude": "126.584276",
+      "latitude": "33.337359"
+    },
+    {
+      "cityName": "고산",
+      "longRainCloudParam": "11G00000",
+      "longTemperatureParam": "11G00501",
+      "weatherForecastTextParam": "184",
+      "longitude": "126.181463",
+      "latitude": "33.302751"
+    },
+    {
+      "cityName": "이어도",
+      "longRainCloudParam": "11G00000",
+      "longTemperatureParam": "11G00601",
+      "weatherForecastTextParam": "184",
+      "longitude": "125.182447",
+      "latitude": "32.122953"
+    },
+    {
+      "cityName": "추자도",
+      "longRainCloudParam": "11G00000",
+      "longTemperatureParam": "11G00800",
+      "weatherForecastTextParam": "184",
+      "longitude": "126.320096",
+      "latitude": "33.947030"
+    },
+    {
+      "cityName": "거제",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20403",
+      "weatherForecastTextParam": "159",
+      "longitude": "128.623355555555",
+      "latitude": "34.8773583333333"
+    },
+    {
+      "cityName": "거창",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20502",
+      "weatherForecastTextParam": "159",
+      "longitude": "127.911655555555",
+      "latitude": "35.683625"
+    },
+    {
+      "cityName": "경산",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10703",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.743463888888",
+      "latitude": "35.8220888888888"
+    },
+    {
+      "cityName": "경주",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10202",
+      "weatherForecastTextParam": "143",
+      "longitude": "129.227022222222",
+      "latitude": "35.8531694444444"
+    },
+    {
+      "cityName": "고령",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10604",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.265022222222",
+      "latitude": "35.7229861111111"
+    },
+    {
+      "cityName": "고성(경상도)",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20404",
+      "weatherForecastTextParam": "159",
+      "longitude": "128.324541666666",
+      "latitude": "34.9699"
+    },
+    {
+      "cityName": "구미",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10602",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.346777777777",
+      "latitude": "36.11655"
+    },
+    {
+      "cityName": "김천",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10601",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.1158",
+      "latitude": "36.1368972222222"
+    },
+    {
+      "cityName": "김해",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20304",
+      "weatherForecastTextParam": "159",
+      "longitude": "128.891666666666",
+      "latitude": "35.2255055555555"
+    },
+    {
+      "cityName": "남해",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20405",
+      "weatherForecastTextParam": "159",
+      "longitude": "127.894466666666",
+      "latitude": "34.8345583333333"
+    },
+    {
+      "cityName": "문경",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10301",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.189019444444",
+      "latitude": "36.5836305555555"
+    },
+    {
+      "cityName": "밀양",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20601",
+      "weatherForecastTextParam": "159",
+      "longitude": "128.748944444444",
+      "latitude": "35.5007777777777"
+    },
+    {
+      "cityName": "봉화",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10402",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.734875",
+      "latitude": "36.8902611111111"
+    },
+    {
+      "cityName": "사천",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20402",
+      "weatherForecastTextParam": "159",
+      "longitude": "128.066777777777",
+      "latitude": "35.0002833333333"
+    },
+    {
+      "cityName": "산청",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20703",
+      "weatherForecastTextParam": "159",
+      "longitude": "127.875619444444",
+      "latitude": "35.4124916666666"
+    },
+    {
+      "cityName": "상주",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10302",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.161263888888",
+      "latitude": "36.4079694444444"
+    },
+    {
+      "cityName": "성주",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10605",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.285152777777",
+      "latitude": "35.9162111111111"
+    },
+    {
+      "cityName": "안동",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10501",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.731622222222",
+      "latitude": "36.5654638888888"
+    },
+    {
+      "cityName": "양산",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20102",
+      "weatherForecastTextParam": "159",
+      "longitude": "129.039411111111",
+      "latitude": "35.3319277777777"
+    },
+    {
+      "cityName": "영덕",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10102",
+      "weatherForecastTextParam": "143",
+      "longitude": "129.368355555555",
+      "latitude": "36.4121027777777"
+    },
+    {
+      "cityName": "영양",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10403",
+      "weatherForecastTextParam": "143",
+      "longitude": "129.114622222222",
+      "latitude": "36.6642749999999"
+    },
+    {
+      "cityName": "영주",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10401",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.626344444444",
+      "latitude": "36.8029361111111"
+    },
+    {
+      "cityName": "영천",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10702",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.940775",
+      "latitude": "35.9700527777777"
+    },
+    {
+      "cityName": "예천",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10303",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.455022222222",
+      "latitude": "36.65495000"
+    },
+    {
+      "cityName": "울진",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10101",
+      "weatherForecastTextParam": "143",
+      "longitude": "129.402786111111",
+      "latitude": "36.9901861111111"
+    },
+    {
+      "cityName": "의령",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20602",
+      "weatherForecastTextParam": "159",
+      "longitude": "128.263822222222",
+      "latitude": "35.3191194444444"
+    },
+    {
+      "cityName": "의성",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10502",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.699363888888",
+      "latitude": "36.3497583333333"
+    },
+    {
+      "cityName": "진주",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20701",
+      "weatherForecastTextParam": "159",
+      "longitude": "128.1100000",
+      "latitude": "35.1770333333333"
+    },
+    {
+      "cityName": "창녕",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20604",
+      "weatherForecastTextParam": "159",
+      "longitude": "128.494533333333",
+      "latitude": "35.5415361111111"
+    },
+    {
+      "cityName": "창원",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20301",
+      "weatherForecastTextParam": "159",
+      "longitude": "128.6401544",
+      "latitude": "35.2540033"
+    },
+    {
+      "cityName": "청도",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H20604",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.7362000",
+      "latitude": "35.6443111111111"
+    },
+    {
+      "cityName": "청송",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H20602",
+      "weatherForecastTextParam": "143",
+      "longitude": "129.0594000",
+      "latitude": "36.4332916666666"
+    },
+    {
+      "cityName": "칠곡",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10705",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.403797222222",
+      "latitude": "35.9925472222222"
+    },
+    {
+      "cityName": "통영",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20401",
+      "weatherForecastTextParam": "159",
+      "longitude": "128.435277777777",
+      "latitude": "34.8512583333333"
+    },
+    {
+      "cityName": "포항",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10201",
+      "weatherForecastTextParam": "143",
+      "longitude": "129.361666666666",
+      "latitude": "36.0056861111111"
+    },
+    {
+      "cityName": "하동",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20704",
+      "weatherForecastTextParam": "159",
+      "longitude": "127.753430555555",
+      "latitude": "35.0642027777777"
+    },
+    {
+      "cityName": "함안",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20603",
+      "weatherForecastTextParam": "159",
+      "longitude": "128.408708333333",
+      "latitude": "35.2694055555555"
+    },
+    {
+      "cityName": "함양",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20501",
+      "weatherForecastTextParam": "159",
+      "longitude": "127.727419444444",
+      "latitude": "35.5174694444444"
+    },
+    {
+      "cityName": "합천",
+      "longRainCloudParam": "11H20000",
+      "longTemperatureParam": "11H20503",
+      "weatherForecastTextParam": "159",
+      "longitude": "128.167930555555",
+      "latitude": "35.5636166666666"
+    },
+    {
+      "cityName": "백령도",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11A00101",
+      "weatherForecastTextParam": "109",
+      "longitude": "124.719514",
+      "latitude": "37.969925"
+    },
+    {
+      "cityName": "강화",
+      "longRainCloudParam": "11B00000",
+      "longTemperatureParam": "11B20101",
+      "weatherForecastTextParam": "109",
+      "longitude": "126.433333",
+      "latitude": "37.7"
+    },
+    {
+      "cityName": "군위",
+      "longRainCloudParam": "11H10000",
+      "longTemperatureParam": "11H10603",
+      "weatherForecastTextParam": "143",
+      "longitude": "128.648237",
+      "latitude": "36.170177"
+    },
+    {
+      "cityName": "흑산도",
+      "longRainCloudParam": "11F20000",
+      "longTemperatureParam": "11F20701",
+      "weatherForecastTextParam": "156",
+      "longitude": "125.42",
+      "latitude": "34.67"
+    },
+    {
+      "cityName": "추풍령",
+      "longRainCloudParam": "11C10000",
+      "longTemperatureParam": "11C10401",
+      "weatherForecastTextParam": "131",
+      "longitude": "127.996370894",
+      "latitude": "36.213350465"
+    },
+    {
+      "cityName": "대관령",
+      "longRainCloudParam": "11D20000",
+      "longTemperatureParam": "11D20201",
+      "weatherForecastTextParam": "105",
+      "longitude": "128.71834",
+      "latitude": "37.67713"
+    }
+  ]
+}

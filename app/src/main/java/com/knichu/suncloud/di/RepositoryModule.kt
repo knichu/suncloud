@@ -1,8 +1,10 @@
 package com.knichu.suncloud.di
 
 import com.knichu.data.repository.AirPollutionRepositoryImpl
+import com.knichu.data.repository.CityLocationRepositoryImpl
 import com.knichu.data.repository.WeatherRepositoryImpl
 import com.knichu.domain.repository.AirPollutionRepository
+import com.knichu.domain.repository.CityLocationRepository
 import com.knichu.domain.repository.WeatherRepository
 import dagger.Binds
 import dagger.Module
@@ -22,5 +24,10 @@ interface RepositoryModule {
     fun bindsWeatherRepository(
         weatherRepositoryImpl: WeatherRepositoryImpl
     ): WeatherRepository
+
+    @Binds
+    fun bindsCityLocationRepository(
+        cityLocationRepositoryImpl: CityLocationRepositoryImpl
+    ): CityLocationRepository
 
 }
