@@ -1,10 +1,10 @@
 package com.knichu.domain.param
 
 data class LongTemperatureRequestParam(
-    val serviceKey: String,
-    val pageNo: Long,
-    val numOfRows: Long,
-    val dataType: String,
-    val regId: String,
-    val tmFc: Long
+    val serviceKey: String? = null,
+    val pageNo: Long? = null,
+    val numOfRows: Long? = null,
+    val dataType: String? = null,
+    val regId: String? = null,
+    val tmFc: Long? = null
 )
