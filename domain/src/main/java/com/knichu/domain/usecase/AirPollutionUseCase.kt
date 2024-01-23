@@ -19,8 +19,8 @@ class AirPollutionUseCase @Inject constructor(
         return airPollutionRepository.getAirPollution(
             AirPollutionRequestParam(
                 lon = lon,
-                lat = lon,
                 appid = "my_service_key"
+                lat = lat,
             )
         )
     }
