@@ -2,6 +2,7 @@ package com.knichu.suncloud.di
 
 import com.knichu.data.service.AirPollutionService
 import com.knichu.data.service.CityLocationService
+import com.knichu.data.service.OpenWeatherService
 import com.knichu.data.service.WeatherService
 import dagger.Module
 import dagger.Provides
@@ -31,4 +32,10 @@ object RetrofitServiceModule {
     @CityLocationQualifier
     fun providesCityLocationService(retrofit: Retrofit): CityLocationService =
         retrofit.create(CityLocationService::class.java)
+
+    @Provides
+    @Singleton
+    @OpenWeatherQualifier
+    fun providesOpenWeatherService(retrofit: Retrofit): OpenWeatherService =
+        retrofit.create(OpenWeatherService::class.java)
 }
