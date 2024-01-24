@@ -53,6 +53,13 @@ class DateTimeParser {
         return dateFormat.format(calendar.time)
     }
 
+    fun adjustShortWeatherTimeWeekly(): String {
+        val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_MONTH, -1)
+        return dateFormat.format(calendar.time)
+    }
+
     fun adjustLongTermForecastTime(): String {
         val currentTime = getCurrentDateTime()
         val dateFormat = SimpleDateFormat("yyyyMMddHHmm", Locale.getDefault())
