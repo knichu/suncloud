@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL_AIR_POLLUTION = "https://api.openweathermap.org/data/2.5/"
+    private const val BASE_URL_OPEN_WEATHER_MAP = "https://api.openweathermap.org/data/2.5/"
     private const val BASE_URL_WEATHER = "https://apis.data.go.kr/1360000/"
     private const val BASE_URL_CITY_LOCATION = "http://example.com/"
 
@@ -41,7 +41,7 @@ object NetworkModule {
     @AirPollutionQualifier
     fun provideAirPollutionRetrofit(okHttpClient: OkHttpClient) : Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL_AIR_POLLUTION)
+            .baseUrl(BASE_URL_OPEN_WEATHER_MAP)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
@@ -71,6 +71,18 @@ object NetworkModule {
             .baseUrl(BASE_URL_CITY_LOCATION)
             .client(okHttpClient)
             .addConverterFactory(AssetJsonConverter(context))
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @OpenWeatherQualifier
+    fun provideOpenWeatherRetrofit(okHttpClient: OkHttpClient) : Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL_OPEN_WEATHER_MAP)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
     }
