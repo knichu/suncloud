@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -15,6 +17,17 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField(
+            "String",
+            "OPEN_WEATHER_MAP_API_KEY",
+            getApiKey("openWeatherMapApiKey")
+        )
+        buildConfigField(
+            "String",
+            "APIS_DATA_WEATHER_API_KEY",
+            getApiKey("apisDataWeatherApiKey")
+        )
     }
 
     buildTypes {
@@ -35,7 +48,12 @@ android {
     }
     buildFeatures {
         dataBinding = true
+        buildConfig = true
     }
+}
+
+fun getApiKey(propertyKey: String): String {
+    return gradleLocalProperties(rootDir).getProperty(propertyKey)
 }
 
 dependencies {
