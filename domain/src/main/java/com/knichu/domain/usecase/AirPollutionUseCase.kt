@@ -1,5 +1,6 @@
 package com.knichu.domain.usecase
 
+import com.knichu.domain.BuildConfig
 import com.knichu.domain.datastore.WeatherDataStore
 import com.knichu.domain.param.AirPollutionRequestParam
 import com.knichu.domain.repository.AirPollutionRepository
@@ -11,16 +12,16 @@ import javax.inject.Inject
 class AirPollutionUseCase @Inject constructor(
     private val airPollutionRepository: AirPollutionRepository,
     private val cityLocationRepository: CityLocationRepository,
-    private val weatherDataStore: WeatherDataStore
 ) {
     private val allCityList = cityLocationRepository.getAllCityLocation()
+    private val openWeatherMapApiKey = BuildConfig.OPEN_WEATHER_MAP_API_KEY
 
     fun getCurrentPositionAirPollution(lon: Double, lat: Double): Single<AirPollutionVO> {
         return airPollutionRepository.getAirPollution(
             AirPollutionRequestParam(
                 lon = lon,
-                appid = "my_service_key"
                 lat = lat,
+                appid = openWeatherMapApiKey
             )
         )
     }
@@ -34,7 +35,7 @@ class AirPollutionUseCase @Inject constructor(
                     AirPollutionRequestParam(
                         lon = cityLocationItemVO?.longitude?.toDouble(),
                         lat = cityLocationItemVO?.latitude?.toDouble(),
-                        appid = "my_service_key"
+                        appid = openWeatherMapApiKey
                     )
                 )
             }
