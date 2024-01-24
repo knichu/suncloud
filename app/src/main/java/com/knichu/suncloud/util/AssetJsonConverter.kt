@@ -6,6 +6,7 @@ import com.google.gson.TypeAdapter
 import com.google.gson.reflect.TypeToken
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -46,17 +47,15 @@ class AssetJsonConverter(private val context: Context) : Converter.Factory() {
         }
     }
 
-    class AssetJsonRequestBodyConverter<T>(
+    class AssetJsonRequestBodyConverter<T : Any>(
         private val context: Context,
         private val adapter: TypeAdapter<T>
-    ) : Converter<T, RequestBody?> {
+    ) : Converter<T, RequestBody> {
 
-        override fun convert(value: T & Any): RequestBody {
+        override fun convert(value: T): RequestBody {
             val json = adapter.toJson(value)
-            return RequestBody.create(
-                "application/json; charset=UTF-8".toMediaTypeOrNull(),
-                json.toByteArray(StandardCharsets.UTF_8)
-            )
+            return json.toByteArray(StandardCharsets.UTF_8)
+                .toRequestBody("application/json; charset=UTF-8".toMediaTypeOrNull())
         }
     }
 }
