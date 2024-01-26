@@ -11,7 +11,7 @@ class CityLocationDataSource @Inject constructor(
 ) : BaseNetworkDataSource() {
     fun getAllCityLocation(): Single<CityLocationResponseDTO> {
         return cityLocationService.getAllCityLocation()
-            .subscribeOn(Schedulers.io())
             .map { checkResponse(it) }
+            .subscribeOn(Schedulers.io())
     }
 }
