@@ -25,7 +25,7 @@ class DataStoreUseCase @Inject constructor(
         return weatherDataStore.getCityList()
             .flatMapCompletable { cityList ->
                 if (cityList.contains(cityName)) {
-                    Completable.error(IllegalArgumentException("이미 도시가 추가되어 있습니다"))
+                    Completable.error(IllegalStateException("이미 도시가 추가되어 있습니다"))
                 } else {
                     Completable.fromAction { weatherDataStore.storeCity(cityName) }
                 }
