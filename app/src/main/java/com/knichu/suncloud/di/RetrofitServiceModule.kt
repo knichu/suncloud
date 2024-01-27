@@ -17,25 +17,21 @@ object RetrofitServiceModule {
 
     @Provides
     @Singleton
-    @AirPollutionQualifier
-    fun providesAirPollutionService(retrofit: Retrofit): AirPollutionService =
+    fun providesAirPollutionService(@AirPollutionQualifier retrofit: Retrofit): AirPollutionService =
         retrofit.create(AirPollutionService::class.java)
 
     @Provides
     @Singleton
-    @WeatherQualifier
-    fun providesWeatherService(retrofit: Retrofit): WeatherService =
+    fun providesWeatherService(@WeatherQualifier retrofit: Retrofit): WeatherService =
         retrofit.create(WeatherService::class.java)
 
     @Provides
     @Singleton
-    @CityLocationQualifier
-    fun providesCityLocationService(retrofit: Retrofit): CityLocationService =
+    fun providesCityLocationService(@CityLocationQualifier retrofit: Retrofit): CityLocationService =
         retrofit.create(CityLocationService::class.java)
 
     @Provides
     @Singleton
-    @OpenWeatherQualifier
-    fun providesOpenWeatherService(retrofit: Retrofit): OpenWeatherService =
+    fun providesOpenWeatherService(@OpenWeatherQualifier retrofit: Retrofit): OpenWeatherService =
         retrofit.create(OpenWeatherService::class.java)
 }
