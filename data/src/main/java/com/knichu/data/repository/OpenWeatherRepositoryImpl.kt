@@ -16,9 +16,7 @@ class OpenWeatherRepositoryImpl @Inject constructor(
         return openWeatherDataSource.getOpenWeather(
             OpenWeatherRequestDTO(
                 lon = param.lon,
-                lat = param.lat,
-                appid = param.appid,
-                units = param.units
+                lat = param.lat
             )
         )
             .subscribeOn(Schedulers.io())

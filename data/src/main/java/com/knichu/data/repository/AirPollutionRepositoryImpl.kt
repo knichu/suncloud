@@ -17,8 +17,7 @@ class AirPollutionRepositoryImpl @Inject constructor(
         return airPollutionDataSource.getAirPollution(
             AirPollutionRequestDTO(
                 lon = param.lon,
-                lat = param.lat,
-                appid = param.appid
+                lat = param.lat
             )
         )
             .subscribeOn(Schedulers.io())

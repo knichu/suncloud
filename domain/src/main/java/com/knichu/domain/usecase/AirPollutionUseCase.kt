@@ -20,8 +20,7 @@ class AirPollutionUseCase @Inject constructor(
         return airPollutionRepository.getAirPollution(
             AirPollutionRequestParam(
                 lon = lon,
-                lat = lat,
-                appid = openWeatherMapApiKey
+                lat = lat
             )
         )
     }
@@ -34,8 +33,7 @@ class AirPollutionUseCase @Inject constructor(
                 airPollutionRepository.getAirPollution(
                     AirPollutionRequestParam(
                         lon = cityLocationItemVO?.longitude?.toDouble(),
-                        lat = cityLocationItemVO?.latitude?.toDouble(),
-                        appid = openWeatherMapApiKey
+                        lat = cityLocationItemVO?.latitude?.toDouble()
                     )
                 )
             }
