@@ -31,10 +31,6 @@ class WeatherRepositoryImpl @Inject constructor(
     override fun getLiveWeather(param: LiveWeatherRequestParam): Single<LiveWeatherVO> {
         return weatherDataSource.getLiveWeather(
             LiveWeatherRequestDTO(
-                serviceKey = param.serviceKey,
-                pageNo = param.pageNo,
-                numOfRows = param.numOfRows,
-                dataType = param.dataType,
                 baseDate = param.baseDate,
                 baseTime = param.baseTime,
                 nx = param.nx,
@@ -49,10 +45,6 @@ class WeatherRepositoryImpl @Inject constructor(
     override fun getShortWeather(param: ShortWeatherRequestParam): Single<ShortWeatherVO> {
         return weatherDataSource.getShortWeather(
             ShortWeatherRequestDTO(
-                serviceKey = param.serviceKey,
-                pageNo = param.pageNo,
-                numOfRows = param.numOfRows,
-                dataType = param.dataType,
                 baseDate = param.baseDate,
                 baseTime = param.baseTime,
                 nx = param.nx,
@@ -80,10 +72,6 @@ class WeatherRepositoryImpl @Inject constructor(
     override fun getLongRainCloud(param: LongRainCloudRequestParam): Single<LongRainCloudVO> {
         return weatherDataSource.getLongRainCloud(
             LongRainCloudRequestDTO(
-                serviceKey = param.serviceKey,
-                pageNo = param.pageNo,
-                numOfRows = param.numOfRows,
-                dataType = param.dataType,
                 regId = param.regId,
                 tmFc = param.tmFc
             )
@@ -96,10 +84,6 @@ class WeatherRepositoryImpl @Inject constructor(
     override fun getLongTemperature(param: LongTemperatureRequestParam): Single<LongTemperatureVO> {
         return weatherDataSource.getLongTemperature(
             LongTemperatureRequestDTO(
-                serviceKey = param.serviceKey,
-                pageNo = param.pageNo,
-                numOfRows = param.numOfRows,
-                dataType = param.dataType,
                 regId = param.regId,
                 tmFc = param.tmFc
             )
@@ -112,10 +96,6 @@ class WeatherRepositoryImpl @Inject constructor(
     override fun getWeatherForecastText(param: WeatherForecastTextRequestParam): Single<WeatherForecastTextVO> {
         return weatherDataSource.getWeatherForecastText(
             WeatherForecastTextRequestDTO(
-                serviceKey = param.serviceKey,
-                pageNo = param.pageNo,
-                numOfRows = param.numOfRows,
-                dataType = param.dataType,
                 stnId = param.stnId,
                 tmFc = param.tmFc
             )

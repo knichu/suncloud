@@ -2,6 +2,7 @@ package com.knichu.domain.util
 
 import com.knichu.domain.vo.LongRainCloudVO
 import com.knichu.domain.vo.LongTemperatureVO
+import com.knichu.domain.vo.MidWeatherVO
 import com.knichu.domain.vo.ShortWeatherItemVO
 import com.knichu.domain.vo.ShortWeatherVO
 import com.knichu.domain.vo.Weather24HourItemVO
@@ -17,16 +18,16 @@ import kotlin.math.max
 object WeatherWeeklyParser {
 
     fun getWeatherWeeklyVO(
-        shortWeatherVO: Single<ShortWeatherVO>,
+        midWeatherVO: Single<MidWeatherVO>,
         longRainCloudVO: Single<LongRainCloudVO>,
         longTemperatureVO: Single<LongTemperatureVO>,
         baseDate: String
     ): Single<WeatherWeeklyVO> {
         return Single.zip(
-            shortWeatherVO,
+            midWeatherVO,
             longRainCloudVO,
             longTemperatureVO
-        ) { shortWeather, longRainCloud, longTemperature ->
+        ) { midWeather, longRainCloud, longTemperature ->
                 val weatherWeeklyItemList = mutableListOf<WeatherWeeklyItemVO>()
                 val dayOfWeekList = getDayOfWeekList()
 
@@ -51,34 +52,34 @@ object WeatherWeeklyParser {
                     val checkDate = dateFormat.format(tempDate.time)
 
                     // shortWeatherVO 체크
-                    while (shortWeather.item?.get(checkIndex)?.forecastDate == checkDate) {
+                    while (midWeather.item?.get(checkIndex)?.forecastDate == checkDate) {
 
                         // 강수확률
-                        if (shortWeather.item?.get(checkIndex)?.category == "POP") {
+                        if (midWeather.item?.get(checkIndex)?.category == "POP") {
                             tempRainProbability = max(
                                 tempRainProbability ?: 0,
-                                shortWeather.item[checkIndex].forecastValue?.toInt() ?: 0
+                                midWeather.item[checkIndex].forecastValue?.toInt() ?: 0
                             )
                         }
 
                         // 날씨상황(오전, 오후) 리스트에 저장 -> while 탈출 후 계산
-                        if (shortWeather.item?.get(checkIndex)?.category == "SKY") {
-                            if ((shortWeather.item[checkIndex].forecastTime?.toInt() ?: 0) < 1200) {
-                                weatherConditionAMListSKY.add(shortWeather.item[checkIndex].forecastValue?.toInt() ?: 1)
-                                weatherConditionAMListPTY.add(shortWeather.item[checkIndex + 1].forecastValue?.toInt() ?: 0)
+                        if (midWeather.item?.get(checkIndex)?.category == "SKY") {
+                            if ((midWeather.item[checkIndex].forecastTime?.toInt() ?: 0) < 1200) {
+                                weatherConditionAMListSKY.add(midWeather.item[checkIndex].forecastValue?.toInt() ?: 1)
+                                weatherConditionAMListPTY.add(midWeather.item[checkIndex + 1].forecastValue?.toInt() ?: 0)
                             } else {
-                                weatherConditionPMListSKY.add(shortWeather.item[checkIndex].forecastValue?.toInt() ?: 1)
-                                weatherConditionPMListPTY.add(shortWeather.item[checkIndex + 1].forecastValue?.toInt() ?: 0)
+                                weatherConditionPMListSKY.add(midWeather.item[checkIndex].forecastValue?.toInt() ?: 1)
+                                weatherConditionPMListPTY.add(midWeather.item[checkIndex + 1].forecastValue?.toInt() ?: 0)
                             }
                         }
 
                         // 최고, 최저기온
-                        if (shortWeather.item?.get(checkIndex)?.forecastTime == "1200") {
-                            if (shortWeather.item[checkIndex].category == "TMX") {
-                                highestTemperature = shortWeather.item[checkIndex].forecastValue
+                        if (midWeather.item?.get(checkIndex)?.forecastTime == "1200") {
+                            if (midWeather.item[checkIndex].category == "TMX") {
+                                highestTemperature = midWeather.item[checkIndex].forecastValue
                             }
-                            if (shortWeather.item[checkIndex].category == "TMN") {
-                                lowestTemperature = shortWeather.item[checkIndex].forecastValue
+                            if (midWeather.item[checkIndex].category == "TMN") {
+                                lowestTemperature = midWeather.item[checkIndex].forecastValue
                             }
                         }
 

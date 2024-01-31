@@ -1,9 +1,9 @@
 package com.knichu.domain.usecase
 
-import com.knichu.domain.BuildConfig
 import com.knichu.domain.param.LiveWeatherRequestParam
 import com.knichu.domain.param.LongRainCloudRequestParam
 import com.knichu.domain.param.LongTemperatureRequestParam
+import com.knichu.domain.param.MidWeatherRequestParam
 import com.knichu.domain.param.OpenWeatherRequestParam
 import com.knichu.domain.param.ShortWeatherRequestParam
 import com.knichu.domain.param.WeatherForecastTextRequestParam
@@ -32,10 +32,7 @@ class WeatherUseCase @Inject constructor(
     private val openWeatherRepository: OpenWeatherRepository,
     private val cityLocationRepository: CityLocationRepository
 ) {
-    private val JSON = "JSON"
     private val allCityList = cityLocationRepository.getAllCityLocation()
-    private val openWeatherMapApiKey = BuildConfig.OPEN_WEATHER_MAP_API_KEY
-    private val apisDataWeatherApiKey = BuildConfig.APIS_DATA_WEATHER_API_KEY
 
     private fun getCurrentPositionCity(lon: Double, lat: Double): Single<String> {
         return allCityList
@@ -52,10 +49,6 @@ class WeatherUseCase @Inject constructor(
         val (adjustX, adjustY) = LocationParser.getNxNy(lon, lat)
         val liveWeatherVO = weatherRepository.getLiveWeather(
             LiveWeatherRequestParam(
-                serviceKey = apisDataWeatherApiKey,
-                pageNo = 1,
-                numOfRows = 8,
-                dataType = JSON,
                 baseDate = currentDate,
                 baseTime = currentTime, // 변경 가능
                 nx = adjustX,
@@ -73,10 +66,6 @@ class WeatherUseCase @Inject constructor(
         val (adjustX, adjustY) = LocationParser.getNxNy(lon, lat)
         val shortWeatherVO = weatherRepository.getShortWeather(
             ShortWeatherRequestParam(
-                serviceKey = apisDataWeatherApiKey,
-                pageNo = 1,
-                numOfRows = 290,
-                dataType = JSON,
                 baseDate = currentDate,
                 baseTime = currentTime,
                 nx = adjustX,
@@ -89,17 +78,12 @@ class WeatherUseCase @Inject constructor(
     fun getCurrentPositionWeatherWeekly(lon: Double, lat: Double): Single<WeatherWeeklyVO> {
         return allCityList
             .flatMap { cityLocationVO ->
-                val adjustedShortTime = DateTimeParser.adjustShortWeatherTimeWeekly()
-                val adjustedShortDate = adjustedShortTime.toLong()
+                val adjustedMidTime = DateTimeParser.adjustShortWeatherTimeWeekly()
+                val adjustedMidDate = adjustedMidTime.toLong()
                 val (adjustX, adjustY) = LocationParser.getNxNy(lon, lat)
-                val shortWeatherVO = weatherRepository.getShortWeather(
-                    ShortWeatherRequestParam(
-                        serviceKey = apisDataWeatherApiKey,
-                        pageNo = 1,
-                        numOfRows = 880,
-                        dataType = JSON,
-                        baseDate = adjustedShortDate,
-                        baseTime = 2300,
+                val midWeatherVO = weatherRepository.getMidWeather(
+                    MidWeatherRequestParam(
+                        baseDate = adjustedMidDate,
                         nx = adjustX,
                         ny = adjustY
                     )
@@ -110,30 +94,22 @@ class WeatherUseCase @Inject constructor(
                 val currentLongDateTime = adjustedLongDateTime.toLong()
                 val longRainCloudVO = weatherRepository.getLongRainCloud(
                     LongRainCloudRequestParam(
-                        serviceKey = apisDataWeatherApiKey,
-                        pageNo = 1,
-                        numOfRows = 1,
-                        dataType = JSON,
                         regId = nearestCityLocationItemVO?.longRainCloudParam,
                         tmFc = currentLongDateTime
                     )
                 )
                 val longTemperatureVO = weatherRepository.getLongTemperature(
                     LongTemperatureRequestParam(
-                        serviceKey = apisDataWeatherApiKey,
-                        pageNo = 1,
-                        numOfRows = 1,
-                        dataType = JSON,
                         regId = nearestCityLocationItemVO?.longTemperatureParam,
                         tmFc = currentLongDateTime
                     )
                 )
 
                 WeatherWeeklyParser.getWeatherWeeklyVO(
-                    shortWeatherVO,
+                    midWeatherVO,
                     longRainCloudVO,
                     longTemperatureVO,
-                    adjustedShortDate.toString()
+                    adjustedMidDate.toString()
                 )
             }
     }
@@ -143,8 +119,6 @@ class WeatherUseCase @Inject constructor(
             OpenWeatherRequestParam(
                 lon = lon,
                 lat = lat,
-                appid = openWeatherMapApiKey,
-                units = "metric"
             )
         )
         return SunriseSunsetParser.getSunriseSunsetVO(openWeatherVO)
@@ -157,10 +131,6 @@ class WeatherUseCase @Inject constructor(
         val (adjustX, adjustY) = LocationParser.getNxNy(lon, lat)
         val liveWeatherVO = weatherRepository.getLiveWeather(
             LiveWeatherRequestParam(
-                serviceKey = apisDataWeatherApiKey,
-                pageNo = 1,
-                numOfRows = 8,
-                dataType = JSON,
                 baseDate = currentDate,
                 baseTime = currentTime, // 변경 가능
                 nx = adjustX,
@@ -179,10 +149,6 @@ class WeatherUseCase @Inject constructor(
 
                 weatherRepository.getWeatherForecastText(
                     WeatherForecastTextRequestParam(
-                        serviceKey = apisDataWeatherApiKey,
-                        pageNo = 1,
-                        numOfRows = 1,
-                        dataType = JSON,
                         stnId = nearestCityLocationItemVO?.weatherForecastTextParam,
                         tmFc = currentDateTime
                     )
@@ -199,10 +165,6 @@ class WeatherUseCase @Inject constructor(
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
                 val liveWeatherVO = weatherRepository.getLiveWeather(
                     LiveWeatherRequestParam(
-                        serviceKey = apisDataWeatherApiKey,
-                        pageNo = 1,
-                        numOfRows = 8,
-                        dataType = JSON,
                         baseDate = currentDate,
                         baseTime = currentTime,
                         nx = cityLocationItemVO?.longitude?.toLong(),
@@ -222,10 +184,6 @@ class WeatherUseCase @Inject constructor(
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
                 val shortWeatherVO = weatherRepository.getShortWeather(
                     ShortWeatherRequestParam(
-                        serviceKey = apisDataWeatherApiKey,
-                        pageNo = 1,
-                        numOfRows = 290,
-                        dataType = JSON,
                         baseDate = currentDate,
                         baseTime = currentTime,
                         nx = cityLocationItemVO?.longitude?.toLong(),
@@ -240,17 +198,11 @@ class WeatherUseCase @Inject constructor(
         return allCityList
             .flatMap { cityLocationVO ->
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
-
-                val adjustedShortTime = DateTimeParser.adjustShortWeatherTimeWeekly()
-                val adjustedShortDate = adjustedShortTime.toLong()
-                val shortWeatherVO = weatherRepository.getShortWeather(
-                    ShortWeatherRequestParam(
-                        serviceKey = apisDataWeatherApiKey,
-                        pageNo = 1,
-                        numOfRows = 880,
-                        dataType = JSON,
-                        baseDate = adjustedShortDate,
-                        baseTime = 2300,
+                val adjustedMidTime = DateTimeParser.adjustShortWeatherTimeWeekly()
+                val adjustedMidDate = adjustedMidTime.toLong()
+                val midWeatherVO = weatherRepository.getMidWeather(
+                    MidWeatherRequestParam(
+                        baseDate = adjustedMidDate,
                         nx = cityLocationItemVO?.longitude?.toLong(),
                         ny = cityLocationItemVO?.latitude?.toLong()
                     )
@@ -260,30 +212,22 @@ class WeatherUseCase @Inject constructor(
                 val currentLongDateTime = adjustedLongDateTime.toLong()
                 val longRainCloudVO = weatherRepository.getLongRainCloud(
                     LongRainCloudRequestParam(
-                        serviceKey = apisDataWeatherApiKey,
-                        pageNo = 1,
-                        numOfRows = 1,
-                        dataType = JSON,
                         regId = cityLocationItemVO?.longRainCloudParam,
                         tmFc = currentLongDateTime
                     )
                 )
                 val longTemperatureVO = weatherRepository.getLongTemperature(
                     LongTemperatureRequestParam(
-                        serviceKey = apisDataWeatherApiKey,
-                        pageNo = 1,
-                        numOfRows = 1,
-                        dataType = JSON,
                         regId = cityLocationItemVO?.longTemperatureParam,
                         tmFc = currentLongDateTime
                     )
                 )
 
                 WeatherWeeklyParser.getWeatherWeeklyVO(
-                    shortWeatherVO,
+                    midWeatherVO,
                     longRainCloudVO,
                     longTemperatureVO,
-                    adjustedShortDate.toString()
+                    adjustedMidDate.toString()
                 )
             }
     }
@@ -297,10 +241,6 @@ class WeatherUseCase @Inject constructor(
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
                 val liveWeatherVO = weatherRepository.getLiveWeather(
                     LiveWeatherRequestParam(
-                        serviceKey = apisDataWeatherApiKey,
-                        pageNo = 1,
-                        numOfRows = 8,
-                        dataType = JSON,
                         baseDate = currentDate,
                         baseTime = currentTime, // 변경 가능
                         nx = cityLocationItemVO?.longitude?.toLong(),
@@ -319,8 +259,6 @@ class WeatherUseCase @Inject constructor(
                     OpenWeatherRequestParam(
                         lon = cityLocationItemVO?.longitude?.toDouble(),
                         lat = cityLocationItemVO?.latitude?.toDouble(),
-                        appid = openWeatherMapApiKey,
-                        units = "metric"
                     )
                 )
                 SunriseSunsetParser.getSunriseSunsetVO(openWeatherVO)
@@ -336,10 +274,6 @@ class WeatherUseCase @Inject constructor(
 
                 weatherRepository.getWeatherForecastText(
                     WeatherForecastTextRequestParam(
-                        serviceKey = apisDataWeatherApiKey,
-                        pageNo = 1,
-                        numOfRows = 1,
-                        dataType = JSON,
                         stnId = cityLocationItemVO?.weatherForecastTextParam,
                         tmFc = currentDateTime
                     )
