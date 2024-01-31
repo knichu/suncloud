@@ -6,7 +6,7 @@ import com.knichu.domain.vo.Weather24HourItemVO
 import com.knichu.domain.vo.Weather24HourVO
 import io.reactivex.rxjava3.core.Single
 
-class Weather24HourParser {
+object Weather24HourParser {
 
     fun getWeather24HourVO(
         shortWeatherVO: Single<ShortWeatherVO>

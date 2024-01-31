@@ -2,7 +2,7 @@ package com.knichu.domain.util
 
 import kotlin.math.*
 
-class LocationParser {
+object LocationParser {
     // X축 격자점 수 = 149
     // Y축 격자점 수 = 253
 

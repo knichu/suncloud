@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class DateTimeParser {
+object DateTimeParser {
 
     private fun getCurrentDateTime(): String {
         val dateFormat = SimpleDateFormat("yyyyMMddHHmm", Locale.getDefault())

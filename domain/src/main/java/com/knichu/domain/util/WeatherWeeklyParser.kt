@@ -14,7 +14,7 @@ import java.util.Collections
 import java.util.Locale
 import kotlin.math.max
 
-class WeatherWeeklyParser {
+object WeatherWeeklyParser {
 
     fun getWeatherWeeklyVO(
         shortWeatherVO: Single<ShortWeatherVO>,

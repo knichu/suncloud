@@ -5,7 +5,7 @@ import com.knichu.domain.vo.CityLocationVO
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-class CurrentPositionCityParser {
+object CurrentPositionCityParser {
 
     fun getNearestCity(lon: Double, lat: Double, cityLocationVO: CityLocationVO): CityLocationItemVO? {
         return cityLocationVO.item?.minByOrNull { city ->

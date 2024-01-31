@@ -5,7 +5,7 @@ import com.knichu.domain.vo.WeatherNowVO
 import com.knichu.domain.vo.WeatherOtherInfoVO
 import io.reactivex.rxjava3.core.Single
 
-class WeatherOtherInfoParser {
+object WeatherOtherInfoParser {
 
     fun getWeatherOtherInfoVO(liveWeatherVO: Single<LiveWeatherVO>): Single<WeatherOtherInfoVO> {
         return liveWeatherVO.map { liveWeather ->
