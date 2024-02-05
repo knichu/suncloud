@@ -3,11 +3,13 @@ package com.knichu.data.service
 import com.knichu.data.dto.request.LiveWeatherRequestDTO
 import com.knichu.data.dto.request.LongRainCloudRequestDTO
 import com.knichu.data.dto.request.LongTemperatureRequestDTO
+import com.knichu.data.dto.request.MidWeatherRequestDTO
 import com.knichu.data.dto.request.ShortWeatherRequestDTO
 import com.knichu.data.dto.request.WeatherForecastTextRequestDTO
 import com.knichu.data.dto.response.LiveWeatherResponseDTO
 import com.knichu.data.dto.response.LongRainCloudResponseDTO
 import com.knichu.data.dto.response.LongTemperatureResponseDTO
+import com.knichu.data.dto.response.MidWeatherResponseDTO
 import com.knichu.data.dto.response.ShortWeatherResponseDTO
 import com.knichu.data.dto.response.WeatherForecastTextResponseDTO
 import io.reactivex.rxjava3.core.Single
@@ -23,6 +25,10 @@ interface WeatherService {
     @GET("VilageFcstInfoService_2.0/getVilageFcst")
     fun getShortWeather(@Body shortWeatherRequest: ShortWeatherRequestDTO):
             Single<Response<ShortWeatherResponseDTO>>
+
+    @GET("VilageFcstInfoService_2.0/getVilageFcst")
+    fun getMidWeather(@Body midWeatherRequest: MidWeatherRequestDTO):
+            Single<Response<MidWeatherResponseDTO>>
 
     @GET("MidFcstInfoService/getMidLandFcst")
     fun getLongRainCloud(@Body longRainCloudRequest: LongRainCloudRequestDTO):

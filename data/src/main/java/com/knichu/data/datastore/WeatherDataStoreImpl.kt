@@ -37,6 +37,16 @@ class WeatherDataStoreImpl @Inject constructor(
         return userTempUnitFlowable.firstOrError()
     }
 
+    // 처음 앱 실행시 기본 정보 저장
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun initStoreDefaultCity(): Single<Preferences> {
+        return rxDataStore.updateDataAsync { pref ->
+            val mutablePreferences = pref.toMutablePreferences()
+            mutablePreferences[CITY_LIST_KEY] = listOf(DEFAULT_CITY).toJsonString()
+            Single.just(mutablePreferences)
+        }
+    }
+
     // 사용자가 즐겨찾기한 도시 저장
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun storeCity(cityName: String): Single<Preferences> {

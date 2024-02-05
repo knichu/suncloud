@@ -9,3 +9,11 @@ annotation class AirPollutionQualifier
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class WeatherQualifier
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class CityLocationQualifier
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class OpenWeatherQualifier

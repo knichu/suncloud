@@ -11,14 +11,10 @@ data class ShortWeatherResponseDTO(
         return ShortWeatherVO(
             item = response?.body?.items?.map {
                 ShortWeatherItemVO(
-                    baseDate = requireNotNull(it.baseDate),
-                    baseTime = requireNotNull(it.baseTime),
                     category = requireNotNull(it.category),
                     forecastDate = requireNotNull(it.fcstDate),
                     forecastTime = requireNotNull(it.fcstTime),
                     forecastValue = requireNotNull(it.fcstValue),
-                    nx = requireNotNull(it.nx),
-                    ny = requireNotNull(it.ny)
                 )
             } ?: emptyList()
         )

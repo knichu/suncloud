@@ -3,11 +3,13 @@ package com.knichu.data.datasource
 import com.knichu.data.dto.request.LiveWeatherRequestDTO
 import com.knichu.data.dto.request.LongRainCloudRequestDTO
 import com.knichu.data.dto.request.LongTemperatureRequestDTO
+import com.knichu.data.dto.request.MidWeatherRequestDTO
 import com.knichu.data.dto.request.ShortWeatherRequestDTO
 import com.knichu.data.dto.request.WeatherForecastTextRequestDTO
 import com.knichu.data.dto.response.LiveWeatherResponseDTO
 import com.knichu.data.dto.response.LongRainCloudResponseDTO
 import com.knichu.data.dto.response.LongTemperatureResponseDTO
+import com.knichu.data.dto.response.MidWeatherResponseDTO
 import com.knichu.data.dto.response.ShortWeatherResponseDTO
 import com.knichu.data.dto.response.WeatherForecastTextResponseDTO
 import com.knichu.data.service.WeatherService
@@ -37,6 +39,14 @@ class WeatherDataSource @Inject constructor(
         shortWeatherRequest: ShortWeatherRequestDTO
     ): Single<ShortWeatherResponseDTO> {
         return weatherService.getShortWeather(shortWeatherRequest)
+            .subscribeOn(Schedulers.io())
+            .map { checkResponse(it) }
+    }
+
+    fun getMidWeather(
+        midWeatherRequest: MidWeatherRequestDTO
+    ): Single<MidWeatherResponseDTO> {
+        return weatherService.getMidWeather(midWeatherRequest)
             .subscribeOn(Schedulers.io())
             .map { checkResponse(it) }
     }

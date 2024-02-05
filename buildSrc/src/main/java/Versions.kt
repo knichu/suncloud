@@ -6,7 +6,8 @@ object Versions {
 //    const val firebaseCrashlyticsGradle = "2.2.0"
 
     // gradle classpath
-    const val buildGradle = "4.0.1"
+    const val buildGradle = "8.1.4"
+//    const val buildGradle = "4.0.1"
     const val navVersion = "2.5.3"
 
     // kotlin
