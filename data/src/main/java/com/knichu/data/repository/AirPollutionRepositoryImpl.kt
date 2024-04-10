@@ -16,9 +16,8 @@ class AirPollutionRepositoryImpl @Inject constructor(
     override fun getAirPollution(param: AirPollutionRequestParam): Single<AirPollutionVO> {
         return airPollutionDataSource.getAirPollution(
             AirPollutionRequestDTO(
-                lat = param.lat,
                 lon = param.lon,
-                appid = param.appid
+                lat = param.lat
             )
         )
             .subscribeOn(Schedulers.io())

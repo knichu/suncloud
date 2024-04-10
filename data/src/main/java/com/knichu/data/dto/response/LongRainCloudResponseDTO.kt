@@ -9,7 +9,6 @@ data class LongRainCloudResponseDTO(
     fun toDomain(): LongRainCloudVO {
         val item = response?.body?.items?.firstOrNull()
         return LongRainCloudVO(
-            regionCode = requireNotNull(item?.regId),
             rainProb3Am = requireNotNull(item?.rnSt3Am),
             rainProb3Pm = requireNotNull(item?.rnSt3Pm),
             rainProb4Am = requireNotNull(item?.rnSt4Am),
@@ -20,9 +19,6 @@ data class LongRainCloudResponseDTO(
             rainProb6Pm = requireNotNull(item?.rnSt6Pm),
             rainProb7Am = requireNotNull(item?.rnSt7Am),
             rainProb7Pm = requireNotNull(item?.rnSt7Pm),
-            rainProb8 = requireNotNull(item?.rnSt8),
-            rainProb9 = requireNotNull(item?.rnSt9),
-            rainProb10 = requireNotNull(item?.rnSt10),
             weatherForecast3Am = requireNotNull(item?.wf3Am),
             weatherForecast3Pm = requireNotNull(item?.wf3Pm),
             weatherForecast4Am = requireNotNull(item?.wf4Am),
@@ -32,10 +28,7 @@ data class LongRainCloudResponseDTO(
             weatherForecast6Am = requireNotNull(item?.wf6Am),
             weatherForecast6Pm = requireNotNull(item?.wf6Pm),
             weatherForecast7Am = requireNotNull(item?.wf7Am),
-            weatherForecast7Pm = requireNotNull(item?.wf7Pm),
-            weatherForecast8 = requireNotNull(item?.wf8),
-            weatherForecast9 = requireNotNull(item?.wf9),
-            weatherForecast10 = requireNotNull(item?.wf10)
+            weatherForecast7Pm = requireNotNull(item?.wf7Pm)
         )
     }
 }

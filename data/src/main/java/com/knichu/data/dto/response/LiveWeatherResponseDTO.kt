@@ -11,11 +11,7 @@ data class LiveWeatherResponseDTO(
         return LiveWeatherVO(
             item = response?.body?.items?.map {
                 LiveWeatherItemVO(
-                    baseDate = requireNotNull(it.baseDate),
-                    baseTime = requireNotNull(it.baseTime),
                     category = requireNotNull(it.category),
-                    nx = requireNotNull(it.nx),
-                    ny = requireNotNull(it.ny),
                     observeValue = requireNotNull(it.obsrValue)
                 )
             } ?: emptyList()
