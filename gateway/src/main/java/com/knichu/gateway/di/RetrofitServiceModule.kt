@@ -18,18 +18,20 @@ object RetrofitServiceModule {
 
     @Provides
     @Singleton
+    fun provideContext(application: Application): Context {
+        return application.applicationContext
+    }
+
+    @Provides
+    @Singleton
     fun providesAirPollutionService(@AirPollutionQualifier retrofit: Retrofit): AirPollutionService =
         retrofit.create(AirPollutionService::class.java)
 
     @Provides
     @Singleton
-    fun providesWeatherService(@WeatherQualifier retrofit: Retrofit): WeatherService =
-        retrofit.create(WeatherService::class.java)
-
-    @Provides
-    @Singleton
-    fun providesCityLocationService(@CityLocationQualifier retrofit: Retrofit): CityLocationService =
-        retrofit.create(CityLocationService::class.java)
+    fun providesWeatherService(@WeatherQualifier retrofit: Retrofit): WeatherService {
+        return retrofit.create(WeatherService::class.java)
+    }
 
     @Provides
     @Singleton

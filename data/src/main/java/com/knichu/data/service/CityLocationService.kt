@@ -6,7 +6,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface CityLocationService {
-    @GET("json/cityCode.json")
-    fun getAllCityLocation(): Single<Response<CityLocationResponseDTO>>
+//    @GET("json/cityCode.json")
+//    fun getAllCityLocation(): Single<Response<CityLocationResponseDTO>>
 }
 

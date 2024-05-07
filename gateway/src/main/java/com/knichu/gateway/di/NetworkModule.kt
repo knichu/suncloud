@@ -17,7 +17,6 @@ object NetworkModule {
 
     private const val BASE_URL_OPEN_WEATHER_MAP = "https://api.openweathermap.org/data/2.5/"
     private const val BASE_URL_WEATHER = "https://apis.data.go.kr/1360000/"
-    private const val BASE_URL_CITY_LOCATION = "http://example.com/"
 
     @Provides
     @Singleton
@@ -53,21 +52,6 @@ object NetworkModule {
             .baseUrl(BASE_URL_WEATHER)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    @CityLocationQualifier
-    fun provideCityLocationRetrofit(
-        okHttpClient: OkHttpClient,
-        @ApplicationContext context: Context
-    ) : Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL_CITY_LOCATION)
-            .client(okHttpClient)
-            .addConverterFactory(AssetJsonConverter(context))
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
     }
