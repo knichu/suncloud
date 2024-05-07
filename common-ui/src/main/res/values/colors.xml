@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_2000">#FF5C5C</color>
+    <color name="purple_5000">#FF5C5C</color>
+    <color name="purple_7000">#FF5C5C</color>
+    <color name="teal_2000">#FF5C5C</color>
+    <color name="teal_7000">#FF5C5C</color>
+    <color name="black0">#FF000000</color>
+    <color name="black70">#B3000000</color>
+    <color name="white0">#FFFFFFFF</color>
+    <color name="statusBarColor">#ECEFF0</color>
+
+    <color name="G50">#F4F5F8</color>
+    <color name="G100">#EAECF1</color>
+    <color name="G200">#D0D5E5</color>
+    <color name="G300">#B3BBD3</color>
+    <color name="G400">#7985A7</color>
+    <color name="G500">#5E6B8F</color>
+    <color name="G600">#4A5470</color>
+    <color name="G700">#363D51</color>
+    <color name="G800">#212633</color>
+    <color name="G900">#0D0F14</color>
+    <color name="P50">#FFF5F5</color>
+    <color name="P100">#FFDBDB</color>
+    <color name="P300">#FFA8A8</color>
+    <color name="P400">#FF8F8F</color>
+    <color name="P500">#FF5C5C</color>
+    <color name="P700">#DB0000</color>
+    <color name="P800">#A80000</color>
+    <color name="S100">#FFF6D6</color>
+    <color name="S200">#FFF0BD</color>
+    <color name="S900">#FFC90A</color>
+
+    <color name="P500_90">#F2FF5C5C</color>
+    <color name="DarkBG">#292929</color>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
