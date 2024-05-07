@@ -1,4 +1,4 @@
-package com.knichu.suncloud.di
+package com.knichu.gateway.di
 
 import com.knichu.data.repository.AirPollutionRepositoryImpl
 import com.knichu.data.repository.CityLocationRepositoryImpl

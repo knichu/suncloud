@@ -1,40 +1,25 @@
 plugins {
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-parcelize")
     kotlin(Plugins.KOTLIN_KAPT)
     id(Plugins.HILT_PLUGIN)
-    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
-    namespace = "com.knichu.suncloud"
+    namespace = "com.knichu.gateway"
     compileSdk = DefaultConfig.COMPILE_SDK_VERSION
-    buildToolsVersion = DefaultConfig.BUILD_TOOLS_VERSION
 
     defaultConfig {
-        applicationId = DefaultConfig.APPLICATION_ID
         minSdk = DefaultConfig.MIN_SDK_VERSION
-        targetSdk = DefaultConfig.TARGET_SDK_VERSION
-        versionCode = DefaultConfig.VERSION_CODE
-        versionName = DefaultConfig.VERSION_NAME
+        buildToolsVersion = DefaultConfig.BUILD_TOOLS_VERSION
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-//        // @InstallIn 무시 코드
-//        javaCompileOptions {
-//            annotationProcessorOptions {
-//                arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
-//            }
-//        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
-        // 난독화 적용 코드
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -47,9 +32,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-
-        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlinx.coroutines.FlowPreview"
     }
     buildFeatures {
         dataBinding = true
@@ -59,7 +41,6 @@ android {
 dependencies {
 
     // module
-    api(project(":gateway"))
     api(project(":forecast"))
     api(project(":nationwide"))
     api(project(":setting"))
@@ -69,6 +50,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

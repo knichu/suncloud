@@ -1,4 +1,4 @@
-package com.knichu.suncloud.util
+package com.knichu.gateway.util
 
 import android.content.Context
 import com.google.gson.Gson

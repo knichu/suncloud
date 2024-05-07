@@ -1,7 +1,8 @@
-package com.knichu.suncloud.di
+package com.knichu.gateway.di
 
+import android.app.Application
+import android.content.Context
 import com.knichu.data.service.AirPollutionService
-import com.knichu.data.service.CityLocationService
 import com.knichu.data.service.OpenWeatherService
 import com.knichu.data.service.WeatherService
 import dagger.Module

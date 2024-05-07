@@ -2,13 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity">
-
-    <data>
-        <variable
-            name="viewModel"
-            type="com.knichu.suncloud.MainViewModel" />
-    </data>
+    tools:context=".ui.GatewayActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout"
@@ -34,7 +28,8 @@
             android:layout_height="62dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_menu" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

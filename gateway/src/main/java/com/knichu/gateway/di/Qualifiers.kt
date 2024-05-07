@@ -1,4 +1,4 @@
-package com.knichu.suncloud.di
+package com.knichu.gateway.di
 
 import javax.inject.Qualifier
 

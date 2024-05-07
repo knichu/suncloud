@@ -1,7 +1,6 @@
-package com.knichu.suncloud.di
+package com.knichu.gateway.di
 
 import android.content.Context
-import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.rxjava3.RxPreferenceDataStoreBuilder
 import androidx.datastore.rxjava3.RxDataStore
