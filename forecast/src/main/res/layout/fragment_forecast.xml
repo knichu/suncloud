@@ -14,16 +14,342 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/forecast_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Forecast"
-            android:textSize="34sp"
+        <androidx.drawerlayout.widget.DrawerLayout
+            android:id="@+id/left_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+            <!--            tools:openDrawer="start"-->
+
+            <com.knichu.common_ui.components.SuncloudSwipeRefreshLayout
+                android:id="@+id/pull_to_refresh_layout"
+                onRefresh="@{()->viewModel.setRefreshing(true)}"
+                refreshing="@{viewModel.isRefreshing()}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#EAEAEA">
+
+
+                <androidx.coordinatorlayout.widget.CoordinatorLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.appbar.AppBarLayout
+                        android:id="@+id/app_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fitsSystemWindows="true">
+
+                        <com.google.android.material.appbar.CollapsingToolbarLayout
+                            android:id="@+id/collapsing_toolbar_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:background="#EAEAEA"
+                            android:fitsSystemWindows="true"
+                            app:collapsedTitleGravity="fill_vertical"
+                            app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Medium"
+                            app:collapsedTitleTextColor="#000000"
+                            app:expandedTitleGravity="top|left"
+                            app:expandedTitleMarginStart="100dp"
+                            app:expandedTitleMarginTop="100dp"
+                            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                            app:title="@{viewModel.weatherNowData.city}"
+                            app:titleEnabled="true">
+
+                            <com.google.android.material.appbar.MaterialToolbar
+                                android:id="@+id/toolbar"
+                                android:layout_width="match_parent"
+                                android:layout_height="?attr/actionBarSize"
+                                app:layout_collapseMode="pin">
+
+                                <ImageButton
+                                    android:id="@+id/city_icon_button"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="#EAEAEA"
+                                    android:src="@drawable/ic_menu_2" />
+
+                            </com.google.android.material.appbar.MaterialToolbar>
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/app_bar_image"
+                                visibleOrGone="@{viewModel.isAppBarExpanded()}"
+                                weatherIcon="@{viewModel.weatherNowData.weatherCondition}"
+                                android:layout_width="150dp"
+                                android:layout_height="150dp"
+                                android:layout_gravity="end"
+                                android:layout_marginTop="60dp"
+                                android:layout_marginEnd="10dp"
+                                android:fitsSystemWindows="true"
+                                android:scaleType="centerCrop"
+                                android:visibility="gone"
+                                app:layout_collapseMode="parallax"
+                                tools:src="@drawable/ic_sunny_rounded" />
+
+                            <TextView
+                                android:id="@+id/temperature_text_view"
+                                temperatureText="@{viewModel.weatherNowData.temperature}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="100dp"
+                                android:layout_marginTop="140dp"
+                                android:fadeScrollbars="false"
+                                android:textSize="36sp"
+                                app:layout_collapseMode="parallax"
+                                tools:text="10°" />
+
+                            <TextView
+                                android:id="@+id/current_position_text_view"
+                                visibleOrGone="@{!viewModel.isCityChecked()}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="100dp"
+                                android:layout_marginTop="70dp"
+                                android:fadeScrollbars="false"
+                                android:text="@string/current_position"
+                                android:textSize="16sp"
+                                app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Small"
+                                app:layout_collapseMode="none" />
+
+                        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                    </com.google.android.material.appbar.AppBarLayout>
+
+                    <androidx.core.widget.NestedScrollView
+                        android:id="@+id/second_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/second_view2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/weather_24hour_layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginEnd="6dp"
+                                android:layout_marginBottom="6dp"
+                                android:background="@drawable/bg_white_rounded_20dp"
+                                app:layout_constraintBottom_toTopOf="@+id/weather_weekly_layout"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/weather_24hour_recycler_view"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="6dp"
+                                    android:layout_marginTop="6dp"
+                                    android:layout_marginEnd="6dp"
+                                    android:layout_marginBottom="6dp"
+                                    android:fadingEdge="horizontal"
+                                    android:nestedScrollingEnabled="false"
+                                    android:orientation="horizontal"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintHorizontal_bias="0.0"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintVertical_bias="0.0"
+                                    tools:listitem="@layout/layout_weather_24hour_item" />
+
+                                <ProgressBar
+                                    android:id="@+id/weather_24hour_progress_bar"
+                                    style="?android:attr/progressBarStyle"
+                                    visibleOrGoneByNull="@{viewModel.weather24HourData}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="42dp"
+                                    android:layout_marginBottom="42dp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/weather_24hour_layout"
+                                    app:layout_constraintEnd_toEndOf="@+id/weather_24hour_layout"
+                                    app:layout_constraintStart_toStartOf="@+id/weather_24hour_layout"
+                                    app:layout_constraintTop_toTopOf="@+id/weather_24hour_layout" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/weather_weekly_layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginEnd="6dp"
+                                android:layout_marginBottom="6dp"
+                                android:background="@drawable/bg_white_rounded_20dp"
+                                app:layout_constraintBottom_toTopOf="@+id/weather_sunrise_sunset"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent">
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/weather_weekly_recycler_view"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="6dp"
+                                    android:layout_marginTop="6dp"
+                                    android:layout_marginEnd="6dp"
+                                    android:layout_marginBottom="6dp"
+                                    android:overScrollMode="never"
+
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:itemCount="7"
+                                    tools:listitem="@layout/layout_weather_weekly_item" />
+
+                                <ProgressBar
+                                    android:id="@+id/weather_weekly_progress_bar"
+                                    style="?android:attr/progressBarStyle"
+                                    visibleOrGoneByNull="@{viewModel.weatherWeeklyData}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="180dp"
+                                    android:layout_marginBottom="180dp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/weather_weekly_layout"
+                                    app:layout_constraintEnd_toEndOf="@+id/weather_weekly_layout"
+                                    app:layout_constraintStart_toStartOf="@+id/weather_weekly_layout"
+                                    app:layout_constraintTop_toTopOf="@+id/weather_weekly_layout" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/weather_sunrise_sunset"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginEnd="6dp"
+                                android:layout_marginBottom="6dp"
+                                android:background="@drawable/bg_white_rounded_20dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent">
+
+                                <TextView
+                                    android:id="@+id/sunrise_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="80dp"
+                                    android:layout_marginTop="16dp"
+                                    android:text="일출"
+                                    android:textSize="16sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="일출" />
+
+                                <TextView
+                                    android:id="@+id/sunrise_time"
+                                    timeWithAmPmDetail="@{viewModel.sunriseSunsetData.sunriseTime}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:textSize="16sp"
+                                    app:layout_constraintEnd_toEndOf="@+id/sunrise_text"
+                                    app:layout_constraintStart_toStartOf="@+id/sunrise_text"
+                                    app:layout_constraintTop_toBottomOf="@+id/sunrise_text"
+                                    tools:text="오전 6:37" />
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/sunrise_image"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="36dp"
+                                    android:src="@drawable/ic_sunrise"
+                                    app:layout_constraintEnd_toEndOf="@+id/sunrise_text"
+                                    app:layout_constraintStart_toStartOf="@+id/sunrise_text"
+                                    app:layout_constraintTop_toBottomOf="@+id/sunrise_text"
+                                    tools:src="@drawable/ic_sunrise" />
+
+                                <TextView
+                                    android:id="@+id/sunset_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:layout_marginEnd="80dp"
+                                    android:text="일몰"
+                                    android:textSize="16sp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="일몰" />
+
+                                <TextView
+                                    android:id="@+id/sunset_time"
+                                    timeWithAmPmDetail="@{viewModel.sunriseSunsetData.sunsetTime}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:textSize="16sp"
+                                    app:layout_constraintEnd_toEndOf="@+id/sunset_text"
+                                    app:layout_constraintStart_toStartOf="@+id/sunset_text"
+                                    app:layout_constraintTop_toBottomOf="@+id/sunset_text"
+                                    tools:text="오후 7:18" />
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/sunset_image"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="36dp"
+                                    android:src="@drawable/ic_sunset"
+                                    app:layout_constraintEnd_toEndOf="@+id/sunset_text"
+                                    app:layout_constraintStart_toStartOf="@+id/sunset_text"
+                                    app:layout_constraintTop_toBottomOf="@+id/sunset_text"
+                                    tools:src="@drawable/ic_sunset" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.core.widget.NestedScrollView>
+
+                </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+            </com.knichu.common_ui.components.SuncloudSwipeRefreshLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/slide_view"
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:background="@color/purple_200"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/seoulButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="200dp"
+                    android:text="Seoul"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/busanButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Busan"
+                    app:layout_constraintStart_toStartOf="@+id/seoulButton"
+                    app:layout_constraintTop_toBottomOf="@+id/seoulButton" />
+
+                <Button
+                    android:id="@+id/daeguButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Daegu"
+                    app:layout_constraintStart_toStartOf="@+id/busanButton"
+                    app:layout_constraintTop_toBottomOf="@+id/busanButton" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.drawerlayout.widget.DrawerLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
