@@ -31,6 +31,7 @@ class GatewayActivity : BaseActivity<ActivityGatewayBinding>(
                 setOnItemReselectedListener { menuItem ->
                     when (menuItem.itemId) {
                         R.id.nav_forecast -> {
+                            scrollToTopForecast()
                         }
 
                         R.id.nav_nationwide -> {
@@ -42,4 +43,16 @@ class GatewayActivity : BaseActivity<ActivityGatewayBinding>(
         }
     }
 
+    private fun scrollToTopForecast() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.nav_host)
+        if (fragment is NavHostFragment) {
+            val forecastFragment = fragment
+                .childFragmentManager
+                .fragments
+                .filterIsInstance<ForecastFragment>()
+                .firstOrNull()
+            forecastFragment?.scrollToTop()
+        }
+    }
+}
 

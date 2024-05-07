@@ -125,6 +125,11 @@ class ForecastFragment: BaseViewModelFragment<FragmentForecastBinding, ForecastV
         super.onDestroyView()
     }
 
+    fun scrollToTop() {
+        viewDataBinding.appBar.setExpanded(true, true)
+        viewDataBinding.secondView.smoothScrollTo(0, 0)
+    }
+
     private fun initView() {
         checkLocationPermission()
         checkAppBar()
