@@ -72,8 +72,8 @@ dependencies {
     api("androidx.navigation:navigation-fragment-ktx:2.5.3")
     api("androidx.navigation:navigation-ui-ktx:2.5.3")
 
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
-    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.50")
+    implementation("com.google.dagger:hilt-android:2.50")
 
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
