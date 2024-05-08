@@ -13,7 +13,10 @@ class AirPollutionDataSource @Inject constructor(
     private val airPollutionService: AirPollutionService
 ) : BaseNetworkDataSource() {
     fun getAirPollution(airPollutionRequest: AirPollutionRequestDTO): Single<AirPollutionResponseDTO> {
-        return airPollutionService.getAirPollution(airPollutionRequest)
+        return airPollutionService.getAirPollution(
+            lon = airPollutionRequest.lon,
+            lat = airPollutionRequest.lat,
+        )
             .subscribeOn(Schedulers.io())
             .map { checkResponse(it) }
     }
