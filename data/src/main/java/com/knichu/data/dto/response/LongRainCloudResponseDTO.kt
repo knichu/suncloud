@@ -7,7 +7,7 @@ data class LongRainCloudResponseDTO(
     @field:SerializedName("response") val response: LongRainCloudResponse? = null
 ) {
     fun toDomain(): LongRainCloudVO {
-        val item = response?.body?.items?.firstOrNull()
+        val item = response?.body?.items?.item?.firstOrNull()
         return LongRainCloudVO(
             rainProb3Am = requireNotNull(item?.rnSt3Am),
             rainProb3Pm = requireNotNull(item?.rnSt3Pm),
@@ -45,10 +45,14 @@ data class LongRainCloudHeader(
 
 data class LongRainCloudBody(
     @field:SerializedName("dataType") val dataType: String? = null,
-    @field:SerializedName("items") val items: List<LongRainCloudItem>? = null,
+    @field:SerializedName("items") val items: LongRainCloudItems? = null,
     @field:SerializedName("pageNo") val pageNo: Long? = null,
     @field:SerializedName("numOfRows") val numOfRows: Long? = null,
     @field:SerializedName("totalCount") val totalCount: Long? = null
+)
+
+data class LongRainCloudItems(
+    @field:SerializedName("item") val item: List<LongRainCloudItem>? = null,
 )
 
 data class LongRainCloudItem(
