@@ -6,6 +6,7 @@ import io.reactivex.rxjava3.core.Single
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 object SunriseSunsetParser {
 
@@ -17,15 +18,15 @@ object SunriseSunsetParser {
                 val sunriseUTC = convertUnixTimeToFormattedString(openWeather.sunrise?.toLong() ?: 0)
                 val sunsetUTC = convertUnixTimeToFormattedString(openWeather.sunset?.toLong() ?: 0)
                 SunriseSunsetVO(
-                    sunriseTime = sunriseUTC.toInt(),
-                    sunsetTime = sunsetUTC.toInt()
+                    sunriseTime = sunriseUTC,
+                    sunsetTime = sunsetUTC
                 )
             }
     }
 
     private fun convertUnixTimeToFormattedString(unixTime: Long): String {
         val dateFormat = SimpleDateFormat("HHmm", Locale.getDefault())
-        dateFormat.timeZone = java.util.TimeZone.getTimeZone("UTC")
+        dateFormat.timeZone = TimeZone.getTimeZone("GMT+9:00")
         val date = Date(unixTime * 1000)
         return dateFormat.format(date)
     }

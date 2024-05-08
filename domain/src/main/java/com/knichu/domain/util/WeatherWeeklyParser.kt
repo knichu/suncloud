@@ -1,5 +1,6 @@
 package com.knichu.domain.util
 
+import android.util.Log
 import com.knichu.domain.vo.LongRainCloudVO
 import com.knichu.domain.vo.LongTemperatureVO
 import com.knichu.domain.vo.MidWeatherVO
@@ -14,6 +15,7 @@ import java.util.Calendar
 import java.util.Collections
 import java.util.Locale
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 object WeatherWeeklyParser {
 
@@ -66,8 +68,10 @@ object WeatherWeeklyParser {
         midWeather: MidWeatherVO,
         baseDate: String
     ): List<WeatherWeeklyItemVO> {
+        Log.d("파서", "getWeatherWeeklyVO.getMidWeatherData 시작")
         val weatherWeeklyItemList = mutableListOf<WeatherWeeklyItemVO>()
         val dayOfWeekList = getDayOfWeekList()
+        Log.d("파서", "getWeatherWeeklyVO.getMidWeatherData 시작1")
 
         // 오늘 ~ 2일후
         val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
@@ -112,12 +116,18 @@ object WeatherWeeklyParser {
                 }
 
                 // 최고, 최저기온
-                if (midWeather.item?.get(checkIndex)?.forecastTime == "1200") {
+                if (midWeather.item?.get(checkIndex)?.forecastTime == "1500") {
                     if (midWeather.item[checkIndex].category == "TMX") {
-                        highestTemperature = midWeather.item[checkIndex].forecastValue
+                        highestTemperature = midWeather.item[checkIndex].forecastValue?.toDouble()
+                            ?.roundToInt()
+                            .toString()
                     }
+                }
+                if (midWeather.item?.get(checkIndex)?.forecastTime == "0600") {
                     if (midWeather.item[checkIndex].category == "TMN") {
-                        lowestTemperature = midWeather.item[checkIndex].forecastValue
+                        lowestTemperature = midWeather.item[checkIndex].forecastValue?.toDouble()
+                            ?.roundToInt()
+                            .toString()
                     }
                 }
 
@@ -163,6 +173,7 @@ object WeatherWeeklyParser {
                     else -> 3
                 }
             }
+
             if (weatherConditionPMListPTY.maxOfOrNull { it } == 0) {
                 weatherConditionPM = when {
                     weatherConditionPMListSKY.average() <= 1.5 -> 1
@@ -201,13 +212,14 @@ object WeatherWeeklyParser {
                 }
             }
 
+
             val tempWeatherWeeklyItem = WeatherWeeklyItemVO(
                 dayOfTheWeek = dayOfWeekList[index],
                 rainProbability = tempRainProbability.toString(),
                 weatherConditionAM = weatherConditionAM.toString(),
                 weatherConditionPM = weatherConditionPM.toString(),
-                maxTemperature = highestTemperature,
-                minTemperature = lowestTemperature
+                maxTemperature = "$highestTemperature",
+                minTemperature = "$lowestTemperature"
             )
 
             weatherWeeklyItemList.add(tempWeatherWeeklyItem)
@@ -220,6 +232,7 @@ object WeatherWeeklyParser {
         longRainCloud: LongRainCloudVO,
         longTemperature: LongTemperatureVO
     ): List<WeatherWeeklyItemVO> {
+
         val weatherWeeklyItemList = mutableListOf<WeatherWeeklyItemVO>()
         val dayOfWeekList = getDayOfWeekList()
 
@@ -316,8 +329,8 @@ object WeatherWeeklyParser {
                 rainProbability = max(rainProbAm, rainProbPm).toString(),
                 weatherConditionAM = weatherConditionAM.toString(),
                 weatherConditionPM = weatherConditionPM.toString(),
-                maxTemperature = maxTemperature.toString(),
-                minTemperature = minTemperature.toString()
+                maxTemperature = "$maxTemperature",
+                minTemperature = "$minTemperature"
             )
 
             weatherWeeklyItemList.add(tempWeatherWeeklyItem)
