@@ -11,7 +11,10 @@ class OpenWeatherDataSource @Inject constructor(
     private val openWeatherService: OpenWeatherService
 ) : BaseNetworkDataSource() {
     fun getOpenWeather(openWeatherRequest: OpenWeatherRequestDTO): Single<OpenWeatherResponseDTO> {
-        return openWeatherService.getOpenWeather(openWeatherRequest)
+        return openWeatherService.getOpenWeather(
+            lon = openWeatherRequest.lon,
+            lat = openWeatherRequest.lat
+        )
             .subscribeOn(Schedulers.io())
             .map { checkResponse(it) }
     }
