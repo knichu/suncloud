@@ -13,3 +13,12 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/build
+/common/build
+/common-ui/build
+/data/build
+/domain/build
+/forecast/build
+/gateway/build
+/nationwide/build
+/setting/build
