@@ -36,18 +36,6 @@ object Weather24HourParser {
                     tempShortWeatherList.add(item)
                 } else {
 
-//                    var tempTimeIndex = ""
-//                    val timeIndexDouble = timeIndex?.substring(0,2)?.toInt()
-//                    if (timeIndexDouble != null) {
-//                        tempTimeIndex = if (timeIndexDouble < 12) {
-//                            "오전 " + timeIndexDouble.toInt() + "시"
-//                        } else if (timeIndexDouble.toInt() == 12) {
-//                            "오후 12시"
-//                        } else {
-//                            "오후 " + (timeIndexDouble - 12) + "시"
-//                        }
-//                    }
-
                     val weatherCondition = when (tempShortWeatherList.find { it.category == "SKY" }?.forecastValue) {
                         "1" -> {
                             when (timeIndex?.toInt()) {
