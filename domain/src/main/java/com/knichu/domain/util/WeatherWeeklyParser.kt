@@ -68,10 +68,8 @@ object WeatherWeeklyParser {
         midWeather: MidWeatherVO,
         baseDate: String
     ): List<WeatherWeeklyItemVO> {
-        Log.d("파서", "getWeatherWeeklyVO.getMidWeatherData 시작")
         val weatherWeeklyItemList = mutableListOf<WeatherWeeklyItemVO>()
         val dayOfWeekList = getDayOfWeekList()
-        Log.d("파서", "getWeatherWeeklyVO.getMidWeatherData 시작1")
 
         // 오늘 ~ 2일후
         val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
