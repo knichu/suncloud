@@ -7,6 +7,7 @@ import com.knichu.domain.vo.ShortWeatherItemVO
 import com.knichu.domain.vo.ShortWeatherVO
 import com.knichu.domain.vo.WeatherNowVO
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 object WeatherNowParser {
 
@@ -82,6 +83,7 @@ object WeatherNowParser {
                 weatherCondition = weatherCondition,
             )
         }
+            .observeOn(Schedulers.computation())
     }
 
     fun getWeatherNowVO(
@@ -156,6 +158,7 @@ object WeatherNowParser {
                 weatherCondition = weatherCondition,
             )
         }
+            .observeOn(Schedulers.computation())
     }
 
 }

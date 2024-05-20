@@ -10,6 +10,7 @@ import com.knichu.domain.vo.Weather24HourItemVO
 import com.knichu.domain.vo.WeatherWeeklyItemVO
 import com.knichu.domain.vo.WeatherWeeklyVO
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Collections
@@ -34,6 +35,7 @@ object WeatherWeeklyParser {
             val longWeatherData = getLongWeatherData(longRainCloud, longTemperature)
             WeatherWeeklyVO(midWeatherData + longWeatherData)
         }
+            .observeOn(Schedulers.computation())
     }
 
     private fun getDayOfWeekList(): List<String> {

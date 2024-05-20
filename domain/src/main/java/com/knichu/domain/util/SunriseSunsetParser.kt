@@ -3,6 +3,7 @@ package com.knichu.domain.util
 import com.knichu.domain.vo.OpenWeatherVO
 import com.knichu.domain.vo.SunriseSunsetVO
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -22,6 +23,7 @@ object SunriseSunsetParser {
                     sunsetTime = sunsetUTC
                 )
             }
+            .observeOn(Schedulers.computation())
     }
 
     private fun convertUnixTimeToFormattedString(unixTime: Long): String {

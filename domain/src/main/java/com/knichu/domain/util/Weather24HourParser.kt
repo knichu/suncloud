@@ -7,6 +7,7 @@ import com.knichu.domain.vo.ShortWeatherVO
 import com.knichu.domain.vo.Weather24HourItemVO
 import com.knichu.domain.vo.Weather24HourVO
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -95,6 +96,7 @@ object Weather24HourParser {
             }
             Weather24HourVO(weather24HourItemList)
         }
+            .observeOn(Schedulers.computation())
     }
 
 }
