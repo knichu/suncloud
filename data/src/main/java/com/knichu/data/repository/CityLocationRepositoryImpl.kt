@@ -13,7 +13,6 @@ class CityLocationRepositoryImpl @Inject constructor(
 ): CityLocationRepository {
     override fun getAllCityLocation(): Single<CityLocationVO> {
         return cityLocationDataSource.getAllCityLocation()
-            .subscribeOn(Schedulers.io())
             .map { responseDTO -> responseDTO.toDomain() }
             .onErrorReturn { CityLocationVO(item = emptyList()) }
     }

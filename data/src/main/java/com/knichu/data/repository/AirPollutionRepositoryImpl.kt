@@ -20,7 +20,6 @@ class AirPollutionRepositoryImpl @Inject constructor(
                 lat = param.lat
             )
         )
-            .subscribeOn(Schedulers.io())
             .map { responseDTO -> responseDTO.toDomain() }
             .onErrorReturn { AirPollutionVO() }
     }
