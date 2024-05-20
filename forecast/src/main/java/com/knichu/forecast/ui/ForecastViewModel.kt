@@ -4,21 +4,16 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.knichu.common.base.BaseViewModel
-import com.knichu.common_ui.lifecycle.SingleLiveEvent
 import com.knichu.domain.usecase.AirPollutionUseCase
 import com.knichu.domain.usecase.DataStoreUseCase
 import com.knichu.domain.usecase.WeatherUseCase
 import com.knichu.domain.vo.SunriseSunsetVO
 import com.knichu.domain.vo.Weather24HourItemVO
-import com.knichu.domain.vo.Weather24HourVO
 import com.knichu.domain.vo.WeatherForecastTextVO
 import com.knichu.domain.vo.WeatherNowVO
 import com.knichu.domain.vo.WeatherOtherInfoVO
 import com.knichu.domain.vo.WeatherWeeklyItemVO
-import com.knichu.domain.vo.WeatherWeeklyVO
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
@@ -99,16 +94,14 @@ class ForecastViewModel @Inject constructor(
 
     private fun fetchCurrentNowData(lonLat: Pair<Double, Double>) {
         weatherUseCase.getCurrentPositionWeatherNow(lonLat.first, lonLat.second)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applySchedulers()
             .toObservable()
             .bind(_weatherNowData)
     }
 
     private fun fetchCurrent24HourData(lonLat: Pair<Double, Double>) {
         weatherUseCase.getCurrentPositionWeather24Hour(lonLat.first, lonLat.second)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applySchedulers()
             .toObservable()
             .map{ it.item?: emptyList() }
             .bind(_weather24HourData)
@@ -116,8 +109,7 @@ class ForecastViewModel @Inject constructor(
 
     private fun fetchCurrentWeeklyData(lonLat: Pair<Double, Double>) {
         weatherUseCase.getCurrentPositionWeatherWeekly(lonLat.first, lonLat.second)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applySchedulers()
             .toObservable()
             .map{ it.item?: emptyList() }
             .bind(_weatherWeeklyData)
@@ -125,24 +117,21 @@ class ForecastViewModel @Inject constructor(
 
     private fun fetchCurrentSunriseSunsetData(lonLat: Pair<Double, Double>) {
         weatherUseCase.getCurrentPositionSunriseSunset(lonLat.first, lonLat.second)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applySchedulers()
             .toObservable()
             .bind(_sunriseSunsetData)
     }
 
     private fun fetchCurrentOtherInfoData(lonLat: Pair<Double, Double>) {
         weatherUseCase.getCurrentPositionWeatherOtherInfo(lonLat.first, lonLat.second)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applySchedulers()
             .toObservable()
             .bind(_weatherOtherInfoData)
     }
 
     private fun fetchCurrentForecastTextData(lonLat: Pair<Double, Double>) {
         weatherUseCase.getCurrentPositionWeatherForecastText(lonLat.first, lonLat.second)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applySchedulers()
             .toObservable()
             .bind(_weatherForecastTextData)
     }
@@ -150,16 +139,14 @@ class ForecastViewModel @Inject constructor(
 
     private fun fetchCityNowData(city: String) {
         weatherUseCase.getCityPositionWeatherNow(city)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applySchedulers()
             .toObservable()
             .bind(_weatherNowData)
     }
 
     private fun fetchCity24HourData(city: String) {
         weatherUseCase.getCityPositionWeather24Hour(city)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applySchedulers()
             .toObservable()
             .map{ it.item?: emptyList() }
             .bind(_weather24HourData)
@@ -167,8 +154,7 @@ class ForecastViewModel @Inject constructor(
 
     private fun fetchCityWeeklyData(city: String) {
         weatherUseCase.getCityPositionWeatherWeekly(city)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applySchedulers()
             .toObservable()
             .map{ it.item?: emptyList() }
             .bind(_weatherWeeklyData)
@@ -176,24 +162,21 @@ class ForecastViewModel @Inject constructor(
 
     private fun fetchCitySunriseSunsetData(city: String) {
         weatherUseCase.getCityPositionSunriseSunset(city)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applySchedulers()
             .toObservable()
             .bind(_sunriseSunsetData)
     }
 
     private fun fetchCityOtherInfoData(city: String) {
         weatherUseCase.getCityPositionWeatherOtherInfo(city)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applySchedulers()
             .toObservable()
             .bind(_weatherOtherInfoData)
     }
 
     private fun fetchCityForecastTextData(city: String) {
         weatherUseCase.getCityPositionWeatherForecastText(city)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applySchedulers()
             .toObservable()
             .bind(_weatherForecastTextData)
     }
