@@ -9,7 +9,7 @@ data class LiveWeatherResponseDTO(
 ) {
     fun toDomain(): LiveWeatherVO {
         return LiveWeatherVO(
-            item = response?.body?.items?.map {
+            item = response?.body?.items?.item?.map {
                 LiveWeatherItemVO(
                     category = requireNotNull(it.category),
                     observeValue = requireNotNull(it.obsrValue)
@@ -31,10 +31,14 @@ data class LiveWeatherHeader(
 
 data class LiveWeatherBody(
     @field:SerializedName("dataType") val dataType: String? = null,
-    @field:SerializedName("items") val items: List<LiveWeatherItem>? = null,
+    @field:SerializedName("items") val items: LiveWeatherItems? = null,
     @field:SerializedName("pageNo") val pageNo: Long? = null,
     @field:SerializedName("numOfRows") val numOfRows: Long? = null,
     @field:SerializedName("totalCount") val totalCount: Long? = null
+)
+
+data class LiveWeatherItems(
+    @field:SerializedName("item") val item: List<LiveWeatherItem>? = null,
 )
 
 data class LiveWeatherItem(

@@ -1,5 +1,6 @@
 package com.knichu.data.datasource
 
+import android.util.Log
 import com.knichu.data.dto.request.LiveWeatherRequestDTO
 import com.knichu.data.dto.request.LongRainCloudRequestDTO
 import com.knichu.data.dto.request.LongTemperatureRequestDTO
@@ -30,7 +31,12 @@ class WeatherDataSource @Inject constructor(
     fun getLiveWeather(
         liveWeatherRequest: LiveWeatherRequestDTO
     ): Single<LiveWeatherResponseDTO> {
-        return weatherService.getLiveWeather(liveWeatherRequest)
+        return weatherService.getLiveWeather(
+            baseDate = liveWeatherRequest.baseDate,
+            baseTime = liveWeatherRequest.baseTime,
+            nx = liveWeatherRequest.nx,
+            ny = liveWeatherRequest.ny
+        )
             .subscribeOn(Schedulers.io())
             .map { checkResponse(it) }
     }
@@ -38,7 +44,12 @@ class WeatherDataSource @Inject constructor(
     fun getShortWeather(
         shortWeatherRequest: ShortWeatherRequestDTO
     ): Single<ShortWeatherResponseDTO> {
-        return weatherService.getShortWeather(shortWeatherRequest)
+        return weatherService.getShortWeather(
+            baseDate = shortWeatherRequest.baseDate,
+            baseTime = shortWeatherRequest.baseTime,
+            nx = shortWeatherRequest.nx,
+            ny =shortWeatherRequest.ny
+        )
             .subscribeOn(Schedulers.io())
             .map { checkResponse(it) }
     }
@@ -46,7 +57,11 @@ class WeatherDataSource @Inject constructor(
     fun getMidWeather(
         midWeatherRequest: MidWeatherRequestDTO
     ): Single<MidWeatherResponseDTO> {
-        return weatherService.getMidWeather(midWeatherRequest)
+        return weatherService.getMidWeather(
+            baseDate = midWeatherRequest.baseDate,
+            nx = midWeatherRequest.nx,
+            ny = midWeatherRequest.ny
+        )
             .subscribeOn(Schedulers.io())
             .map { checkResponse(it) }
     }
@@ -54,7 +69,10 @@ class WeatherDataSource @Inject constructor(
     fun getLongRainCloud(
         longRainCloudRequest: LongRainCloudRequestDTO
     ): Single<LongRainCloudResponseDTO> {
-        return weatherService.getLongRainCloud(longRainCloudRequest)
+        return weatherService.getLongRainCloud(
+            regId = longRainCloudRequest.regId,
+            tmFc = longRainCloudRequest.tmFc
+        )
             .subscribeOn(Schedulers.io())
             .map { checkResponse(it) }
     }
@@ -62,7 +80,10 @@ class WeatherDataSource @Inject constructor(
     fun getLongTemperature(
         longTemperatureRequest: LongTemperatureRequestDTO
     ): Single<LongTemperatureResponseDTO> {
-        return weatherService.getLongTemperature(longTemperatureRequest)
+        return weatherService.getLongTemperature(
+            regId = longTemperatureRequest.regId,
+            tmFc = longTemperatureRequest.tmFc
+        )
             .subscribeOn(Schedulers.io())
             .map { checkResponse(it) }
     }
@@ -70,7 +91,10 @@ class WeatherDataSource @Inject constructor(
     fun getWeatherForecastText(
         weatherForecastTextRequest: WeatherForecastTextRequestDTO
     ): Single<WeatherForecastTextResponseDTO> {
-        return weatherService.getWeatherForecastText(weatherForecastTextRequest)
+        return weatherService.getWeatherForecastText(
+            stnId = weatherForecastTextRequest.stnId,
+            tmFc = weatherForecastTextRequest.tmFc
+        )
             .subscribeOn(Schedulers.io())
             .map { checkResponse(it) }
     }

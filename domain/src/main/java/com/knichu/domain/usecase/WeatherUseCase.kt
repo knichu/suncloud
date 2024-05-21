@@ -18,6 +18,9 @@ import com.knichu.domain.util.Weather24HourParser
 import com.knichu.domain.util.WeatherNowParser
 import com.knichu.domain.util.WeatherOtherInfoParser
 import com.knichu.domain.util.WeatherWeeklyParser
+import com.knichu.domain.vo.LiveWeatherVO
+import com.knichu.domain.vo.OpenWeatherVO
+import com.knichu.domain.vo.ShortWeatherVO
 import com.knichu.domain.vo.SunriseSunsetVO
 import com.knichu.domain.vo.Weather24HourVO
 import com.knichu.domain.vo.WeatherForecastTextVO
@@ -33,6 +36,15 @@ class WeatherUseCase @Inject constructor(
     private val cityLocationRepository: CityLocationRepository
 ) {
     private val allCityList = cityLocationRepository.getAllCityLocation()
+    private var cachedOpenWeatherVO: Single<OpenWeatherVO>? = null
+    private var cachedLiveWeatherVO: Single<LiveWeatherVO>? = null
+    private var cachedShortWeatherVO: Single<ShortWeatherVO>? = null
+
+    fun getNewData() {
+        cachedOpenWeatherVO = null
+        cachedLiveWeatherVO = null
+        cachedShortWeatherVO = null
+    }
 
     private fun getCurrentPositionCity(lon: Double, lat: Double): Single<String> {
         return allCityList
@@ -43,26 +55,46 @@ class WeatherUseCase @Inject constructor(
     }
 
     fun getCurrentPositionWeatherNow(lon: Double, lat: Double): Single<WeatherNowVO> {
-        val adjustedTime = DateTimeParser.adjustLiveWeatherTime()
-        val currentDate = adjustedTime.substring(0, 8).toLong()
-        val currentTime = adjustedTime.substring(8).toLong()
+        val adjustedLiveTime = DateTimeParser.adjustLiveWeatherTime()
+        val currentLiveDate = adjustedLiveTime.substring(0, 8)
+        val currentLiveTime = adjustedLiveTime.substring(8)
+        val adjustedShortTime = DateTimeParser.adjustShortWeatherTime()
+        val currentShortDate = adjustedShortTime.substring(0, 8)
+        val currentShortTime = adjustedShortTime.substring(8)
         val (adjustX, adjustY) = LocationParser.getNxNy(lon, lat)
-        val liveWeatherVO = weatherRepository.getLiveWeather(
+        val liveWeatherVO = cachedLiveWeatherVO ?: weatherRepository.getLiveWeather(
             LiveWeatherRequestParam(
-                baseDate = currentDate,
-                baseTime = currentTime, // 변경 가능
+                baseDate = currentLiveDate,
+                baseTime = currentLiveTime, // 변경 가능
                 nx = adjustX,
                 ny = adjustY
             )
-        )
+        ).doOnSuccess { cachedLiveWeatherVO = Single.just(it) }
+
+        val shortWeatherVO = cachedShortWeatherVO ?: weatherRepository.getShortWeather(
+            ShortWeatherRequestParam(
+                baseDate = currentShortDate,
+                baseTime = currentShortTime,
+                nx = adjustX,
+                ny = adjustY
+            )
+        ).doOnSuccess {cachedShortWeatherVO = Single.just(it) }
+
+        val openWeatherVO = cachedOpenWeatherVO ?: openWeatherRepository.getOpenWeather(
+            OpenWeatherRequestParam(
+                lon = lon,
+                lat = lat,
+            )
+        ).doOnSuccess { cachedOpenWeatherVO = Single.just(it) }
+
         val currentPositionCity = getCurrentPositionCity(lon, lat)
-        return WeatherNowParser.getWeatherNowVO(liveWeatherVO, currentPositionCity)
+        return WeatherNowParser.getWeatherNowVO(liveWeatherVO, shortWeatherVO, openWeatherVO, currentPositionCity)
     }
 
     fun getCurrentPositionWeather24Hour(lon: Double, lat: Double): Single<Weather24HourVO> {
         val adjustedTime = DateTimeParser.adjustShortWeatherTime()
-        val currentDate = adjustedTime.substring(0, 8).toLong()
-        val currentTime = adjustedTime.substring(8).toLong()
+        val currentDate = adjustedTime.substring(0, 8)
+        val currentTime = adjustedTime.substring(8)
         val (adjustX, adjustY) = LocationParser.getNxNy(lon, lat)
         val shortWeatherVO = weatherRepository.getShortWeather(
             ShortWeatherRequestParam(
@@ -72,14 +104,22 @@ class WeatherUseCase @Inject constructor(
                 ny = adjustY
             )
         )
-        return Weather24HourParser.getWeather24HourVO(shortWeatherVO)
+
+        val openWeatherVO = cachedOpenWeatherVO ?: openWeatherRepository.getOpenWeather(
+            OpenWeatherRequestParam(
+                lon = lon,
+                lat = lat,
+            )
+        ).doOnSuccess { cachedOpenWeatherVO = Single.just(it) }
+
+        return Weather24HourParser.getWeather24HourVO(shortWeatherVO, openWeatherVO)
     }
 
     fun getCurrentPositionWeatherWeekly(lon: Double, lat: Double): Single<WeatherWeeklyVO> {
         return allCityList
             .flatMap { cityLocationVO ->
                 val adjustedMidTime = DateTimeParser.adjustShortWeatherTimeWeekly()
-                val adjustedMidDate = adjustedMidTime.toLong()
+                val adjustedMidDate = adjustedMidTime
                 val (adjustX, adjustY) = LocationParser.getNxNy(lon, lat)
                 val midWeatherVO = weatherRepository.getMidWeather(
                     MidWeatherRequestParam(
@@ -98,6 +138,7 @@ class WeatherUseCase @Inject constructor(
                         tmFc = currentLongDateTime
                     )
                 )
+
                 val longTemperatureVO = weatherRepository.getLongTemperature(
                     LongTemperatureRequestParam(
                         regId = nearestCityLocationItemVO?.longTemperatureParam,
@@ -115,28 +156,28 @@ class WeatherUseCase @Inject constructor(
     }
 
     fun getCurrentPositionSunriseSunset(lon: Double, lat: Double): Single<SunriseSunsetVO> {
-        val openWeatherVO = openWeatherRepository.getOpenWeather(
+        val openWeatherVO = cachedOpenWeatherVO ?: openWeatherRepository.getOpenWeather(
             OpenWeatherRequestParam(
                 lon = lon,
                 lat = lat,
             )
-        )
+        ).doOnSuccess { cachedOpenWeatherVO = Single.just(it) }
         return SunriseSunsetParser.getSunriseSunsetVO(openWeatherVO)
     }
 
     fun getCurrentPositionWeatherOtherInfo(lon: Double, lat: Double): Single<WeatherOtherInfoVO> {
         val adjustedTime = DateTimeParser.adjustLiveWeatherTime()
-        val currentDate = adjustedTime.substring(0, 8).toLong()
-        val currentTime = adjustedTime.substring(8).toLong()
+        val currentDate = adjustedTime.substring(0, 8)
+        val currentTime = adjustedTime.substring(8)
         val (adjustX, adjustY) = LocationParser.getNxNy(lon, lat)
-        val liveWeatherVO = weatherRepository.getLiveWeather(
+        val liveWeatherVO = cachedLiveWeatherVO ?: weatherRepository.getLiveWeather(
             LiveWeatherRequestParam(
                 baseDate = currentDate,
                 baseTime = currentTime, // 변경 가능
                 nx = adjustX,
                 ny = adjustY
             )
-        )
+        ).doOnSuccess { cachedLiveWeatherVO = Single.just(it) }
         return WeatherOtherInfoParser.getWeatherOtherInfoVO(liveWeatherVO)
     }
 
@@ -159,19 +200,40 @@ class WeatherUseCase @Inject constructor(
     fun getCityPositionWeatherNow(city: String): Single<WeatherNowVO> {
         return allCityList
             .flatMap { cityLocationVO ->
-                val adjustedTime = DateTimeParser.adjustLiveWeatherTime()
-                val currentDate = adjustedTime.substring(0, 8).toLong()
-                val currentTime = adjustedTime.substring(8).toLong()
+                val adjustedLiveTime = DateTimeParser.adjustLiveWeatherTime()
+                val currentLiveDate = adjustedLiveTime.substring(0, 8)
+                val currentLiveTime = adjustedLiveTime.substring(8)
+                val adjustedShortTime = DateTimeParser.adjustShortWeatherTime()
+                val currentShortDate = adjustedShortTime.substring(0, 8)
+                val currentShortTime = adjustedShortTime.substring(8)
+
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
                 val liveWeatherVO = weatherRepository.getLiveWeather(
                     LiveWeatherRequestParam(
-                        baseDate = currentDate,
-                        baseTime = currentTime,
+                        baseDate = currentLiveDate,
+                        baseTime = currentLiveTime,
                         nx = cityLocationItemVO?.longitude?.toLong(),
                         ny = cityLocationItemVO?.latitude?.toLong()
                     )
                 )
-                WeatherNowParser.getWeatherNowVO(liveWeatherVO, cityLocationItemVO?.cityName)
+
+                val shortWeatherVO = cachedShortWeatherVO ?: weatherRepository.getShortWeather(
+                    ShortWeatherRequestParam(
+                        baseDate = currentShortDate,
+                        baseTime = currentShortTime,
+                        nx = cityLocationItemVO?.longitude?.toLong(),
+                        ny = cityLocationItemVO?.latitude?.toLong()
+                    )
+                ).doOnSuccess {cachedShortWeatherVO = Single.just(it) }
+
+                val openWeatherVO = cachedOpenWeatherVO ?: openWeatherRepository.getOpenWeather(
+                    OpenWeatherRequestParam(
+                        lon = cityLocationItemVO?.longitude?.toDouble(),
+                        lat = cityLocationItemVO?.latitude?.toDouble(),
+                    )
+                ).doOnSuccess { cachedOpenWeatherVO = Single.just(it) }
+
+                WeatherNowParser.getWeatherNowVO(liveWeatherVO, shortWeatherVO, openWeatherVO, cityLocationItemVO?.cityName)
             }
     }
 
@@ -179,18 +241,26 @@ class WeatherUseCase @Inject constructor(
         return allCityList
             .flatMap { cityLocationVO ->
                 val adjustedTime = DateTimeParser.adjustShortWeatherTime()
-                val currentDate = adjustedTime.substring(0, 8).toLong()
-                val currentTime = adjustedTime.substring(8).toLong()
+                val currentDate = adjustedTime.substring(0, 8)
+                val currentTime = adjustedTime.substring(8)
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
-                val shortWeatherVO = weatherRepository.getShortWeather(
+                val shortWeatherVO = cachedShortWeatherVO ?: weatherRepository.getShortWeather(
                     ShortWeatherRequestParam(
                         baseDate = currentDate,
                         baseTime = currentTime,
                         nx = cityLocationItemVO?.longitude?.toLong(),
                         ny = cityLocationItemVO?.latitude?.toLong()
                     )
-                )
-                Weather24HourParser.getWeather24HourVO(shortWeatherVO)
+                ).doOnSuccess {cachedShortWeatherVO = Single.just(it) }
+
+                val openWeatherVO = cachedOpenWeatherVO ?: openWeatherRepository.getOpenWeather(
+                    OpenWeatherRequestParam(
+                        lon = cityLocationItemVO?.longitude?.toDouble(),
+                        lat = cityLocationItemVO?.latitude?.toDouble(),
+                    )
+                ).doOnSuccess { cachedOpenWeatherVO = Single.just(it) }
+
+                Weather24HourParser.getWeather24HourVO(shortWeatherVO, openWeatherVO)
             }
     }
 
@@ -199,7 +269,7 @@ class WeatherUseCase @Inject constructor(
             .flatMap { cityLocationVO ->
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
                 val adjustedMidTime = DateTimeParser.adjustShortWeatherTimeWeekly()
-                val adjustedMidDate = adjustedMidTime.toLong()
+                val adjustedMidDate = adjustedMidTime
                 val midWeatherVO = weatherRepository.getMidWeather(
                     MidWeatherRequestParam(
                         baseDate = adjustedMidDate,
@@ -216,6 +286,7 @@ class WeatherUseCase @Inject constructor(
                         tmFc = currentLongDateTime
                     )
                 )
+
                 val longTemperatureVO = weatherRepository.getLongTemperature(
                     LongTemperatureRequestParam(
                         regId = cityLocationItemVO?.longTemperatureParam,
@@ -236,8 +307,8 @@ class WeatherUseCase @Inject constructor(
         return allCityList
             .flatMap { cityLocationVO ->
                 val adjustedTime = DateTimeParser.adjustLiveWeatherTime()
-                val currentDate = adjustedTime.substring(0, 8).toLong()
-                val currentTime = adjustedTime.substring(8).toLong()
+                val currentDate = adjustedTime.substring(0, 8)
+                val currentTime = adjustedTime.substring(8)
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
                 val liveWeatherVO = weatherRepository.getLiveWeather(
                     LiveWeatherRequestParam(
@@ -255,12 +326,12 @@ class WeatherUseCase @Inject constructor(
         return allCityList
             .flatMap { cityLocationVO ->
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
-                val openWeatherVO = openWeatherRepository.getOpenWeather(
+                val openWeatherVO = cachedOpenWeatherVO ?: openWeatherRepository.getOpenWeather(
                     OpenWeatherRequestParam(
                         lon = cityLocationItemVO?.longitude?.toDouble(),
                         lat = cityLocationItemVO?.latitude?.toDouble(),
                     )
-                )
+                ).doOnSuccess { cachedOpenWeatherVO = Single.just(it) }
                 SunriseSunsetParser.getSunriseSunsetVO(openWeatherVO)
             }
     }

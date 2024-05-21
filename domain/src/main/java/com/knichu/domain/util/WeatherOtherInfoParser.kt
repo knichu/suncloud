@@ -4,6 +4,7 @@ import com.knichu.domain.vo.LiveWeatherVO
 import com.knichu.domain.vo.WeatherNowVO
 import com.knichu.domain.vo.WeatherOtherInfoVO
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 object WeatherOtherInfoParser {
 
@@ -19,5 +20,6 @@ object WeatherOtherInfoParser {
                 windSpeed = windSpeed,
             )
         }
+            .observeOn(Schedulers.computation())
     }
 }

@@ -7,7 +7,7 @@ data class LongTemperatureResponseDTO(
     @field:SerializedName("response") val response: LongTemperatureResponse? = null
 ) {
     fun toDomain(): LongTemperatureVO {
-        val item = response?.body?.items?.firstOrNull()
+        val item = response?.body?.items?.item?.firstOrNull()
         return LongTemperatureVO(
             temperatureMin3 = requireNotNull(item?.taMin3),
             temperatureMax3 = requireNotNull(item?.taMax3),
@@ -35,10 +35,14 @@ data class LongTemperatureHeader(
 
 data class LongTemperatureBody(
     @field:SerializedName("dataType") val dataType: String? = null,
-    @field:SerializedName("items") val items: List<LongTemperatureItem>? = null,
+    @field:SerializedName("items") val items: LongTemperatureItems? = null,
     @field:SerializedName("pageNo") val pageNo: Long? = null,
     @field:SerializedName("numOfRows") val numOfRows: Long? = null,
     @field:SerializedName("totalCount") val totalCount: Long? = null
+)
+
+data class LongTemperatureItems(
+    @field:SerializedName("item") val item: List<LongTemperatureItem>? = null,
 )
 
 data class LongTemperatureItem(

@@ -19,7 +19,6 @@ class OpenWeatherRepositoryImpl @Inject constructor(
                 lat = param.lat
             )
         )
-            .subscribeOn(Schedulers.io())
             .map { responseDTO -> responseDTO.toDomain() }
             .onErrorReturn { OpenWeatherVO() }
     }

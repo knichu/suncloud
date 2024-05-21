@@ -2,7 +2,9 @@ package com.knichu.domain.util
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 object DateTimeParser {
 
@@ -38,17 +40,17 @@ object DateTimeParser {
             if (currentHourMinute <= apiTime) {
                 return if (apiTime == apiTimes.first()) {
                     calendar.add(Calendar.DAY_OF_YEAR, -1)
-                    calendar.set(Calendar.HOUR, 23)
+                    calendar.set(Calendar.HOUR_OF_DAY, 23)
                     calendar.set(Calendar.MINUTE, 0)
                     dateFormat.format(calendar.time)
                 } else {
-                    calendar.set(Calendar.HOUR, apiTime.substring(0, 2).toInt() - 3)
+                    calendar.set(Calendar.HOUR_OF_DAY, apiTime.substring(0, 2).toInt() - 3)
                     calendar.set(Calendar.MINUTE, 0)
                     dateFormat.format(calendar.time)
                 }
             }
         }
-        calendar.set(Calendar.HOUR, 23)
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
         calendar.set(Calendar.MINUTE, 0)
         return dateFormat.format(calendar.time)
     }
@@ -71,19 +73,26 @@ object DateTimeParser {
             if (currentHourMinute <= apiTime) {
                 return if (apiTime == apiTimes.first()) {
                     calendar.add(Calendar.DAY_OF_YEAR, -1)
-                    calendar.set(Calendar.HOUR, 18)
+                    calendar.set(Calendar.HOUR_OF_DAY, 18)
                     calendar.set(Calendar.MINUTE, 0)
                     dateFormat.format(calendar.time)
                 } else {
-                    calendar.set(Calendar.HOUR, 6)
+                    calendar.set(Calendar.HOUR_OF_DAY, 6)
                     calendar.set(Calendar.MINUTE, 0)
                     dateFormat.format(calendar.time)
                 }
             }
         }
-        calendar.set(Calendar.HOUR, 18)
+        calendar.set(Calendar.HOUR_OF_DAY, 18)
         calendar.set(Calendar.MINUTE, 0)
         return dateFormat.format(calendar.time)
+    }
+
+    fun UnixToHHdd(time: Int?, isTimeAM: Boolean): Int {
+        val date = Date(time?.times(1000L) ?: if(isTimeAM) {1712525400} else {1712568600})
+        val sdf = SimpleDateFormat("HHmm", Locale.getDefault())
+        sdf.timeZone = TimeZone.getTimeZone("GMT+9")
+        return sdf.format(date).toInt()
     }
 
 }

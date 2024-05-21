@@ -1,6 +1,6 @@
 package com.knichu.domain.vo
 
 data class SunriseSunsetVO(
-    val sunriseTime: Int? = null,
-    val sunsetTime: Int? = null,
+    val sunriseTime: String? = null,
+    val sunsetTime: String? = null,
 )

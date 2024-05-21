@@ -8,7 +8,7 @@ data class WeatherForecastTextResponseDTO(
 ) {
     fun toDomain(): WeatherForecastTextVO {
         return WeatherForecastTextVO(
-            weatherForecastString = requireNotNull(response?.body?.items?.firstOrNull()?.wfSv)
+            weatherForecastString = requireNotNull(response?.body?.items?.item?.firstOrNull()?.wfSv)
         )
     }
 }
@@ -25,10 +25,14 @@ data class WeatherForecastTextHeader(
 
 data class WeatherForecastTextBody(
     @field:SerializedName("dataType") val dataType: String? = null,
-    @field:SerializedName("items") val items: List<WeatherForecastTextItem>? = null,
+    @field:SerializedName("items") val items: WeatherForecastTextItems? = null,
     @field:SerializedName("pageNo") val pageNo: Long? = null,
     @field:SerializedName("numOfRows") val numOfRows: Long? = null,
     @field:SerializedName("totalCount") val totalCount: Long? = null
+)
+
+data class WeatherForecastTextItems(
+    @field:SerializedName("item") val item: List<WeatherForecastTextItem>? = null,
 )
 
 data class WeatherForecastTextItem(

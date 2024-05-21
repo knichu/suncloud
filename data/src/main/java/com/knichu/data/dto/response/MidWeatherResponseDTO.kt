@@ -9,7 +9,7 @@ data class MidWeatherResponseDTO(
 ) {
     fun toDomain(): MidWeatherVO {
         return MidWeatherVO(
-            item = response?.body?.items?.map {
+            item = response?.body?.items?.item?.map {
                 MidWeatherItemVO(
                     category = requireNotNull(it.category),
                     forecastDate = requireNotNull(it.fcstDate),
@@ -33,10 +33,14 @@ data class MidWeatherHeader(
 
 data class MidWeatherBody(
     @field:SerializedName("dataType") val dataType: String? = null,
-    @field:SerializedName("items") val items: List<MidWeatherItem>? = null,
+    @field:SerializedName("items") val items: MidWeatherItems? = null,
     @field:SerializedName("pageNo") val pageNo: Long? = null,
     @field:SerializedName("numOfRows") val numOfRows: Long? = null,
     @field:SerializedName("totalCount") val totalCount: Long? = null
+)
+
+data class MidWeatherItems(
+    @field:SerializedName("item") val item: List<MidWeatherItem>? = null,
 )
 
 data class MidWeatherItem(

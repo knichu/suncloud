@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    추후에 레이아웃 사이 간격 같은거 추가하기-->
+    <dimen name="my_page_border_dp">8dp</dimen>
+    <dimen name="feed_border_dp">2dp</dimen>
+    <dimen name="default_border_dp">1dp</dimen>
+
+</resources>

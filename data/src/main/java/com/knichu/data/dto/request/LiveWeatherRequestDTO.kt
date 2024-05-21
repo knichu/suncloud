@@ -9,8 +9,8 @@ data class LiveWeatherRequestDTO(
     @field:SerializedName("pageNo") val pageNo: Long? = 1,
     @field:SerializedName("numOfRows") val numOfRows: Long? = 8,
     @field:SerializedName("dataType") val dataType: String? = JSON,
-    @field:SerializedName("base_date") val baseDate: Long? = null,
-    @field:SerializedName("base_time") val baseTime: Long? = null,
+    @field:SerializedName("base_date") val baseDate: String? = null,
+    @field:SerializedName("base_time") val baseTime: String? = null,
     @field:SerializedName("nx") val nx: Long? = null,
     @field:SerializedName("ny") val ny: Long? = null
 )

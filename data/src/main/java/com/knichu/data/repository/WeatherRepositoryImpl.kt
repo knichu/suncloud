@@ -37,7 +37,6 @@ class WeatherRepositoryImpl @Inject constructor(
                 ny = param.ny
             )
         )
-            .subscribeOn(Schedulers.io())
             .map { responseDTO -> responseDTO.toDomain() }
             .onErrorReturn { LiveWeatherVO(item = emptyList()) }
     }
@@ -51,7 +50,6 @@ class WeatherRepositoryImpl @Inject constructor(
                 ny = param.ny
             )
         )
-            .subscribeOn(Schedulers.io())
             .map { responseDTO -> responseDTO.toDomain() }
             .onErrorReturn { ShortWeatherVO(item = emptyList()) }
     }
@@ -64,7 +62,6 @@ class WeatherRepositoryImpl @Inject constructor(
                 ny = param.ny
             )
         )
-            .subscribeOn(Schedulers.io())
             .map { responseDTO -> responseDTO.toDomain() }
             .onErrorReturn { MidWeatherVO(item = emptyList()) }
     }
@@ -76,7 +73,6 @@ class WeatherRepositoryImpl @Inject constructor(
                 tmFc = param.tmFc
             )
         )
-            .subscribeOn(Schedulers.io())
             .map { responseDTO -> responseDTO.toDomain() }
             .onErrorReturn { LongRainCloudVO() }
     }
@@ -88,7 +84,6 @@ class WeatherRepositoryImpl @Inject constructor(
                 tmFc = param.tmFc
             )
         )
-            .subscribeOn(Schedulers.io())
             .map { responseDTO -> responseDTO.toDomain() }
             .onErrorReturn { LongTemperatureVO() }
     }
@@ -100,7 +95,6 @@ class WeatherRepositoryImpl @Inject constructor(
                 tmFc = param.tmFc
             )
         )
-            .subscribeOn(Schedulers.io())
             .map { responseDTO -> responseDTO.toDomain() }
             .onErrorReturn { WeatherForecastTextVO() }
     }

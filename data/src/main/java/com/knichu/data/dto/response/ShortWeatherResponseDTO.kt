@@ -9,7 +9,7 @@ data class ShortWeatherResponseDTO(
 ) {
     fun toDomain(): ShortWeatherVO {
         return ShortWeatherVO(
-            item = response?.body?.items?.map {
+            item = response?.body?.items?.item?.map {
                 ShortWeatherItemVO(
                     category = requireNotNull(it.category),
                     forecastDate = requireNotNull(it.fcstDate),
@@ -33,10 +33,14 @@ data class ShortWeatherHeader(
 
 data class ShortWeatherBody(
     @field:SerializedName("dataType") val dataType: String? = null,
-    @field:SerializedName("items") val items: List<ShortWeatherItem>? = null,
+    @field:SerializedName("items") val items: ShortWeatherItems? = null,
     @field:SerializedName("pageNo") val pageNo: Long? = null,
     @field:SerializedName("numOfRows") val numOfRows: Long? = null,
     @field:SerializedName("totalCount") val totalCount: Long? = null
+)
+
+data class ShortWeatherItems(
+    @field:SerializedName("item") val item: List<ShortWeatherItem>? = null,
 )
 
 data class ShortWeatherItem(
