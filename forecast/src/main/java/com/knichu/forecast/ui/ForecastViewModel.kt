@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.knichu.common.base.BaseViewModel
-import com.knichu.domain.usecase.AirPollutionUseCase
-import com.knichu.domain.usecase.DataStoreUseCase
-import com.knichu.domain.usecase.WeatherUseCase
+import com.knichu.domain.useCase.AirPollutionUseCase
+import com.knichu.domain.useCase.DataStoreUseCase
+import com.knichu.domain.useCase.WeatherUseCase
 import com.knichu.domain.vo.SunriseSunsetVO
 import com.knichu.domain.vo.Weather24HourItemVO
 import com.knichu.domain.vo.WeatherForecastTextVO
