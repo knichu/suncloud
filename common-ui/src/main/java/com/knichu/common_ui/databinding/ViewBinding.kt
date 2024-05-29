@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.google.android.material.appbar.AppBarLayout
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -68,12 +67,12 @@ fun TextView.setTimeWithAmPmDetail(timeString: String?) {
 }
 
 @BindingAdapter("temperatureText")
-fun TextView.setTemperatureText(timeString: String?) {
+fun TextView.setTemperatureText(temperatureString: String?) {
     try {
-        if (timeString == null) {
+        if (temperatureString == null) {
             this.text = "준비중"
         } else {
-            val parser = "$timeString°"
+            val parser = "$temperatureString°"
             this.text = parser
         }
     } catch (e: Exception) {
@@ -82,10 +81,14 @@ fun TextView.setTemperatureText(timeString: String?) {
 }
 
 @BindingAdapter("percentageText")
-fun TextView.setPercentageText(timeString: String?) {
+fun TextView.setPercentageText(percentageString: String?) {
     try {
-        val parser = "$timeString%"
-        this.text = parser
+        if (percentageString == null) {
+            this.text = "준비중"
+        } else {
+            val parser = "$percentageString%"
+            this.text = parser
+        }
     } catch (e: Exception) {
         e.printStackTrace()
     }
