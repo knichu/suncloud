@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.knichu.common_ui.enums.WindDirectionIcon
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -22,6 +23,11 @@ fun View.bindVisibleOrGoneByNull(visible: Any?) {
 @BindingAdapter("weatherIcon")
 fun ImageView.setWeatherIcon(weatherCondition: String?) {
     this.setImageResource(WeatherIcon.getIconImage(weatherCondition).icon)
+}
+
+@BindingAdapter("windDirectionIcon")
+fun ImageView.setWindDirectionIcon(windDirection: String?) {
+    this.setImageResource(WindDirectionIcon.getIconImage(windDirection).icon)
 }
 
 @BindingAdapter("visibleOrGoneOld")
@@ -87,6 +93,20 @@ fun TextView.setPercentageText(percentageString: String?) {
             this.text = "준비중"
         } else {
             val parser = "$percentageString%"
+            this.text = parser
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+@BindingAdapter("windSpeedText")
+fun TextView.setWindSpeedText(windSpeedString: String?) {
+    try {
+        if (windSpeedString == null) {
+            this.text = "준비중"
+        } else {
+            val parser = "$windSpeedString m/s"
             this.text = parser
         }
     } catch (e: Exception) {
