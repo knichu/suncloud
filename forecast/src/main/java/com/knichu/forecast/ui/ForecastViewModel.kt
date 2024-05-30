@@ -7,6 +7,8 @@ import com.knichu.common.base.BaseViewModel
 import com.knichu.domain.useCase.AirPollutionUseCase
 import com.knichu.domain.useCase.DataStoreUseCase
 import com.knichu.domain.useCase.WeatherUseCase
+import com.knichu.domain.vo.AirPollutionDataVO
+import com.knichu.domain.vo.AirPollutionVO
 import com.knichu.domain.vo.SunriseSunsetVO
 import com.knichu.domain.vo.Weather24HourItemVO
 import com.knichu.domain.vo.WeatherForecastTextVO
@@ -49,6 +51,9 @@ class ForecastViewModel @Inject constructor(
     private val _weatherForecastTextData: MutableLiveData<WeatherForecastTextVO> = MutableLiveData()
     val weatherForecastTextData: LiveData<WeatherForecastTextVO> = _weatherForecastTextData
 
+    private val _airPollutionData: MutableLiveData<AirPollutionDataVO> = MutableLiveData()
+    val airPollutionData: LiveData<AirPollutionDataVO> = _airPollutionData
+
     private val _isAppBarExpanded: MutableLiveData<Boolean> = MutableLiveData()
     val isAppBarExpanded: LiveData<Boolean> = _isAppBarExpanded
 
@@ -81,6 +86,7 @@ class ForecastViewModel @Inject constructor(
             fetchCitySunriseSunsetData(_selectedCity.value?: DEFAULT_CITY)
             fetchCityOtherInfoData(_selectedCity.value?: DEFAULT_CITY)
 //            fetchCityForecastTextData(_selectedCity.value?: DEFAULT_CITY)
+            fetchCityAirPollutionData(_selectedCity.value?: DEFAULT_CITY)
         } else {
             weatherUseCase.getNewData()
             fetchCurrentNowData(_lonLat.value?: Pair(DEFAULT_LON, DEFAULT_LAT))
@@ -89,6 +95,7 @@ class ForecastViewModel @Inject constructor(
             fetchCurrentSunriseSunsetData(_lonLat.value?: Pair(DEFAULT_LON, DEFAULT_LAT))
             fetchCurrentOtherInfoData(_lonLat.value?: Pair(DEFAULT_LON, DEFAULT_LAT))
 //            fetchCurrentForecastTextData(_lonLat.value?: Pair(DEFAULT_LON, DEFAULT_LAT))
+            fetchCurrentAirPollutionData(_lonLat.value?: Pair(DEFAULT_LON, DEFAULT_LAT))
         }
     }
 
@@ -136,6 +143,12 @@ class ForecastViewModel @Inject constructor(
             .bind(_weatherForecastTextData)
     }
 
+    private fun fetchCurrentAirPollutionData(lonLat: Pair<Double, Double>) {
+        airPollutionUseCase.getCurrentPositionAirPollution(lonLat.first, lonLat.second)
+            .applySchedulers()
+            .toObservable()
+            .bind(_airPollutionData)
+    }
 
     private fun fetchCityNowData(city: String) {
         weatherUseCase.getCityPositionWeatherNow(city)
@@ -179,6 +192,13 @@ class ForecastViewModel @Inject constructor(
             .applySchedulers()
             .toObservable()
             .bind(_weatherForecastTextData)
+    }
+
+    private fun fetchCityAirPollutionData(city: String) {
+        airPollutionUseCase.getCityPositionAirPollution(city)
+            .applySchedulers()
+            .toObservable()
+            .bind(_airPollutionData)
     }
 
     companion object {
