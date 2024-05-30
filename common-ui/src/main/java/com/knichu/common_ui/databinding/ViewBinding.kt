@@ -1,10 +1,15 @@
 package com.knichu.common_ui.databinding
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import com.knichu.common_ui.enums.WeatherIcon
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import com.knichu.common_ui.R
 import com.knichu.common_ui.enums.WindDirectionIcon
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -108,6 +113,65 @@ fun TextView.setWindSpeedText(windSpeedString: String?) {
         } else {
             val parser = "$windSpeedString m/s"
             this.text = parser
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+@BindingAdapter("airQualityText")
+fun TextView.setAirQualityText(airQualityString: String?) {
+    try {
+        if (airQualityString == null) {
+            this.text = "준비중"
+        } else {
+            var parser : String? = null
+            when (airQualityString) {
+                "1" -> parser = "좋음"
+                "2" -> parser = "보통"
+                "3" -> parser = "나쁨"
+                "4" -> parser = "매우 나쁨"
+                "0" -> parser = "준비중"
+            }
+            this.text = parser
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+@BindingAdapter("airDensityText")
+fun TextView.setAirDensityText(airDensityString: String?) {
+    try {
+        if (airDensityString == null) {
+            this.text = ""
+        } else {
+            val parser = "($airDensityString ㎍/㎥)"
+            this.text = parser
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+@BindingAdapter("airQualityLevel")
+fun ProgressBar.setAirQualityLevel(airQualityLevel: String?) {
+    try {
+        if (airQualityLevel == null) {
+            this.progress = 0
+            this.progressTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
+        } else {
+            val parser = airQualityLevel.toInt()
+            this.progress = parser
+
+            val color = when (parser) {
+                1 -> ContextCompat.getColor(context, R.color.Cyan900)
+                2 -> ContextCompat.getColor(context, R.color.Green900)
+                3 -> ContextCompat.getColor(context, R.color.Orange900)
+                4 -> ContextCompat.getColor(context, R.color.Red900)
+                else -> ContextCompat.getColor(context, R.color.white)
+            }
+            this.progressTintList = ColorStateList.valueOf(color)
         }
     } catch (e: Exception) {
         e.printStackTrace()
