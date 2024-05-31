@@ -96,6 +96,7 @@ class WeatherUseCaseImpl @Inject constructor(
         val adjustedTime = DateTimeParser.adjustShortWeatherTime()
         val currentDate = adjustedTime.substring(0, 8)
         val currentTime = adjustedTime.substring(8)
+        val checkTime = DateTimeParser.checkCurrentShortWeatherTime()
         val (adjustX, adjustY) = LocationParser.getNxNy(lon, lat)
         val shortWeatherVO = weatherRepository.getShortWeather(
             ShortWeatherRequestParam(
@@ -113,7 +114,7 @@ class WeatherUseCaseImpl @Inject constructor(
             )
         ).doOnSuccess { cachedOpenWeatherVO = Single.just(it) }
 
-        return Weather24HourParser.getWeather24HourVO(shortWeatherVO, openWeatherVO)
+        return Weather24HourParser.getWeather24HourVO(shortWeatherVO, openWeatherVO, checkTime)
     }
 
     override fun getCurrentPositionWeatherWeekly(lon: Double, lat: Double): Single<WeatherWeeklyVO> {
@@ -244,6 +245,7 @@ class WeatherUseCaseImpl @Inject constructor(
                 val adjustedTime = DateTimeParser.adjustShortWeatherTime()
                 val currentDate = adjustedTime.substring(0, 8)
                 val currentTime = adjustedTime.substring(8)
+                val checkTime = DateTimeParser.checkCurrentShortWeatherTime()
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
                 val shortWeatherVO = cachedShortWeatherVO ?: weatherRepository.getShortWeather(
                     ShortWeatherRequestParam(
@@ -261,7 +263,7 @@ class WeatherUseCaseImpl @Inject constructor(
                     )
                 ).doOnSuccess { cachedOpenWeatherVO = Single.just(it) }
 
-                Weather24HourParser.getWeather24HourVO(shortWeatherVO, openWeatherVO)
+                Weather24HourParser.getWeather24HourVO(shortWeatherVO, openWeatherVO, checkTime)
             }
     }
 
