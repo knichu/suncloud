@@ -85,7 +85,7 @@ class ForecastViewModel @Inject constructor(
             fetchCityWeeklyData(_selectedCity.value?: DEFAULT_CITY)
             fetchCitySunriseSunsetData(_selectedCity.value?: DEFAULT_CITY)
             fetchCityOtherInfoData(_selectedCity.value?: DEFAULT_CITY)
-//            fetchCityForecastTextData(_selectedCity.value?: DEFAULT_CITY)
+            fetchCityForecastTextData(_selectedCity.value?: DEFAULT_CITY)
             fetchCityAirPollutionData(_selectedCity.value?: DEFAULT_CITY)
         } else {
             weatherUseCase.getNewData()
@@ -94,7 +94,7 @@ class ForecastViewModel @Inject constructor(
             fetchCurrentWeeklyData(_lonLat.value?: Pair(DEFAULT_LON, DEFAULT_LAT))
             fetchCurrentSunriseSunsetData(_lonLat.value?: Pair(DEFAULT_LON, DEFAULT_LAT))
             fetchCurrentOtherInfoData(_lonLat.value?: Pair(DEFAULT_LON, DEFAULT_LAT))
-//            fetchCurrentForecastTextData(_lonLat.value?: Pair(DEFAULT_LON, DEFAULT_LAT))
+            fetchCurrentForecastTextData(_lonLat.value?: Pair(DEFAULT_LON, DEFAULT_LAT))
             fetchCurrentAirPollutionData(_lonLat.value?: Pair(DEFAULT_LON, DEFAULT_LAT))
         }
     }
