@@ -55,6 +55,15 @@ object DateTimeParser {
         return dateFormat.format(calendar.time)
     }
 
+    fun checkCurrentShortWeatherTime(): String {
+        val currentTime = getCurrentDateTime()
+        val dateFormat = SimpleDateFormat("HHmm", Locale.getDefault())
+        val calendar = Calendar.getInstance()
+        calendar.time = dateFormat.parse(currentTime)!!
+        calendar.set(Calendar.MINUTE, 0)
+        return dateFormat.format(calendar.time)
+    }
+
     fun adjustShortWeatherTimeWeekly(): String {
         val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
         val calendar = Calendar.getInstance()

@@ -1,11 +1,16 @@
 package com.knichu.common_ui.databinding
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import com.knichu.common_ui.enums.WeatherIcon
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import com.google.android.material.appbar.AppBarLayout
+import com.knichu.common_ui.R
+import com.knichu.common_ui.enums.WindDirectionIcon
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -23,6 +28,11 @@ fun View.bindVisibleOrGoneByNull(visible: Any?) {
 @BindingAdapter("weatherIcon")
 fun ImageView.setWeatherIcon(weatherCondition: String?) {
     this.setImageResource(WeatherIcon.getIconImage(weatherCondition).icon)
+}
+
+@BindingAdapter("windDirectionIcon")
+fun ImageView.setWindDirectionIcon(windDirection: String?) {
+    this.setImageResource(WindDirectionIcon.getIconImage(windDirection).icon)
 }
 
 @BindingAdapter("visibleOrGoneOld")
@@ -68,12 +78,12 @@ fun TextView.setTimeWithAmPmDetail(timeString: String?) {
 }
 
 @BindingAdapter("temperatureText")
-fun TextView.setTemperatureText(timeString: String?) {
+fun TextView.setTemperatureText(temperatureString: String?) {
     try {
-        if (timeString == null) {
+        if (temperatureString == null) {
             this.text = "준비중"
         } else {
-            val parser = "$timeString°"
+            val parser = "$temperatureString°"
             this.text = parser
         }
     } catch (e: Exception) {
@@ -82,10 +92,87 @@ fun TextView.setTemperatureText(timeString: String?) {
 }
 
 @BindingAdapter("percentageText")
-fun TextView.setPercentageText(timeString: String?) {
+fun TextView.setPercentageText(percentageString: String?) {
     try {
-        val parser = "$timeString%"
-        this.text = parser
+        if (percentageString == null) {
+            this.text = "준비중"
+        } else {
+            val parser = "$percentageString%"
+            this.text = parser
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+@BindingAdapter("windSpeedText")
+fun TextView.setWindSpeedText(windSpeedString: String?) {
+    try {
+        if (windSpeedString == null) {
+            this.text = "준비중"
+        } else {
+            val parser = "$windSpeedString m/s"
+            this.text = parser
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+@BindingAdapter("airQualityText")
+fun TextView.setAirQualityText(airQualityString: String?) {
+    try {
+        if (airQualityString == null) {
+            this.text = "준비중"
+        } else {
+            var parser : String? = null
+            when (airQualityString) {
+                "1" -> parser = "좋음"
+                "2" -> parser = "보통"
+                "3" -> parser = "나쁨"
+                "4" -> parser = "매우 나쁨"
+                "0" -> parser = "준비중"
+            }
+            this.text = parser
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+@BindingAdapter("airDensityText")
+fun TextView.setAirDensityText(airDensityString: String?) {
+    try {
+        if (airDensityString == null) {
+            this.text = ""
+        } else {
+            val parser = "($airDensityString ㎍/㎥)"
+            this.text = parser
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+@BindingAdapter("airQualityLevel")
+fun ProgressBar.setAirQualityLevel(airQualityLevel: String?) {
+    try {
+        if (airQualityLevel == null) {
+            this.progress = 0
+            this.progressTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
+        } else {
+            val parser = airQualityLevel.toInt()
+            this.progress = parser
+
+            val color = when (parser) {
+                1 -> ContextCompat.getColor(context, R.color.Cyan900)
+                2 -> ContextCompat.getColor(context, R.color.Green900)
+                3 -> ContextCompat.getColor(context, R.color.Orange900)
+                4 -> ContextCompat.getColor(context, R.color.Red900)
+                else -> ContextCompat.getColor(context, R.color.white)
+            }
+            this.progressTintList = ColorStateList.valueOf(color)
+        }
     } catch (e: Exception) {
         e.printStackTrace()
     }
