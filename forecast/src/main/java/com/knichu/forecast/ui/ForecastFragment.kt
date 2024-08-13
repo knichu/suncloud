@@ -80,12 +80,12 @@ class ForecastFragment: BaseViewModelFragment<FragmentForecastBinding, ForecastV
 
             appBar.addOnOffsetChangedListener(offsetChangeListener)
 
-            with(weather24hourRecyclerView) {
+            with(includeLayoutWeather24hour.weather24hourRecyclerView) {
                 adapter = weather24HourListAdapter
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             }
 
-            with(weatherWeeklyRecyclerView) {
+            with(includeLayoutWeatherWeekly.weatherWeeklyRecyclerView) {
                 adapter = weatherWeeklyListAdapter
                 layoutManager = LinearLayoutManager(requireContext())
             }
@@ -120,8 +120,8 @@ class ForecastFragment: BaseViewModelFragment<FragmentForecastBinding, ForecastV
 
     override fun onDestroyView() {
         viewDataBinding.appBar.removeOnOffsetChangedListener(offsetChangeListener)
-        viewDataBinding.weather24hourRecyclerView.adapter = null
-        viewDataBinding.weatherWeeklyRecyclerView.adapter = null
+        viewDataBinding.includeLayoutWeather24hour.weather24hourRecyclerView.adapter = null
+        viewDataBinding.includeLayoutWeatherWeekly.weatherWeeklyRecyclerView.adapter = null
         super.onDestroyView()
     }
 
