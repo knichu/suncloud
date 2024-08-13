@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.knichu.forecast.ui.ForecastViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/weather_sunrise_sunset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/bg_white_rounded_20dp"
+        app:layout_constraintBottom_toTopOf="@+id/weather_other_info_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/sunrise_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="16dp"
+            android:text="일출"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="일출" />
+
+        <TextView
+            android:id="@+id/sunrise_time"
+            timeWithAmPmDetail="@{viewModel.sunriseSunsetData.sunriseTime}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/sunrise_text"
+            app:layout_constraintStart_toStartOf="@+id/sunrise_text"
+            app:layout_constraintTop_toBottomOf="@+id/sunrise_text"
+            tools:text="오전 6:37" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/sunrise_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:src="@drawable/ic_sunrise"
+            app:layout_constraintEnd_toEndOf="@+id/sunrise_text"
+            app:layout_constraintStart_toStartOf="@+id/sunrise_text"
+            app:layout_constraintTop_toBottomOf="@+id/sunrise_text"
+            tools:src="@drawable/ic_sunrise" />
+
+        <TextView
+            android:id="@+id/sunset_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="80dp"
+            android:text="일몰"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="일몰" />
+
+        <TextView
+            android:id="@+id/sunset_time"
+            timeWithAmPmDetail="@{viewModel.sunriseSunsetData.sunsetTime}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/sunset_text"
+            app:layout_constraintStart_toStartOf="@+id/sunset_text"
+            app:layout_constraintTop_toBottomOf="@+id/sunset_text"
+            tools:text="오후 7:18" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/sunset_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:src="@drawable/ic_sunset"
+            app:layout_constraintEnd_toEndOf="@+id/sunset_text"
+            app:layout_constraintStart_toStartOf="@+id/sunset_text"
+            app:layout_constraintTop_toBottomOf="@+id/sunset_text"
+            tools:src="@drawable/ic_sunset" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

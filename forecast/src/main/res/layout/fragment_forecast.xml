@@ -130,505 +130,90 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/weather_24hour_layout"
-                                android:layout_width="0dp"
+                            <include
+                                android:id="@+id/include_layout_weather_24hour"
+                                layout="@layout/layout_weather_24hour"
+                                app:viewModel="@{viewModel}"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
                                 android:layout_marginEnd="6dp"
                                 android:layout_marginBottom="6dp"
-                                android:background="@drawable/bg_white_rounded_20dp"
-                                app:layout_constraintBottom_toTopOf="@+id/weather_weekly_layout"
+                                app:layout_constraintBottom_toTopOf="@+id/include_layout_weather_weekly"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                                app:layout_constraintTop_toTopOf="parent" >
+                            </include>
 
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/weather_24hour_recycler_view"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="6dp"
-                                    android:layout_marginTop="6dp"
-                                    android:layout_marginEnd="6dp"
-                                    android:layout_marginBottom="6dp"
-                                    android:fadingEdge="horizontal"
-                                    android:nestedScrollingEnabled="false"
-                                    android:orientation="horizontal"
-                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.0"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.0"
-                                    tools:listitem="@layout/layout_weather_24hour_item" />
-
-                                <ProgressBar
-                                    android:id="@+id/weather_24hour_progress_bar"
-                                    style="?android:attr/progressBarStyle"
-                                    visibleOrGoneByNull="@{viewModel.weather24HourData}"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="42dp"
-                                    android:layout_marginBottom="42dp"
-                                    app:layout_constraintBottom_toBottomOf="@+id/weather_24hour_layout"
-                                    app:layout_constraintEnd_toEndOf="@+id/weather_24hour_layout"
-                                    app:layout_constraintStart_toStartOf="@+id/weather_24hour_layout"
-                                    app:layout_constraintTop_toTopOf="@+id/weather_24hour_layout" />
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/weather_weekly_layout"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:layout_marginEnd="6dp"
-                                android:layout_marginBottom="6dp"
-                                android:background="@drawable/bg_white_rounded_20dp"
-                                app:layout_constraintBottom_toTopOf="@id/air_pollution_layout"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent">
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/weather_weekly_recycler_view"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="6dp"
-                                    android:layout_marginTop="6dp"
-                                    android:layout_marginEnd="6dp"
-                                    android:layout_marginBottom="6dp"
-                                    android:overScrollMode="never"
-
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    tools:itemCount="7"
-                                    tools:listitem="@layout/layout_weather_weekly_item" />
-
-                                <ProgressBar
-                                    android:id="@+id/weather_weekly_progress_bar"
-                                    style="?android:attr/progressBarStyle"
-                                    visibleOrGoneByNull="@{viewModel.weatherWeeklyData}"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="180dp"
-                                    android:layout_marginBottom="180dp"
-                                    app:layout_constraintBottom_toBottomOf="@+id/weather_weekly_layout"
-                                    app:layout_constraintEnd_toEndOf="@+id/weather_weekly_layout"
-                                    app:layout_constraintStart_toStartOf="@+id/weather_weekly_layout"
-                                    app:layout_constraintTop_toTopOf="@+id/weather_weekly_layout" />
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/air_pollution_layout"
+                            <include
+                                android:id="@+id/include_layout_weather_weekly"
+                                layout="@layout/layout_weather_weekly"
+                                app:viewModel="@{viewModel}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
                                 android:layout_marginEnd="6dp"
                                 android:layout_marginBottom="6dp"
-                                android:background="@drawable/bg_white_rounded_20dp"
-                                app:layout_constraintBottom_toTopOf="@+id/weather_sunrise_sunset"
+                                app:layout_constraintBottom_toTopOf="@+id/include_layout_air_pollution"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent">
+                                app:layout_constraintStart_toStartOf="parent" >
+                            </include>
 
-                                <View
-                                    android:id="@+id/air_pollution_view"
-                                    android:layout_width="2dp"
-                                    android:layout_height="80dp"
-                                    android:layout_marginTop="20dp"
-                                    android:layout_marginBottom="20dp"
-                                    android:background="#EAEAEA"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                                <TextView
-                                    android:id="@+id/fine_dust_title"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="20dp"
-                                    android:text="미세먼지"
-                                    android:textSize="16sp"
-                                    app:layout_constraintEnd_toStartOf="@+id/air_pollution_view"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <androidx.constraintlayout.widget.ConstraintLayout
-                                    android:id="@+id/fine_dust_detail"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
-                                    app:layout_constraintEnd_toEndOf="@+id/fine_dust_title"
-                                    app:layout_constraintStart_toStartOf="@+id/fine_dust_title"
-                                    app:layout_constraintTop_toBottomOf="@+id/fine_dust_title">
-
-                                    <TextView
-                                        android:id="@+id/fine_dust_quality"
-                                        airQualityText="@{viewModel.airPollutionData.pm10Quality}"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="16sp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent"
-                                        tools:text="좋음" />
-
-                                    <TextView
-                                        android:id="@+id/fine_dust_density"
-                                        airDensityText="@{viewModel.airPollutionData.pm10Density}"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="4dp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintStart_toEndOf="@+id/fine_dust_quality"
-                                        app:layout_constraintTop_toTopOf="parent"
-                                        tools:text="(12.2 ㎍/㎥)"/>
-
-                                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                                <ProgressBar
-                                    android:id="@+id/fine_dust_progress_bar"
-                                    airQualityLevel="@{viewModel.airPollutionData.pm10Quality}"
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="100dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="14dp"
-                                    android:max="4"
-                                    app:layout_constraintEnd_toEndOf="@+id/fine_dust_title"
-                                    app:layout_constraintStart_toStartOf="@+id/fine_dust_title"
-                                    app:layout_constraintTop_toBottomOf="@+id/fine_dust_detail"
-                                    tools:progress="1"
-                                    tools:progressTint="@color/Cyan900" />
-
-                                <TextView
-                                    android:id="@+id/ultrafine_dust_title"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="20dp"
-                                    android:text="초미세먼지"
-                                    android:textSize="16sp"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toEndOf="@+id/air_pollution_view"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <androidx.constraintlayout.widget.ConstraintLayout
-                                    android:id="@+id/ultrafine_dust_detail"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
-                                    app:layout_constraintEnd_toEndOf="@+id/ultrafine_dust_title"
-                                    app:layout_constraintStart_toStartOf="@+id/ultrafine_dust_title"
-                                    app:layout_constraintTop_toBottomOf="@+id/ultrafine_dust_title">
-
-                                    <TextView
-                                        android:id="@+id/ultrafine_dust_quality"
-                                        airQualityText="@{viewModel.airPollutionData.pm2_5Quality}"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="16sp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent"
-                                        tools:text="보통" />
-
-                                    <TextView
-                                        android:id="@+id/ultrafine_dust_density"
-                                        airDensityText="@{viewModel.airPollutionData.pm2_5Density}"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="4dp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintStart_toEndOf="@+id/ultrafine_dust_quality"
-                                        app:layout_constraintTop_toTopOf="parent"
-                                        tools:text="(18.3 ㎍/㎥)"/>
-
-                                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                                <ProgressBar
-                                    android:id="@+id/ultrafine_dust_progress_bar"
-                                    airQualityLevel="@{viewModel.airPollutionData.pm2_5Quality}"
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:layout_width="100dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="14dp"
-                                    android:max="4"
-                                    app:layout_constraintEnd_toEndOf="@+id/ultrafine_dust_title"
-                                    app:layout_constraintStart_toStartOf="@+id/ultrafine_dust_title"
-                                    app:layout_constraintTop_toBottomOf="@+id/ultrafine_dust_detail"
-                                    tools:progress="2"
-                                    tools:progressTint="@color/Green900" />
-
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/weather_sunrise_sunset"
+                            <include
+                                android:id="@+id/include_layout_air_pollution"
+                                layout="@layout/layout_air_pollution"
+                                app:viewModel="@{viewModel}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
                                 android:layout_marginEnd="6dp"
                                 android:layout_marginBottom="6dp"
-                                android:background="@drawable/bg_white_rounded_20dp"
-                                app:layout_constraintBottom_toTopOf="@+id/weather_other_info_layout"
+                                app:layout_constraintBottom_toTopOf="@+id/include_layout_weather_sunrise_sunset"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent">
+                                app:layout_constraintStart_toStartOf="parent" >
+                            </include>
 
-                                <TextView
-                                    android:id="@+id/sunrise_text"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="80dp"
-                                    android:layout_marginTop="16dp"
-                                    android:text="일출"
-                                    android:textSize="16sp"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    tools:text="일출" />
-
-                                <TextView
-                                    android:id="@+id/sunrise_time"
-                                    timeWithAmPmDetail="@{viewModel.sunriseSunsetData.sunriseTime}"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
-                                    android:textSize="16sp"
-                                    app:layout_constraintEnd_toEndOf="@+id/sunrise_text"
-                                    app:layout_constraintStart_toStartOf="@+id/sunrise_text"
-                                    app:layout_constraintTop_toBottomOf="@+id/sunrise_text"
-                                    tools:text="오전 6:37" />
-
-                                <androidx.appcompat.widget.AppCompatImageView
-                                    android:id="@+id/sunrise_image"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="36dp"
-                                    android:src="@drawable/ic_sunrise"
-                                    app:layout_constraintEnd_toEndOf="@+id/sunrise_text"
-                                    app:layout_constraintStart_toStartOf="@+id/sunrise_text"
-                                    app:layout_constraintTop_toBottomOf="@+id/sunrise_text"
-                                    tools:src="@drawable/ic_sunrise" />
-
-                                <TextView
-                                    android:id="@+id/sunset_text"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="80dp"
-                                    android:text="일몰"
-                                    android:textSize="16sp"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    tools:text="일몰" />
-
-                                <TextView
-                                    android:id="@+id/sunset_time"
-                                    timeWithAmPmDetail="@{viewModel.sunriseSunsetData.sunsetTime}"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
-                                    android:textSize="16sp"
-                                    app:layout_constraintEnd_toEndOf="@+id/sunset_text"
-                                    app:layout_constraintStart_toStartOf="@+id/sunset_text"
-                                    app:layout_constraintTop_toBottomOf="@+id/sunset_text"
-                                    tools:text="오후 7:18" />
-
-                                <androidx.appcompat.widget.AppCompatImageView
-                                    android:id="@+id/sunset_image"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="36dp"
-                                    android:src="@drawable/ic_sunset"
-                                    app:layout_constraintEnd_toEndOf="@+id/sunset_text"
-                                    app:layout_constraintStart_toStartOf="@+id/sunset_text"
-                                    app:layout_constraintTop_toBottomOf="@+id/sunset_text"
-                                    tools:src="@drawable/ic_sunset" />
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/weather_other_info_layout"
+                            <include
+                                android:id="@+id/include_layout_weather_sunrise_sunset"
+                                layout="@layout/layout_weather_sunrise_sunset"
+                                app:viewModel="@{viewModel}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
                                 android:layout_marginEnd="6dp"
                                 android:layout_marginBottom="6dp"
-                                android:background="@drawable/bg_white_rounded_20dp"
-                                app:layout_constraintBottom_toTopOf="@+id/weather_text_layout"
+                                app:layout_constraintBottom_toTopOf="@+id/include_layout_weather_other_info"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent">
+                                app:layout_constraintStart_toStartOf="parent" >
+                            </include>
 
-                                <View
-                                    android:id="@+id/weather_other_info_view"
-                                    android:layout_width="2dp"
-                                    android:layout_height="120dp"
-                                    android:layout_marginTop="20dp"
-                                    android:layout_marginBottom="20dp"
-                                    android:background="#EAEAEA"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                                <androidx.constraintlayout.widget.ConstraintLayout
-                                    android:id="@+id/wind_title_Layout"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="20dp"
-                                    app:layout_constraintEnd_toStartOf="@+id/weather_other_info_view"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                    <androidx.appcompat.widget.AppCompatImageView
-                                        android:id="@+id/wind_image"
-                                        android:layout_width="35dp"
-                                        android:layout_height="35dp"
-                                        android:src="@drawable/ic_wind"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent"
-                                        tools:src="@drawable/ic_wind" />
-
-                                    <TextView
-                                        android:id="@+id/weather_other_info_wind_text"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="6dp"
-                                        android:text="바람"
-                                        android:textSize="16sp"
-                                        app:layout_constraintBottom_toBottomOf="@+id/wind_image"
-                                        app:layout_constraintStart_toEndOf="@+id/wind_image"
-                                        app:layout_constraintTop_toTopOf="@+id/wind_image" />
-
-                                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                                <androidx.appcompat.widget.AppCompatImageView
-                                    android:id="@+id/wind_direction_image"
-                                    windDirectionIcon="@{viewModel.weatherOtherInfoData.windDirection}"
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
-                                    android:layout_marginTop="8dp"
-                                    app:layout_constraintEnd_toEndOf="@+id/wind_title_Layout"
-                                    app:layout_constraintStart_toStartOf="@+id/wind_title_Layout"
-                                    app:layout_constraintTop_toBottomOf="@+id/wind_title_Layout"
-                                    tools:src="@drawable/ic_north_west" />
-
-                                <TextView
-                                    android:id="@+id/wind_speed_text"
-                                    windSpeedText="@{viewModel.weatherOtherInfoData.windSpeed}"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
-                                    android:textSize="16sp"
-                                    app:layout_constraintEnd_toEndOf="@+id/wind_direction_image"
-                                    app:layout_constraintStart_toStartOf="@+id/wind_direction_image"
-                                    app:layout_constraintTop_toBottomOf="@+id/wind_direction_image"
-                                    tools:text="4 m/s"/>
-
-                                <androidx.constraintlayout.widget.ConstraintLayout
-                                    android:id="@+id/humidity_title_layout"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="20dp"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toEndOf="@+id/weather_other_info_view"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                    <androidx.appcompat.widget.AppCompatImageView
-                                        android:id="@+id/humidity_image"
-                                        android:layout_width="35dp"
-                                        android:layout_height="35dp"
-                                        android:src="@drawable/ic_humidity_percentage"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent"
-                                        tools:src="@drawable/ic_humidity_percentage" />
-
-                                    <TextView
-                                        android:id="@+id/weather_other_info_humidity_text"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="6dp"
-                                        android:text="습도"
-                                        android:textSize="16sp"
-                                        app:layout_constraintBottom_toBottomOf="@+id/humidity_image"
-                                        app:layout_constraintStart_toEndOf="@+id/humidity_image"
-                                        app:layout_constraintTop_toTopOf="@+id/humidity_image" />
-
-                                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                                <TextView
-                                    android:id="@+id/humidity_text"
-                                    percentageText="@{viewModel.weatherOtherInfoData.humidity}"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="24dp"
-                                    android:textSize="34sp"
-                                    app:layout_constraintEnd_toEndOf="@+id/humidity_title_layout"
-                                    app:layout_constraintStart_toStartOf="@+id/humidity_title_layout"
-                                    app:layout_constraintTop_toBottomOf="@+id/humidity_title_layout"
-                                    tools:text="60%"/>
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/weather_text_layout"
+                            <include
+                                android:id="@+id/include_layout_weather_other_info"
+                                layout="@layout/layout_weather_other_info"
+                                app:viewModel="@{viewModel}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
                                 android:layout_marginEnd="6dp"
                                 android:layout_marginBottom="6dp"
-                                android:background="@drawable/bg_white_rounded_20dp"
+                                app:layout_constraintBottom_toTopOf="@+id/include_layout_weather_text"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent" >
+                            </include>
+
+                            <include
+                                android:id="@+id/include_layout_weather_text"
+                                layout="@layout/layout_weather_text"
+                                app:viewModel="@{viewModel}"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginEnd="6dp"
+                                android:layout_marginBottom="6dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent">
-
-                                <TextView
-                                    android:id="@+id/weather_text_title"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="25dp"
-                                    android:layout_marginTop="20dp"
-                                    android:text="날씨 전망"
-                                    android:textSize="16sp"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <androidx.constraintlayout.widget.ConstraintLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="25dp"
-                                    android:layout_marginTop="6dp"
-                                    android:layout_marginEnd="25dp"
-                                    android:layout_marginBottom="6dp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@+id/weather_text_title">
-
-                                    <TextView
-                                        android:id="@+id/weather_text_detail"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@{viewModel.weatherForecastTextData.weatherForecastString}"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent"
-                                        tools:text="@string/weather_text_detail_text" />
-
-                                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
+                                app:layout_constraintStart_toStartOf="parent" >
+                            </include>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
