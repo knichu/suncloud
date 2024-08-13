@@ -228,34 +228,151 @@
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:background="@color/purple_200"
+                android:background="@color/G200"
+                android:clickable="true"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/seoulButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="100dp"
-                    android:layout_marginTop="200dp"
-                    android:text="Seoul"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/add_city_button"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/bg_white_rounded_20dp"
+                    android:src="@drawable/ic_plus"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_plus" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/city_list_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_white_rounded_20dp"
+                    app:layout_constraintBottom_toTopOf="@+id/manage_city_list_layout"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/add_city_button">
 
-                <Button
-                    android:id="@+id/busanButton"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/current_city_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/current_location_icon"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/ic_location"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/city_text"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/city_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="@{viewModel.currentPositionCityDataAtSlideView.city}"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.5"
+                            tools:text="부산" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="24dp"
+                            app:layout_constraintBottom_toBottomOf="@id/city_text"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/city_text">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/city_weather_image"
+                                weatherIcon="@{viewModel.currentPositionCityDataAtSlideView.weatherCondition}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/city_temperature_text"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_water_drop"
+                                tools:src="@drawable/ic_cloudy_rainy_heavy" />
+
+                            <TextView
+                                android:id="@+id/city_temperature_text"
+                                temperatureText="@{viewModel.currentPositionCityDataAtSlideView.temperature}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:textSize="16sp"
+                                app:layout_constraintBottom_toBottomOf="@+id/city_weather_image"
+                                app:layout_constraintStart_toEndOf="@+id/city_weather_image"
+                                app:layout_constraintTop_toTopOf="@+id/city_weather_image"
+                                tools:text="31°" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/city_list_recycler_view"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginBottom="6dp"
+                        app:layout_constrainedHeight="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/current_city_layout"
+                        app:layout_constraintVertical_bias="0"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/layout_city_list_item" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/manage_city_list_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Busan"
-                    app:layout_constraintStart_toStartOf="@+id/seoulButton"
-                    app:layout_constraintTop_toBottomOf="@+id/seoulButton" />
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/bg_white_rounded_translucent_20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/city_list_layout">
 
-                <Button
-                    android:id="@+id/daeguButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Daegu"
-                    app:layout_constraintStart_toStartOf="@+id/busanButton"
-                    app:layout_constraintTop_toBottomOf="@+id/busanButton" />
+                    <TextView
+                        android:id="@+id/manage_city_list_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="지역 관리"
+                        android:textSize="34sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -12,10 +12,13 @@ import com.knichu.domain.vo.AirPollutionVO
 import com.knichu.domain.vo.SunriseSunsetVO
 import com.knichu.domain.vo.Weather24HourItemVO
 import com.knichu.domain.vo.WeatherForecastTextVO
+import com.knichu.domain.vo.WeatherNowCityListItemVO
 import com.knichu.domain.vo.WeatherNowVO
 import com.knichu.domain.vo.WeatherOtherInfoVO
 import com.knichu.domain.vo.WeatherWeeklyItemVO
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,11 +27,17 @@ class ForecastViewModel @Inject constructor(
     private val weatherUseCase: WeatherUseCase,
     private val dataStoreUseCase: DataStoreUseCase
 ) : BaseViewModel() {
-    private val _selectedCity: MutableLiveData<String> = MutableLiveData("서울")
+    private val _selectedCity: MutableLiveData<String> = MutableLiveData()
     val selectedCity: LiveData<String> = _selectedCity
 
     private val _isCityChecked: MutableLiveData<Boolean> = MutableLiveData(false)
     val isCityChecked: LiveData<Boolean> = _isCityChecked
+
+    private val _currentPositionCityDataAtSlideView: MutableLiveData<WeatherNowVO> = MutableLiveData()
+    val currentPositionCityDataAtSlideView: LiveData<WeatherNowVO> = _currentPositionCityDataAtSlideView
+
+    private val _storedCityListNowData: MutableLiveData<List<WeatherNowCityListItemVO>> = MutableLiveData()
+    val storedCityListNowData: LiveData<List<WeatherNowCityListItemVO>> = _storedCityListNowData
 
     private val _lonLat: MutableLiveData<Pair<Double, Double>> = MutableLiveData()
     val lonLat: LiveData<Pair<Double, Double>> = _lonLat
@@ -60,6 +69,9 @@ class ForecastViewModel @Inject constructor(
     private val _isRefreshing: MutableLiveData<Boolean> = MutableLiveData()
     val isRefreshing: LiveData<Boolean> = _isRefreshing
 
+    init {
+        observeCityList()
+    }
     fun setAppBarExpanded(isExpanded: Boolean) {
         _isAppBarExpanded.value = isExpanded
     }
@@ -68,12 +80,21 @@ class ForecastViewModel @Inject constructor(
         _isRefreshing.value = isRefreshing
     }
 
-    fun changeCityChecked() {
-        _isCityChecked.value = !(isCityChecked.value?: true)
+    fun changeCityCheckFalse() {
+        _isCityChecked.value = false
+        _selectedCity.value = String()
+        fetchData()
     }
 
     fun updateLocationFetchData(lon: Double, lat: Double) {
         _lonLat.value = Pair(lon, lat)
+        fetchCurrentPositionCity()
+        fetchData()
+    }
+
+    fun updateSelectedCityFetchData(city: String) {
+        _selectedCity.value = city
+        _isCityChecked.value = true
         fetchData()
     }
 
@@ -199,6 +220,47 @@ class ForecastViewModel @Inject constructor(
             .applySchedulers()
             .toObservable()
             .bind(_airPollutionData)
+    }
+
+    private fun observeCityList() {
+        dataStoreUseCase.getCityList()
+            .applySchedulers()
+            .toObservable()
+            .subscribe { newCityList ->
+                val currentList = _storedCityListNowData.value.orEmpty()
+                val currentCityNames = currentList.map { it.city }
+                val newCities = newCityList.filter { it !in currentCityNames }
+                val removedCities = currentCityNames.filter { it !in newCityList }
+
+                if (newCities.isNotEmpty()) {
+                    Observable.fromIterable(newCities)
+                        .concatMap { city ->
+                            weatherUseCase.getStoredCityListWeatherNow(city)
+                                .toObservable()
+                        }
+                        .toList()
+                        .toObservable()
+                        .applySchedulers()
+                        .subscribe { newCityWeatherList ->
+                            val updatedList = currentList.toMutableList()
+                            updatedList.addAll(newCityWeatherList)
+                            _storedCityListNowData.value = updatedList
+                        }.let(compositeDisposable::add)
+                }
+
+                val updatedList = currentList.filter { it.city !in removedCities }
+                _storedCityListNowData.value = updatedList
+            }.let(compositeDisposable::add)
+    }
+
+    private fun fetchCurrentPositionCity() {
+        weatherUseCase.getCurrentPositionWeatherNow(
+            _lonLat.value?.first ?: 126.9778,
+            _lonLat.value?.second ?: 37.5683
+        )
+            .applySchedulers()
+            .toObservable()
+            .bind(_currentPositionCityDataAtSlideView)
     }
 
     companion object {
