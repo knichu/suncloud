@@ -1,14 +1,14 @@
 package com.knichu.forecast.ui
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import com.knichu.forecast.BR
 import android.view.View
+import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
 import androidx.core.view.GravityCompat
@@ -16,15 +16,17 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.material.appbar.AppBarLayout
+import com.knichu.common.utils.ActivityLauncher
 import com.knichu.common_ui.adapter.Weather24HourListAdapter
 import com.knichu.common_ui.adapter.WeatherWeeklyListAdapter
 import com.knichu.common_ui.base.BaseViewModelFragment
 import com.knichu.domain.vo.Weather24HourItemVO
+import com.knichu.domain.vo.WeatherNowCityListItemVO
 import com.knichu.domain.vo.WeatherWeeklyItemVO
 import com.knichu.forecast.R
+import com.knichu.forecast.adapter.DataStoreCityListAdapter
 import com.knichu.forecast.databinding.FragmentForecastBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ForecastFragment: BaseViewModelFragment<FragmentForecastBinding, ForecastViewModel>(
@@ -71,6 +73,24 @@ class ForecastFragment: BaseViewModelFragment<FragmentForecastBinding, ForecastV
         }
     }
 
+    private val dataStoreCityListAdapter = DataStoreCityListAdapter().apply {
+        listener = object : DataStoreCityListAdapter.Listener {
+            override fun onItemClick(item: WeatherNowCityListItemVO) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("확인")
+                    .setMessage("이 도시를 선택하시겠습니까?")
+                    .setPositiveButton("확인") { _, _ ->
+                        item.city?.let {
+                            viewModel.updateSelectedCityFetchData(it)
+                        }
+                        viewDataBinding.leftDrawer.closeDrawer(GravityCompat.START)
+                    }
+                    .setNegativeButton("취소", null)
+                    .show()
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -90,12 +110,45 @@ class ForecastFragment: BaseViewModelFragment<FragmentForecastBinding, ForecastV
                 layoutManager = LinearLayoutManager(requireContext())
             }
 
+            with(cityListRecyclerView) {
+                adapter = dataStoreCityListAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+            }
+
             cityIconButton.setOnClickListener {
                 if (leftDrawer.isDrawerOpen(GravityCompat.START)) {
                     leftDrawer.closeDrawer(GravityCompat.START)
                 } else {
                     leftDrawer.openDrawer(GravityCompat.START)
                 }
+            }
+
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+                if (viewDataBinding.leftDrawer.isDrawerOpen(GravityCompat.START)) {
+                    viewDataBinding.leftDrawer.closeDrawer(GravityCompat.START)
+                } else {
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
+            }
+
+            addCityButton.setOnClickListener {
+                ActivityLauncher.startCitySearchActivity(requireContext())
+            }
+
+            manageCityListText.setOnClickListener {
+                ActivityLauncher.startCityManageActivity(requireContext())
+            }
+
+            currentCityLayout.setOnClickListener {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("확인")
+                    .setMessage("현 위치를 선택하시겠습니까?")
+                    .setPositiveButton("확인") { _, _ ->
+                        viewModel?.changeCityCheckFalse()
+                        viewDataBinding.leftDrawer.closeDrawer(GravityCompat.START)
+                    }
+                    .setNegativeButton("취소", null)
+                    .show()
             }
         }
 
@@ -114,6 +167,10 @@ class ForecastFragment: BaseViewModelFragment<FragmentForecastBinding, ForecastV
 
             weatherWeeklyData.observe {
                 weatherWeeklyListAdapter.submitList(it)
+            }
+
+            storedCityListNowData.observe {
+                dataStoreCityListAdapter.submitList(it)
             }
         }
     }
