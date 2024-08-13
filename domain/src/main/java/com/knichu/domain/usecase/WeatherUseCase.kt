@@ -3,6 +3,7 @@ package com.knichu.domain.useCase
 import com.knichu.domain.vo.SunriseSunsetVO
 import com.knichu.domain.vo.Weather24HourVO
 import com.knichu.domain.vo.WeatherForecastTextVO
+import com.knichu.domain.vo.WeatherNowCityListItemVO
 import com.knichu.domain.vo.WeatherNowVO
 import com.knichu.domain.vo.WeatherOtherInfoVO
 import com.knichu.domain.vo.WeatherWeeklyVO
@@ -34,4 +35,6 @@ interface WeatherUseCase {
     fun getCityPositionSunriseSunset(city: String): Single<SunriseSunsetVO>
 
     fun getCityPositionWeatherForecastText(city: String): Single<WeatherForecastTextVO>
+
+    fun getStoredCityListWeatherNow(city: String): Single<WeatherNowCityListItemVO>
 }
