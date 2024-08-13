@@ -10,4 +10,9 @@ object ActivityLauncher {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(UrlConstants.CITY_SEARCH_URL))
         context.startActivity(intent)
     }
+
+    fun startCityManageActivity(context: Context) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(UrlConstants.CITY_MANAGE_URL))
+        context.startActivity(intent)
+    }
 }
