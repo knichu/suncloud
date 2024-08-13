@@ -18,14 +18,40 @@ android {
     }
 
     buildTypes {
-        release {
+        getByName("debug") {
             isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+
+        getByName("release") {
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
+    flavorDimensions.add("version")
+    productFlavors {
+        create("dev") {
+            dimension = "version"
+            buildConfigField("String", "SUNCLOUD_VERSION_NAME", "\"${DefaultConfig.VERSION_NAME}\"")
+            buildConfigField("String", "SUNCLOUD_OS", "\"android\"")
+            buildConfigField("String", "SCHEME", "\"suncloud_dev\"")
+        }
+        create("prod") {
+            dimension = "version"
+            buildConfigField("String", "SUNCLOUD_VERSION_NAME", "\"${DefaultConfig.VERSION_NAME}\"")
+            buildConfigField("String", "SUNCLOUD_OS", "\"android\"")
+            buildConfigField("String", "SCHEME", "\"suncloud\"")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -35,6 +61,7 @@ android {
     }
     buildFeatures {
         dataBinding = true
+        buildConfig = true
     }
 }
 

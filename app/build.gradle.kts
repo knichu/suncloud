@@ -47,8 +47,21 @@ android {
     }
 
     buildTypes {
-        // 난독화 적용 코드
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+
+            isMinifyEnabled = false
+            isShrinkResources = false
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+
         release {
+            signingConfig = signingConfigs.getByName("suncloud")
+
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -57,6 +70,32 @@ android {
             )
         }
     }
+
+    flavorDimensions.add("version")
+    productFlavors {
+        create("dev") {
+            dimension = "version"
+            applicationIdSuffix = ".dev"
+
+            addManifestPlaceholders(
+                mapOf(
+                    "SCHEME" to "suncloud_dev",
+                    "APP_NAME" to "suncloud-dev"
+                )
+            )
+        }
+        create("prod") {
+            dimension = "version"
+
+            addManifestPlaceholders(
+                mapOf(
+                    "SCHEME" to "suncloud",
+                    "APP_NAME" to "suncloud"
+                )
+            )
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
