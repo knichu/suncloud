@@ -13,6 +13,22 @@ android {
     compileSdk = DefaultConfig.COMPILE_SDK_VERSION
     buildToolsVersion = DefaultConfig.BUILD_TOOLS_VERSION
 
+    signingConfigs {
+        getByName("debug") {
+            keyAlias = getPropertyValue("suncloud.debug.keyAlias")
+            keyPassword = getPropertyValue("suncloud.debug.keyPassword")
+            storeFile = file("../DebugKeyStore")
+            storePassword = getPropertyValue("suncloud.debug.storePassword")
+        }
+
+        create("suncloud") {
+            keyAlias = getPropertyValue("suncloud.prod.keyAlias")
+            keyPassword = getPropertyValue("suncloud.prod.keyPassword")
+            storeFile = file("../SuncloudKeyStore")
+            storePassword = getPropertyValue("suncloud.prod.storePassword")
+        }
+    }
+
     defaultConfig {
         applicationId = DefaultConfig.APPLICATION_ID
         minSdk = DefaultConfig.MIN_SDK_VERSION
@@ -93,4 +109,8 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
+}
+
+fun getPropertyValue(propertyKey: String): String {
+    return com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir).getProperty(propertyKey)
 }
