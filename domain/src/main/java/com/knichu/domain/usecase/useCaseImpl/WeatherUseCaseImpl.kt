@@ -25,6 +25,7 @@ import com.knichu.domain.vo.ShortWeatherVO
 import com.knichu.domain.vo.SunriseSunsetVO
 import com.knichu.domain.vo.Weather24HourVO
 import com.knichu.domain.vo.WeatherForecastTextVO
+import com.knichu.domain.vo.WeatherNowCityListItemVO
 import com.knichu.domain.vo.WeatherNowVO
 import com.knichu.domain.vo.WeatherOtherInfoVO
 import com.knichu.domain.vo.WeatherWeeklyVO
@@ -71,7 +72,6 @@ class WeatherUseCaseImpl @Inject constructor(
                 ny = adjustY
             )
         ).doOnSuccess { cachedLiveWeatherVO = Single.just(it) }
-
         val shortWeatherVO = cachedShortWeatherVO ?: weatherRepository.getShortWeather(
             ShortWeatherRequestParam(
                 baseDate = currentShortDate,
@@ -210,12 +210,16 @@ class WeatherUseCaseImpl @Inject constructor(
                 val currentShortTime = adjustedShortTime.substring(8)
 
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
+                val (adjustX, adjustY) = LocationParser.getNxNy(
+                    cityLocationItemVO?.longitude?.toDouble() ?: 126.9778,
+                    cityLocationItemVO?.latitude?.toDouble() ?: 37.5683
+                )
                 val liveWeatherVO = weatherRepository.getLiveWeather(
                     LiveWeatherRequestParam(
                         baseDate = currentLiveDate,
                         baseTime = currentLiveTime,
-                        nx = cityLocationItemVO?.longitude?.toLong(),
-                        ny = cityLocationItemVO?.latitude?.toLong()
+                        nx = adjustX,
+                        ny = adjustY
                     )
                 )
 
@@ -223,8 +227,8 @@ class WeatherUseCaseImpl @Inject constructor(
                     ShortWeatherRequestParam(
                         baseDate = currentShortDate,
                         baseTime = currentShortTime,
-                        nx = cityLocationItemVO?.longitude?.toLong(),
-                        ny = cityLocationItemVO?.latitude?.toLong()
+                        nx = adjustX,
+                        ny = adjustY
                     )
                 ).doOnSuccess {cachedShortWeatherVO = Single.just(it) }
 
@@ -247,12 +251,16 @@ class WeatherUseCaseImpl @Inject constructor(
                 val currentTime = adjustedTime.substring(8)
                 val checkTime = DateTimeParser.checkCurrentShortWeatherTime()
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
+                val (adjustX, adjustY) = LocationParser.getNxNy(
+                    cityLocationItemVO?.longitude?.toDouble() ?: 126.9778,
+                    cityLocationItemVO?.latitude?.toDouble() ?: 37.5683
+                )
                 val shortWeatherVO = cachedShortWeatherVO ?: weatherRepository.getShortWeather(
                     ShortWeatherRequestParam(
                         baseDate = currentDate,
                         baseTime = currentTime,
-                        nx = cityLocationItemVO?.longitude?.toLong(),
-                        ny = cityLocationItemVO?.latitude?.toLong()
+                        nx = adjustX,
+                        ny = adjustY
                     )
                 ).doOnSuccess {cachedShortWeatherVO = Single.just(it) }
 
@@ -271,13 +279,17 @@ class WeatherUseCaseImpl @Inject constructor(
         return allCityList
             .flatMap { cityLocationVO ->
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
+                val (adjustX, adjustY) = LocationParser.getNxNy(
+                    cityLocationItemVO?.longitude?.toDouble() ?: 126.9778,
+                    cityLocationItemVO?.latitude?.toDouble() ?: 37.5683
+                )
                 val adjustedMidTime = DateTimeParser.adjustShortWeatherTimeWeekly()
                 val adjustedMidDate = adjustedMidTime
                 val midWeatherVO = weatherRepository.getMidWeather(
                     MidWeatherRequestParam(
                         baseDate = adjustedMidDate,
-                        nx = cityLocationItemVO?.longitude?.toLong(),
-                        ny = cityLocationItemVO?.latitude?.toLong()
+                        nx = adjustX,
+                        ny = adjustY
                     )
                 )
 
@@ -313,12 +325,16 @@ class WeatherUseCaseImpl @Inject constructor(
                 val currentDate = adjustedTime.substring(0, 8)
                 val currentTime = adjustedTime.substring(8)
                 val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
+                val (adjustX, adjustY) = LocationParser.getNxNy(
+                    cityLocationItemVO?.longitude?.toDouble() ?: 126.9778,
+                    cityLocationItemVO?.latitude?.toDouble() ?: 37.5683
+                )
                 val liveWeatherVO = weatherRepository.getLiveWeather(
                     LiveWeatherRequestParam(
                         baseDate = currentDate,
                         baseTime = currentTime, // 변경 가능
-                        nx = cityLocationItemVO?.longitude?.toLong(),
-                        ny = cityLocationItemVO?.latitude?.toLong()
+                        nx = adjustX,
+                        ny = adjustY
                     )
                 )
                 WeatherOtherInfoParser.getWeatherOtherInfoVO(liveWeatherVO)
@@ -351,6 +367,55 @@ class WeatherUseCaseImpl @Inject constructor(
                         stnId = cityLocationItemVO?.weatherForecastTextParam,
                         tmFc = currentDateTime
                     )
+                )
+            }
+    }
+
+    override fun getStoredCityListWeatherNow(city: String): Single<WeatherNowCityListItemVO> {
+        return allCityList
+            .flatMap { cityLocationVO ->
+                val adjustedLiveTime = DateTimeParser.adjustLiveWeatherTime()
+                val currentLiveDate = adjustedLiveTime.substring(0, 8)
+                val currentLiveTime = adjustedLiveTime.substring(8)
+                val adjustedShortTime = DateTimeParser.adjustShortWeatherTime()
+                val currentShortDate = adjustedShortTime.substring(0, 8)
+                val currentShortTime = adjustedShortTime.substring(8)
+                val cityLocationItemVO = cityLocationVO.item?.find { it.cityName == city }
+                val (adjustX, adjustY) = LocationParser.getNxNy(
+                    cityLocationItemVO?.longitude?.toDouble() ?: 126.9778,
+                    cityLocationItemVO?.latitude?.toDouble() ?: 37.5683
+                )
+
+                val liveWeatherVO = weatherRepository.getLiveWeather(
+                    LiveWeatherRequestParam(
+                        baseDate = currentLiveDate,
+                        baseTime = currentLiveTime,
+                        nx = adjustX,
+                        ny = adjustY
+                    )
+                )
+
+                val shortWeatherVO = cachedShortWeatherVO ?: weatherRepository.getShortWeather(
+                    ShortWeatherRequestParam(
+                        baseDate = currentShortDate,
+                        baseTime = currentShortTime,
+                        nx = adjustX,
+                        ny = adjustY
+                    )
+                )
+
+                val openWeatherVO = cachedOpenWeatherVO ?: openWeatherRepository.getOpenWeather(
+                    OpenWeatherRequestParam(
+                        lon = cityLocationItemVO?.longitude?.toDouble(),
+                        lat = cityLocationItemVO?.latitude?.toDouble(),
+                    )
+                )
+
+                WeatherNowParser.getWeatherNowCityListItemVO(
+                    liveWeatherVO,
+                    shortWeatherVO,
+                    openWeatherVO,
+                    cityLocationItemVO?.cityName
                 )
             }
     }
