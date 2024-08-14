@@ -1,7 +1,6 @@
 package com.knichu.data.dto.response
 
 import com.google.gson.annotations.SerializedName
-import com.knichu.domain.vo.AirPollutionVO
 import com.knichu.domain.vo.CityLocationItemVO
 import com.knichu.domain.vo.CityLocationVO
 

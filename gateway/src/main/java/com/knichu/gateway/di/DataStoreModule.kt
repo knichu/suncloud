@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
 
-    private const val DATASTORE_NAME = "SUNCLOUD_DATSTORE"
+    private const val DATASTORE_NAME = "SUNCLOUD_DATASTORE"
 
     @Singleton
     @Provides

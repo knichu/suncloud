@@ -3,6 +3,8 @@ package com.knichu.common.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -14,7 +16,13 @@ abstract class BaseViewModel : ViewModel() {
     fun <T : Any> Single<T>.applySchedulers() =
         subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
+    fun Completable.applySchedulers() =
+        subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+
     fun <T : Any> Observable<T>.applySchedulers() =
+        subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+
+    fun <T : Any> Flowable<T>.applySchedulers() =
         subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
     fun <T : Any> Observable<T>.bind(to: MutableLiveData<T>) {

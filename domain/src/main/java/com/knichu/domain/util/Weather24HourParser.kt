@@ -95,9 +95,6 @@ object Weather24HourParser {
                     tempShortWeatherList = mutableListOf(item)
                 }
             }
-            while ((weather24HourItemList.firstOrNull()?.time?.toInt() ?: 2400) < checkTime.toInt()) {
-                weather24HourItemList.removeAt(0)
-            }
             Weather24HourVO(weather24HourItemList)
         }
             .observeOn(Schedulers.computation())

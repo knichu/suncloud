@@ -13,6 +13,22 @@ android {
     compileSdk = DefaultConfig.COMPILE_SDK_VERSION
     buildToolsVersion = DefaultConfig.BUILD_TOOLS_VERSION
 
+    signingConfigs {
+        getByName("debug") {
+            keyAlias = getPropertyValue("suncloud.debug.keyAlias")
+            keyPassword = getPropertyValue("suncloud.debug.keyPassword")
+            storeFile = file("../DebugKeyStore")
+            storePassword = getPropertyValue("suncloud.debug.storePassword")
+        }
+
+        create("suncloud") {
+            keyAlias = getPropertyValue("suncloud.prod.keyAlias")
+            keyPassword = getPropertyValue("suncloud.prod.keyPassword")
+            storeFile = file("../SuncloudKeyStore")
+            storePassword = getPropertyValue("suncloud.prod.storePassword")
+        }
+    }
+
     defaultConfig {
         applicationId = DefaultConfig.APPLICATION_ID
         minSdk = DefaultConfig.MIN_SDK_VERSION
@@ -31,8 +47,21 @@ android {
     }
 
     buildTypes {
-        // 난독화 적용 코드
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+
+            isMinifyEnabled = false
+            isShrinkResources = false
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+
         release {
+            signingConfig = signingConfigs.getByName("suncloud")
+
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -41,6 +70,32 @@ android {
             )
         }
     }
+
+    flavorDimensions.add("version")
+    productFlavors {
+        create("dev") {
+            dimension = "version"
+            applicationIdSuffix = ".dev"
+
+            addManifestPlaceholders(
+                mapOf(
+                    "SCHEME" to "suncloud_dev",
+                    "APP_NAME" to "suncloud-dev"
+                )
+            )
+        }
+        create("prod") {
+            dimension = "version"
+
+            addManifestPlaceholders(
+                mapOf(
+                    "SCHEME" to "suncloud",
+                    "APP_NAME" to "suncloud"
+                )
+            )
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -93,4 +148,8 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
+}
+
+fun getPropertyValue(propertyKey: String): String {
+    return com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir).getProperty(propertyKey)
 }

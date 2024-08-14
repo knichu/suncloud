@@ -15,7 +15,7 @@ enum class WeatherIcon(val value: String, val icon: Int) {
     NIGHT_CLEAR("12", com.knichu.common_ui.R.drawable.ic_night_clear),
     NIGHT_CLOUDY_PARTLY("13", com.knichu.common_ui.R.drawable.ic_night_cloudy_partly),
     NIGHT_CLOUDY("14", com.knichu.common_ui.R.drawable.ic_night_cloudy),
-    NONE("", com.knichu.common_ui.R.drawable.ic_question_24dp);
+    NONE("", com.knichu.common_ui.R.drawable.ic_none);
 
     companion object {
         fun getIconImage(value: String?): WeatherIcon {

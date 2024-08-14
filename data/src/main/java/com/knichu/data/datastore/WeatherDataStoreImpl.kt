@@ -37,22 +37,12 @@ class WeatherDataStoreImpl @Inject constructor(
         return userTempUnitFlowable.firstOrError()
     }
 
-    // 처음 앱 실행시 기본 정보 저장
-    @OptIn(ExperimentalCoroutinesApi::class)
-    override fun initStoreDefaultCity(): Single<Preferences> {
-        return rxDataStore.updateDataAsync { pref ->
-            val mutablePreferences = pref.toMutablePreferences()
-            mutablePreferences[CITY_LIST_KEY] = listOf(DEFAULT_CITY).toJsonString()
-            Single.just(mutablePreferences)
-        }
-    }
-
     // 사용자가 즐겨찾기한 도시 저장
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun storeCity(cityName: String): Single<Preferences> {
         return rxDataStore.updateDataAsync { pref ->
             val mutablePreferences = pref.toMutablePreferences()
-            val existingData = mutablePreferences[CITY_LIST_KEY]?.toListOfString() ?: listOf(DEFAULT_CITY)
+            val existingData = mutablePreferences[CITY_LIST_KEY]?.toListOfString() ?: emptyList()
             val updatedData = existingData.plus(cityName)
             mutablePreferences[CITY_LIST_KEY] = updatedData.toJsonString()
             Single.just(mutablePreferences)
@@ -62,23 +52,23 @@ class WeatherDataStoreImpl @Inject constructor(
     // 사용자가 즐겨찾기한 도시 불러오기
     @OptIn(ExperimentalCoroutinesApi::class)
     private val getCityListFlowable: Flowable<List<String>> =
-        rxDataStore.data().map { pref ->
-            val cityListString = pref[CITY_LIST_KEY] ?: listOf(DEFAULT_CITY).toJsonString()
-            val cityList = cityListString.toListOfString()
-            cityList
-        }
-    override fun getCityList(): Single<List<String>> {
-        return getCityListFlowable.firstOrError()
+        rxDataStore.data()
+            .map { pref ->
+                val cityListString = pref[CITY_LIST_KEY] ?: emptyList<String>().toJsonString()
+                cityListString.toListOfString()
+            }
+    override fun getCityList(): Flowable<List<String>> {
+        return getCityListFlowable
     }
 
     // 사용자가 즐겨찾기한 도시 삭제
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun deleteCity(cityName: String): Single<Preferences> {
+    override fun deleteCity(selectedCityList: MutableSet<String>): Single<Preferences> {
         return rxDataStore.updateDataAsync { pref ->
             val mutablePreferences = pref.toMutablePreferences()
             val existingData = mutablePreferences[CITY_LIST_KEY]?.toListOfString()
-            val updatedData = existingData?.filter { it != cityName }
-            mutablePreferences[CITY_LIST_KEY] = updatedData?.toJsonString() ?: listOf(DEFAULT_CITY).toJsonString()
+            val updatedData = existingData?.filter { it !in selectedCityList }
+            mutablePreferences[CITY_LIST_KEY] = updatedData?.toJsonString() ?: emptyList<String>().toJsonString()
             Single.just(mutablePreferences)
         }
     }
@@ -102,6 +92,6 @@ class WeatherDataStoreImpl @Inject constructor(
         private val TEMP_UNIT_KEY = stringPreferencesKey("temp_unit_key")
         private val CITY_LIST_KEY = stringPreferencesKey("city_list_key")
         private const val EMPTY_STRING = ""
-        private const val DEFAULT_CITY = "Seoul"
+        private const val EMPTY_CITY = ""
     }
 }
