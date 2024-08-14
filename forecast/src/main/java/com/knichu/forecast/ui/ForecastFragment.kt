@@ -127,7 +127,14 @@ class ForecastFragment: BaseViewModelFragment<FragmentForecastBinding, ForecastV
                 if (viewDataBinding.leftDrawer.isDrawerOpen(GravityCompat.START)) {
                     viewDataBinding.leftDrawer.closeDrawer(GravityCompat.START)
                 } else {
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("확인")
+                        .setMessage("앱을 종료하시겠습니까?")
+                        .setPositiveButton("확인") { _, _ ->
+                            activity?.finish()
+                        }
+                        .setNegativeButton("취소", null)
+                        .show()
                 }
             }
 
