@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Suncloud</string>
+    <string name="current_position">현위치</string>
+
+<!--    example text-->
+    <string name="weather_text_detail_text">○ (하늘상태) 이번 예보기간 4일(화) 오후, 7일(금) 오후~9일(일)은 구름많겠고, 그 밖의 날은 대체로 맑겠습니다.\n○ (기온) 아침 기온은 12~19도, 낮 기온은 24~29도로 평년(최저기온 14~18도, 최고기온 25~28도)과 비슷하겠습니다.\n○ (해상) 서해중부해상의 물결은 0.5~1.5m로 일겠습니다.\n\n* 이번 예보기간 대기 상층(고도 5km 부근)의 찬 공기가 남하하면서 대기불안정으로 소나기가 내릴 가능성이 있겠으니, 앞으로 발표되는 최신 예보를 참고하기 바랍니다.\n</string>
+
+</resources>

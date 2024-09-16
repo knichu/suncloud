@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.knichu.forecast.ui.ForecastViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/weather_other_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/bg_white_rounded_20dp"
+        app:layout_constraintBottom_toTopOf="@+id/weather_text_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:id="@+id/weather_other_info_view"
+            android:layout_width="2dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="#EAEAEA"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/wind_title_Layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toStartOf="@+id/weather_other_info_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/wind_image"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_wind"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_wind" />
+
+            <TextView
+                android:id="@+id/weather_other_info_wind_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="바람"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/wind_image"
+                app:layout_constraintStart_toEndOf="@+id/wind_image"
+                app:layout_constraintTop_toTopOf="@+id/wind_image" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/wind_direction_image"
+            windDirectionIcon="@{viewModel.weatherOtherInfoData.windDirection}"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/wind_title_Layout"
+            app:layout_constraintStart_toStartOf="@+id/wind_title_Layout"
+            app:layout_constraintTop_toBottomOf="@+id/wind_title_Layout"
+            tools:src="@drawable/ic_north_west" />
+
+        <TextView
+            android:id="@+id/wind_speed_text"
+            windSpeedText="@{viewModel.weatherOtherInfoData.windSpeed}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/wind_direction_image"
+            app:layout_constraintStart_toStartOf="@+id/wind_direction_image"
+            app:layout_constraintTop_toBottomOf="@+id/wind_direction_image"
+            tools:text="4 m/s"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/humidity_title_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/weather_other_info_view"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/humidity_image"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_humidity_percentage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_humidity_percentage" />
+
+            <TextView
+                android:id="@+id/weather_other_info_humidity_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="습도"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/humidity_image"
+                app:layout_constraintStart_toEndOf="@+id/humidity_image"
+                app:layout_constraintTop_toTopOf="@+id/humidity_image" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/humidity_text"
+            percentageText="@{viewModel.weatherOtherInfoData.humidity}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textSize="34sp"
+            app:layout_constraintEnd_toEndOf="@+id/humidity_title_layout"
+            app:layout_constraintStart_toStartOf="@+id/humidity_title_layout"
+            app:layout_constraintTop_toBottomOf="@+id/humidity_title_layout"
+            tools:text="60%"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
