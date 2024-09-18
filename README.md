@@ -31,7 +31,7 @@ alt="suncloud_app_image" width="200" style="box-shadow: 10px 10px 15px rgba(0, 0
 - di : Dagger-Hlit
 - async library : RxJava
 - network library : Retrofit2, Gson, OkHttp
-- jetpack : Navigation Component, DataBinding, LiveData, DataStore, Paging3…
+- jetpack : Navigation Component, DataBinding, LiveData, DataStore…
 
 ## 특징
 - RxJava를 사용하여 비동기 프로그래밍을 구현
@@ -74,15 +74,15 @@ flowchart TD
     H --> I
     
 %% Individual node styling. Try the visual editor toolbar for easier styling!
-    style A fill:#FFCDD2
-    style B fill:#FFE0B2
-    style C fill:#FFF9C4
-    style D fill:#FFF9C4
-    style E fill:#FFF9C4
-    style F fill:#C8E6C9
-    style G fill:#C8E6C9
-    style H fill:#BBDEFB
-    style I fill:#E1BEE7
+    style A fill:#FFCDD2,color:#000000
+    style B fill:#FFE0B2,color:#000000
+    style C fill:#FFF9C4,color:#000000
+    style D fill:#FFF9C4,color:#000000
+    style E fill:#FFF9C4,color:#000000
+    style F fill:#C8E6C9,color:#000000
+    style G fill:#C8E6C9,color:#000000
+    style H fill:#BBDEFB,color:#000000
+    style I fill:#E1BEE7,color:#000000
 ```
 - **Suncloud (앱 모듈)**
   - 앱의 진입점
