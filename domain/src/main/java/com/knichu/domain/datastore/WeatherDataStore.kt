@@ -1,16 +1,12 @@
 package com.knichu.domain.datastore
 
-import androidx.datastore.preferences.core.Preferences
 import com.knichu.domain.constants.WeatherTempUnit
-import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.flow.Flow
 
 interface WeatherDataStore {
-
-    // 사용자가 선택한 기온단위를 관리하는 기능
-    fun storeUserTempUnit(unit: WeatherTempUnit): Single<Preferences>
-    fun getUserTempUnit(): Single<WeatherTempUnit>
-    fun storeCity(cityName: String): Single<Preferences>
-    fun getCityList(): Flowable<List<String>>
-    fun deleteCity(selectedCityList: MutableSet<String>): Single<Preferences>
+    suspend fun storeUserTempUnit(unit: WeatherTempUnit)
+    suspend fun getUserTempUnit(): WeatherTempUnit
+    suspend fun storeCity(cityName: String)
+    fun getCityList(): Flow<List<String>>
+    suspend fun deleteCity(selectedCityList: MutableSet<String>)
 }
