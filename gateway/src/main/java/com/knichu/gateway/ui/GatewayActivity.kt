@@ -6,7 +6,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.knichu.common_ui.base.BaseActivity
-import com.knichu.forecast.ui.ForecastFragment
+import com.knichu.forecast.ui.ForecastHostFragment
 import com.knichu.gateway.R
 import com.knichu.gateway.databinding.ActivityGatewayBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,12 +46,12 @@ class GatewayActivity : BaseActivity<ActivityGatewayBinding>(
     private fun scrollToTopForecast() {
         val fragment = supportFragmentManager.findFragmentById(R.id.nav_host)
         if (fragment is NavHostFragment) {
-            val forecastFragment = fragment
+            val forecastHostFragment = fragment
                 .childFragmentManager
                 .fragments
-                .filterIsInstance<ForecastFragment>()
+                .filterIsInstance<ForecastHostFragment>()
                 .firstOrNull()
-            forecastFragment?.scrollToTop()
+            forecastHostFragment?.scrollToTop()
         }
     }
 }
