@@ -1,28 +1,19 @@
 package com.knichu.data.service
 
-import com.google.gson.annotations.SerializedName
 import com.knichu.data.dto.request.ApiKeys
-import com.knichu.data.dto.request.LiveWeatherRequestDTO
-import com.knichu.data.dto.request.LongRainCloudRequestDTO
-import com.knichu.data.dto.request.LongTemperatureRequestDTO
-import com.knichu.data.dto.request.MidWeatherRequestDTO
-import com.knichu.data.dto.request.ShortWeatherRequestDTO
-import com.knichu.data.dto.request.WeatherForecastTextRequestDTO
 import com.knichu.data.dto.response.LiveWeatherResponseDTO
 import com.knichu.data.dto.response.LongRainCloudResponseDTO
 import com.knichu.data.dto.response.LongTemperatureResponseDTO
 import com.knichu.data.dto.response.MidWeatherResponseDTO
 import com.knichu.data.dto.response.ShortWeatherResponseDTO
 import com.knichu.data.dto.response.WeatherForecastTextResponseDTO
-import io.reactivex.rxjava3.core.Single
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface WeatherService {
     @GET("VilageFcstInfoService_2.0/getUltraSrtNcst")
-    fun getLiveWeather(
+    suspend fun getLiveWeather(
         @Query("serviceKey") serviceKey: String? = ApiKeys.APIS_DATA_WEATHER_API_KEY,
         @Query("pageNo") pageNo: Long? = 1,
         @Query("numOfRows") numOfRows: Long? = 8,
@@ -31,10 +22,10 @@ interface WeatherService {
         @Query("base_time") baseTime: String? = null,
         @Query("nx") nx: Long? = null,
         @Query("ny") ny: Long? = null
-    ): Single<Response<LiveWeatherResponseDTO>>
+    ): Response<LiveWeatherResponseDTO>
 
     @GET("VilageFcstInfoService_2.0/getVilageFcst")
-    fun getShortWeather(
+    suspend fun getShortWeather(
         @Query("serviceKey") serviceKey: String? = ApiKeys.APIS_DATA_WEATHER_API_KEY,
         @Query("pageNo") pageNo: Long? = 1,
         @Query("numOfRows") numOfRows: Long? = 290,
@@ -43,10 +34,10 @@ interface WeatherService {
         @Query("base_time") baseTime: String? = null,
         @Query("nx") nx: Long? = null,
         @Query("ny") ny: Long? = null
-    ): Single<Response<ShortWeatherResponseDTO>>
+    ): Response<ShortWeatherResponseDTO>
 
     @GET("VilageFcstInfoService_2.0/getVilageFcst")
-    fun getMidWeather(
+    suspend fun getMidWeather(
         @Query("serviceKey") serviceKey: String? = ApiKeys.APIS_DATA_WEATHER_API_KEY,
         @Query("pageNo") pageNo: Long? = 1,
         @Query("numOfRows") numOfRows: Long? = 880,
@@ -55,35 +46,35 @@ interface WeatherService {
         @Query("base_time") baseTime: String? = "2300",
         @Query("nx") nx: Long? = null,
         @Query("ny") ny: Long? = null
-    ): Single<Response<MidWeatherResponseDTO>>
+    ): Response<MidWeatherResponseDTO>
 
     @GET("MidFcstInfoService/getMidLandFcst")
-    fun getLongRainCloud(
+    suspend fun getLongRainCloud(
         @Query("serviceKey") serviceKey: String? = ApiKeys.APIS_DATA_WEATHER_API_KEY,
         @Query("pageNo") pageNo: Long? = 1,
         @Query("numOfRows") numOfRows: Long? = 1,
         @Query("dataType") dataType: String? = ApiKeys.JSON,
         @Query("regId") regId: String? = null,
         @Query("tmFc") tmFc: Long? = null
-    ): Single<Response<LongRainCloudResponseDTO>>
+    ): Response<LongRainCloudResponseDTO>
 
     @GET("MidFcstInfoService/getMidTa")
-    fun getLongTemperature(
+    suspend fun getLongTemperature(
         @Query("serviceKey") serviceKey: String? = ApiKeys.APIS_DATA_WEATHER_API_KEY,
         @Query("pageNo") pageNo: Long? = 1,
         @Query("numOfRows") numOfRows: Long? = 1,
         @Query("dataType") dataType: String? = ApiKeys.JSON,
         @Query("regId") regId: String? = null,
         @Query("tmFc") tmFc: Long? = null
-    ): Single<Response<LongTemperatureResponseDTO>>
+    ): Response<LongTemperatureResponseDTO>
 
     @GET("MidFcstInfoService/getMidFcst")
-    fun getWeatherForecastText(
+    suspend fun getWeatherForecastText(
         @Query("serviceKey") serviceKey: String? = ApiKeys.APIS_DATA_WEATHER_API_KEY,
         @Query("pageNo") pageNo: Long? = 1,
         @Query("numOfRows") numOfRows: Long? = 1,
         @Query("dataType") dataType: String? = ApiKeys.JSON,
         @Query("stnId") stnId: String? = null,
         @Query("tmFc") tmFc: Long? = null
-    ): Single<Response<WeatherForecastTextResponseDTO>>
+    ): Response<WeatherForecastTextResponseDTO>
 }

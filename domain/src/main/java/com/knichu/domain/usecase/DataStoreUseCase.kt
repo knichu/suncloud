@@ -1,18 +1,16 @@
 package com.knichu.domain.useCase
 
 import com.knichu.domain.constants.WeatherTempUnit
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.flow.Flow
 
 interface DataStoreUseCase {
-    fun storeUserTempUnit(unit: WeatherTempUnit): Completable
+    suspend fun storeUserTempUnit(unit: WeatherTempUnit)
 
-    fun getUserTempUnit(): Single<WeatherTempUnit>
+    suspend fun getUserTempUnit(): WeatherTempUnit
 
-    fun storeCity(cityName: String): Completable
+    suspend fun storeCity(cityName: String)
 
-    fun getCityList(): Flowable<List<String>>
+    fun getCityList(): Flow<List<String>>
 
-    fun deleteCity(selectedCitySet: MutableSet<String>): Completable
+    suspend fun deleteCity(selectedCitySet: MutableSet<String>)
 }

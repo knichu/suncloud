@@ -7,34 +7,33 @@ import com.knichu.domain.vo.WeatherNowCityListItemVO
 import com.knichu.domain.vo.WeatherNowVO
 import com.knichu.domain.vo.WeatherOtherInfoVO
 import com.knichu.domain.vo.WeatherWeeklyVO
-import io.reactivex.rxjava3.core.Single
 
 interface WeatherUseCase {
     fun getNewData()
 
-    fun getCurrentPositionWeatherNow(lon: Double, lat: Double): Single<WeatherNowVO>
+    suspend fun getCurrentPositionWeatherNow(lon: Double, lat: Double): WeatherNowVO
 
-    fun getCurrentPositionWeather24Hour(lon: Double, lat: Double): Single<Weather24HourVO>
+    suspend fun getCurrentPositionWeather24Hour(lon: Double, lat: Double): Weather24HourVO
 
-    fun getCurrentPositionWeatherWeekly(lon: Double, lat: Double): Single<WeatherWeeklyVO>
+    suspend fun getCurrentPositionWeatherWeekly(lon: Double, lat: Double): WeatherWeeklyVO
 
-    fun getCurrentPositionSunriseSunset(lon: Double, lat: Double): Single<SunriseSunsetVO>
+    suspend fun getCurrentPositionSunriseSunset(lon: Double, lat: Double): SunriseSunsetVO
 
-    fun getCurrentPositionWeatherOtherInfo(lon: Double, lat: Double): Single<WeatherOtherInfoVO>
+    suspend fun getCurrentPositionWeatherOtherInfo(lon: Double, lat: Double): WeatherOtherInfoVO
 
-    fun getCurrentPositionWeatherForecastText(lon: Double, lat: Double): Single<WeatherForecastTextVO>
+    suspend fun getCurrentPositionWeatherForecastText(lon: Double, lat: Double): WeatherForecastTextVO
 
-    fun getCityPositionWeatherNow(city: String): Single<WeatherNowVO>
+    suspend fun getCityPositionWeatherNow(city: String): WeatherNowVO
 
-    fun getCityPositionWeather24Hour(city: String): Single<Weather24HourVO>
+    suspend fun getCityPositionWeather24Hour(city: String): Weather24HourVO
 
-    fun getCityPositionWeatherWeekly(city: String): Single<WeatherWeeklyVO>
+    suspend fun getCityPositionWeatherWeekly(city: String): WeatherWeeklyVO
 
-    fun getCityPositionWeatherOtherInfo(city: String): Single<WeatherOtherInfoVO>
+    suspend fun getCityPositionWeatherOtherInfo(city: String): WeatherOtherInfoVO
 
-    fun getCityPositionSunriseSunset(city: String): Single<SunriseSunsetVO>
+    suspend fun getCityPositionSunriseSunset(city: String): SunriseSunsetVO
 
-    fun getCityPositionWeatherForecastText(city: String): Single<WeatherForecastTextVO>
+    suspend fun getCityPositionWeatherForecastText(city: String): WeatherForecastTextVO
 
-    fun getStoredCityListWeatherNow(city: String): Single<WeatherNowCityListItemVO>
+    suspend fun getStoredCityListWeatherNow(city: String): WeatherNowCityListItemVO
 }

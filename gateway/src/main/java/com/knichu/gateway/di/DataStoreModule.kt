@@ -1,9 +1,10 @@
 package com.knichu.gateway.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.rxjava3.RxPreferenceDataStoreBuilder
-import androidx.datastore.rxjava3.RxDataStore
+import androidx.datastore.preferences.preferencesDataStoreFile
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import com.knichu.data.datastore.WeatherDataStoreImpl
 import com.knichu.domain.datastore.WeatherDataStore
 import dagger.Module
@@ -22,9 +23,9 @@ object DataStoreModule {
     @Singleton
     @Provides
     fun provideDataStore(@ApplicationContext context: Context): WeatherDataStore {
-        val dataStore: RxDataStore<Preferences> = RxPreferenceDataStoreBuilder(
-            context = context, name = DATASTORE_NAME
-        ).build()
+        val dataStore: DataStore<Preferences> = PreferenceDataStoreFactory.create(
+            produceFile = { context.preferencesDataStoreFile(DATASTORE_NAME) }
+        )
         return WeatherDataStoreImpl(dataStore)
     }
 }

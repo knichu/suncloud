@@ -95,6 +95,9 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.50")
     implementation("com.google.dagger:hilt-android:2.50")
 
+    // Coroutines
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore-preferences-rxjava3:1.0.0")
