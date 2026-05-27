@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_forecast"
-    app:startDestination="@id/forecastFragment">
+    app:startDestination="@id/forecastHostFragment">
 
     <fragment
-        android:id="@+id/forecastFragment"
-        android:name="com.knichu.forecast.ui.ForecastFragment"
-        android:label="fragment_forecast"
-        tools:layout="@layout/fragment_forecast" />
+        android:id="@+id/forecastHostFragment"
+        android:name="com.knichu.forecast.ui.ForecastHostFragment"
+        android:label="forecast_host" />
 </navigation>

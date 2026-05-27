@@ -20,82 +20,69 @@ import com.knichu.domain.vo.LongTemperatureVO
 import com.knichu.domain.vo.MidWeatherVO
 import com.knichu.domain.vo.ShortWeatherVO
 import com.knichu.domain.vo.WeatherForecastTextVO
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
     private val weatherDataSource: WeatherDataSource
-): WeatherRepository {
+) : WeatherRepository {
 
-    override fun getLiveWeather(param: LiveWeatherRequestParam): Single<LiveWeatherVO> {
-        return weatherDataSource.getLiveWeather(
-            LiveWeatherRequestDTO(
-                baseDate = param.baseDate,
-                baseTime = param.baseTime,
-                nx = param.nx,
-                ny = param.ny
-            )
-        )
-            .map { responseDTO -> responseDTO.toDomain() }
-            .onErrorReturn { LiveWeatherVO(item = emptyList()) }
+    override suspend fun getLiveWeather(param: LiveWeatherRequestParam): LiveWeatherVO {
+        return try {
+            weatherDataSource.getLiveWeather(
+                LiveWeatherRequestDTO(baseDate = param.baseDate, baseTime = param.baseTime, nx = param.nx, ny = param.ny)
+            ).toDomain()
+        } catch (e: Exception) {
+            LiveWeatherVO(item = emptyList())
+        }
     }
 
-    override fun getShortWeather(param: ShortWeatherRequestParam): Single<ShortWeatherVO> {
-        return weatherDataSource.getShortWeather(
-            ShortWeatherRequestDTO(
-                baseDate = param.baseDate,
-                baseTime = param.baseTime,
-                nx = param.nx,
-                ny = param.ny
-            )
-        )
-            .map { responseDTO -> responseDTO.toDomain() }
-            .onErrorReturn { ShortWeatherVO(item = emptyList()) }
+    override suspend fun getShortWeather(param: ShortWeatherRequestParam): ShortWeatherVO {
+        return try {
+            weatherDataSource.getShortWeather(
+                ShortWeatherRequestDTO(baseDate = param.baseDate, baseTime = param.baseTime, nx = param.nx, ny = param.ny)
+            ).toDomain()
+        } catch (e: Exception) {
+            ShortWeatherVO(item = emptyList())
+        }
     }
 
-    override fun getMidWeather(param: MidWeatherRequestParam): Single<MidWeatherVO> {
-        return weatherDataSource.getMidWeather(
-            MidWeatherRequestDTO(
-                baseDate = param.baseDate,
-                nx = param.nx,
-                ny = param.ny
-            )
-        )
-            .map { responseDTO -> responseDTO.toDomain() }
-            .onErrorReturn { MidWeatherVO(item = emptyList()) }
+    override suspend fun getMidWeather(param: MidWeatherRequestParam): MidWeatherVO {
+        return try {
+            weatherDataSource.getMidWeather(
+                MidWeatherRequestDTO(baseDate = param.baseDate, nx = param.nx, ny = param.ny)
+            ).toDomain()
+        } catch (e: Exception) {
+            MidWeatherVO(item = emptyList())
+        }
     }
 
-    override fun getLongRainCloud(param: LongRainCloudRequestParam): Single<LongRainCloudVO> {
-        return weatherDataSource.getLongRainCloud(
-            LongRainCloudRequestDTO(
-                regId = param.regId,
-                tmFc = param.tmFc
-            )
-        )
-            .map { responseDTO -> responseDTO.toDomain() }
-            .onErrorReturn { LongRainCloudVO() }
+    override suspend fun getLongRainCloud(param: LongRainCloudRequestParam): LongRainCloudVO {
+        return try {
+            weatherDataSource.getLongRainCloud(
+                LongRainCloudRequestDTO(regId = param.regId, tmFc = param.tmFc)
+            ).toDomain()
+        } catch (e: Exception) {
+            LongRainCloudVO()
+        }
     }
 
-    override fun getLongTemperature(param: LongTemperatureRequestParam): Single<LongTemperatureVO> {
-        return weatherDataSource.getLongTemperature(
-            LongTemperatureRequestDTO(
-                regId = param.regId,
-                tmFc = param.tmFc
-            )
-        )
-            .map { responseDTO -> responseDTO.toDomain() }
-            .onErrorReturn { LongTemperatureVO() }
+    override suspend fun getLongTemperature(param: LongTemperatureRequestParam): LongTemperatureVO {
+        return try {
+            weatherDataSource.getLongTemperature(
+                LongTemperatureRequestDTO(regId = param.regId, tmFc = param.tmFc)
+            ).toDomain()
+        } catch (e: Exception) {
+            LongTemperatureVO()
+        }
     }
 
-    override fun getWeatherForecastText(param: WeatherForecastTextRequestParam): Single<WeatherForecastTextVO> {
-        return weatherDataSource.getWeatherForecastText(
-            WeatherForecastTextRequestDTO(
-                stnId = param.stnId,
-                tmFc = param.tmFc
-            )
-        )
-            .map { responseDTO -> responseDTO.toDomain() }
-            .onErrorReturn { WeatherForecastTextVO() }
+    override suspend fun getWeatherForecastText(param: WeatherForecastTextRequestParam): WeatherForecastTextVO {
+        return try {
+            weatherDataSource.getWeatherForecastText(
+                WeatherForecastTextRequestDTO(stnId = param.stnId, tmFc = param.tmFc)
+            ).toDomain()
+        } catch (e: Exception) {
+            WeatherForecastTextVO()
+        }
     }
 }
