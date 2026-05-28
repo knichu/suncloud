@@ -3,6 +3,7 @@ object Plugins {
     const val KOTLIN_ANDROID = "android"
     const val ANDROID_LIBRARY = "com.android.library"
     const val KOTLIN_KAPT = "kapt"
+    const val KSP = "com.google.devtools.ksp"
     const val HILT_PLUGIN = "dagger.hilt.android.plugin"
     const val HILT_PROJECT_PLUGIN = "com.google.dagger.hilt.android"
     const val GOOGLE_SERVICES = "com.google.gms.google-services"
