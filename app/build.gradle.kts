@@ -3,7 +3,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-parcelize")
-    kotlin(Plugins.KOTLIN_KAPT)
+    id(Plugins.KSP)
     id(Plugins.HILT_PLUGIN)
     id("androidx.navigation.safeargs.kotlin")
 }
@@ -106,9 +106,6 @@ android {
         freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
         freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlinx.coroutines.FlowPreview"
     }
-    buildFeatures {
-        dataBinding = true
-    }
 }
 
 dependencies {
@@ -128,7 +125,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    kapt("com.google.dagger:hilt-android-compiler:2.50")
+    ksp("com.google.dagger:hilt-android-compiler:2.50")
     implementation("com.google.dagger:hilt-android:2.50")
 
     // Network
@@ -144,10 +141,6 @@ dependencies {
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore-preferences-rxjava3:1.0.0")
-}
-
-kapt {
-    correctErrorTypes = true
 }
 
 fun getPropertyValue(propertyKey: String): String {

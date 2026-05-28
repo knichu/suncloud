@@ -18,6 +18,7 @@ plugins {
     id(Plugins.ANDROID_LIBRARY) version "7.3.1" apply false
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
     id(Plugins.HILT_PROJECT_PLUGIN) version "2.50" apply false
+    id(Plugins.KSP) version "1.9.0-1.0.13" apply false
 }
 
 //// 프로젝트를 초기화하거나 리셋해야 할 때
