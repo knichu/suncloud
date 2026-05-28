@@ -16,8 +16,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -32,11 +34,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.knichu.domain.vo.CityLocationItemVO
 
-@OptIn(ExperimentalMaterial3Api::class)
+// ── Stateful (ViewModel 연결) ──
 @Composable
 fun CitySearchScreen(
     viewModel: CitySearchViewModel,
@@ -44,19 +47,39 @@ fun CitySearchScreen(
 ) {
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
-    var showAddDialog by remember { mutableStateOf<CityLocationItemVO?>(null) }
 
     LaunchedEffect(Unit) {
         viewModel.uiEffect.collect { effect ->
             when (effect) {
-                is CitySearchUiEffect.NavigateBack      -> onNavigateBack()
-                is CitySearchUiEffect.ShowToast         ->
+                is CitySearchUiEffect.NavigateBack ->
+                    onNavigateBack()
+                is CitySearchUiEffect.ShowToast ->
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // 도시 추가 확인 다이얼로그
+    CitySearchScreen(
+        searchQuery = state.searchQuery,
+        searchedCityList = state.searchedCityList,
+        onSearchQueryChange = { viewModel.handleIntent(CitySearchUiIntent.Search(it)) },
+        onAddCity = { viewModel.handleIntent(CitySearchUiIntent.AddCity(it)) },
+        onNavigateBack = { viewModel.handleIntent(CitySearchUiIntent.NavigateBack) }
+    )
+}
+
+// ── Stateless (Preview 가능) ──
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CitySearchScreen(
+    searchQuery: String,
+    searchedCityList: List<CityLocationItemVO>,
+    onSearchQueryChange: (String) -> Unit,
+    onAddCity: (String) -> Unit,
+    onNavigateBack: () -> Unit
+) {
+    var showAddDialog by remember { mutableStateOf<CityLocationItemVO?>(null) }
+
     showAddDialog?.let { item ->
         AlertDialog(
             onDismissRequest = { showAddDialog = null },
@@ -64,7 +87,7 @@ fun CitySearchScreen(
             text = { Text("이 도시를 추가하시겠습니까?") },
             confirmButton = {
                 TextButton(onClick = {
-                    item.cityName?.let { viewModel.handleIntent(CitySearchUiIntent.AddCity(it)) }
+                    item.cityName?.let { onAddCity(it) }
                     showAddDialog = null
                 }) { Text("확인") }
             },
@@ -79,11 +102,8 @@ fun CitySearchScreen(
             TopAppBar(
                 title = { Text("도시 검색", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
-                    IconButton(onClick = { viewModel.handleIntent(CitySearchUiIntent.NavigateBack) }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "뒤로"
-                        )
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "뒤로")
                     }
                 }
             )
@@ -95,8 +115,8 @@ fun CitySearchScreen(
                 .padding(paddingValues)
         ) {
             OutlinedTextField(
-                value = state.searchQuery,
-                onValueChange = { viewModel.handleIntent(CitySearchUiIntent.Search(it)) },
+                value = searchQuery,
+                onValueChange = onSearchQueryChange,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
@@ -105,7 +125,7 @@ fun CitySearchScreen(
             )
 
             Box(modifier = Modifier.fillMaxSize()) {
-                if (state.searchedCityList.isEmpty() && state.searchQuery.isNotEmpty()) {
+                if (searchedCityList.isEmpty() && searchQuery.isNotEmpty()) {
                     Text(
                         text = "검색 결과가 없습니다",
                         modifier = Modifier.align(Alignment.Center),
@@ -113,7 +133,7 @@ fun CitySearchScreen(
                     )
                 } else {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(state.searchedCityList) { item ->
+                        items(searchedCityList) { item ->
                             Text(
                                 text = item.cityName ?: "-",
                                 modifier = Modifier
@@ -127,6 +147,60 @@ fun CitySearchScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+// ────────────── Previews ──────────────
+
+@Preview(showBackground = true, name = "도시 검색 - 초기")
+@Composable
+private fun CitySearchScreenEmptyPreview() {
+    MaterialTheme {
+        Surface {
+            CitySearchScreen(
+                searchQuery = "",
+                searchedCityList = emptyList(),
+                onSearchQueryChange = {},
+                onAddCity = {},
+                onNavigateBack = {}
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "도시 검색 - 결과 있음")
+@Composable
+private fun CitySearchScreenWithResultsPreview() {
+    MaterialTheme {
+        Surface {
+            CitySearchScreen(
+                searchQuery = "서울",
+                searchedCityList = listOf(
+                    CityLocationItemVO(cityName = "서울특별시"),
+                    CityLocationItemVO(cityName = "서울 강남구"),
+                    CityLocationItemVO(cityName = "서울 마포구"),
+                ),
+                onSearchQueryChange = {},
+                onAddCity = {},
+                onNavigateBack = {}
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "도시 검색 - 결과 없음")
+@Composable
+private fun CitySearchScreenNoResultsPreview() {
+    MaterialTheme {
+        Surface {
+            CitySearchScreen(
+                searchQuery = "xyz",
+                searchedCityList = emptyList(),
+                onSearchQueryChange = {},
+                onAddCity = {},
+                onNavigateBack = {}
+            )
         }
     }
 }
