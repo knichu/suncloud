@@ -1,31 +1,26 @@
 package com.knichu.common_ui.base
 
 import android.os.Bundle
-import androidx.annotation.LayoutRes
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import androidx.viewbinding.ViewBinding
 import com.knichu.common_ui.R
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-// ViewModel 사용안하는 BaseActivity
-abstract class BaseActivity<VD : ViewDataBinding>(
-    @LayoutRes
-    private val layoutResId: Int
+abstract class BaseActivity<VB : ViewBinding>(
+    private val inflate: (LayoutInflater) -> VB
 ) : AppCompatActivity() {
 
-    lateinit var viewDataBinding: VD
-    protected val compositeDisposable = CompositeDisposable()
+    private var _viewBinding: VB? = null
+    val viewBinding: VB
+        get() = _viewBinding
+            ?: throw IllegalStateException("viewBinding can not be null")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         overridePendingTransition(R.anim.slide_in_from_right, R.anim.none)
 
-        viewDataBinding =
-            DataBindingUtil.setContentView<VD>(this, layoutResId).also { viewDataBinding ->
-                viewDataBinding.lifecycleOwner = this
-                this.viewDataBinding = viewDataBinding
-            }
+        _viewBinding = inflate(layoutInflater)
+        setContentView(viewBinding.root)
     }
 
     override fun finish() {
@@ -42,6 +37,6 @@ abstract class BaseActivity<VD : ViewDataBinding>(
 
     override fun onDestroy() {
         super.onDestroy()
-        compositeDisposable.clear()
+        _viewBinding = null
     }
 }
