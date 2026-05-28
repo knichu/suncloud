@@ -1,6 +1,10 @@
 package com.knichu.forecast.ui.forecast
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -61,7 +65,7 @@ import com.knichu.domain.vo.WeatherOtherInfoVO
 import com.knichu.domain.vo.WeatherWeeklyItemVO
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun ForecastScreen(
     viewModel: ForecastViewModel
@@ -72,6 +76,11 @@ fun ForecastScreen(
     )
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
+    val isRefreshing = state.isLoading && state.weatherNow != null
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = isRefreshing,
+        onRefresh = { viewModel.handleIntent(ForecastUiIntent.Refresh) }
+    )
     var showExitDialog by remember { mutableStateOf(false) }
     var showCitySelectDialog by remember { mutableStateOf<WeatherNowCityListItemVO?>(null) }
     var showCurrentPositionDialog by remember { mutableStateOf(false) }
@@ -207,12 +216,18 @@ fun ForecastScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
+                    .pullRefresh(pullRefreshState)
             ) {
-                if (state.isLoading) {
+                if (state.isLoading && state.weatherNow == null) {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 } else {
                     ForecastContent(state = state, listState = listState)
                 }
+                PullRefreshIndicator(
+                    refreshing = isRefreshing,
+                    state = pullRefreshState,
+                    modifier = Modifier.align(Alignment.TopCenter)
+                )
             }
         }
     }
