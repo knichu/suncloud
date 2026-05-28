@@ -1,6 +1,8 @@
 package com.knichu.forecast.ui
 
 import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -16,6 +18,15 @@ import com.knichu.forecast.ui.citysearch.CitySearchViewModel
 import com.knichu.forecast.ui.forecast.ForecastScreen
 import com.knichu.forecast.ui.forecast.ForecastUiEffect
 import com.knichu.forecast.ui.forecast.ForecastViewModel
+
+private fun Context.findActivity(): Activity? {
+    var ctx = this
+    while (ctx is ContextWrapper) {
+        if (ctx is Activity) return ctx
+        ctx = ctx.baseContext
+    }
+    return null
+}
 
 sealed class ForecastRoute(val route: String) {
     object Forecast   : ForecastRoute("forecast")
@@ -40,7 +51,7 @@ fun ForecastNavHost(
                 is ForecastUiEffect.NavigateToCityManage ->
                     navController.navigate(ForecastRoute.CityManage.route)
                 is ForecastUiEffect.ExitApp ->
-                    (context as? Activity)?.finish()
+                    context.findActivity()?.finish()
             }
         }
     }

@@ -5,9 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,7 +20,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -36,17 +36,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+// ── Stateful (ViewModel 연결) ──
 @Composable
 fun CityManageScreen(
     viewModel: CityManageViewModel,
     onNavigateBack: () -> Unit
 ) {
     val state by viewModel.uiState.collectAsState()
-    var showDeleteDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.uiEffect.collect { effect ->
@@ -56,6 +56,31 @@ fun CityManageScreen(
         }
     }
 
+    CityManageScreen(
+        cityList = state.cityList,
+        isInSelectionMode = state.isInSelectionMode,
+        selectedCitySet = state.selectedCitySet,
+        onToggleSelectionMode = { viewModel.handleIntent(CityManageUiIntent.ToggleSelectionMode) },
+        onToggleCitySelection = { viewModel.handleIntent(CityManageUiIntent.ToggleCitySelection(it)) },
+        onDeleteSelected = { viewModel.handleIntent(CityManageUiIntent.DeleteSelectedCities) },
+        onNavigateBack = { viewModel.handleIntent(CityManageUiIntent.NavigateBack) }
+    )
+}
+
+// ── Stateless (Preview 가능) ──
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Composable
+fun CityManageScreen(
+    cityList: List<String>,
+    isInSelectionMode: Boolean,
+    selectedCitySet: Set<String>,
+    onToggleSelectionMode: () -> Unit,
+    onToggleCitySelection: (String) -> Unit,
+    onDeleteSelected: () -> Unit,
+    onNavigateBack: () -> Unit
+) {
+    var showDeleteDialog by remember { mutableStateOf(false) }
+
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
@@ -63,7 +88,7 @@ fun CityManageScreen(
             text = { Text("선택한 도시들을 삭제하시겠습니까?") },
             confirmButton = {
                 TextButton(onClick = {
-                    viewModel.handleIntent(CityManageUiIntent.DeleteSelectedCities)
+                    onDeleteSelected()
                     showDeleteDialog = false
                 }) { Text("확인") }
             },
@@ -78,28 +103,25 @@ fun CityManageScreen(
             TopAppBar(
                 title = { Text("도시 관리", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
-                    IconButton(onClick = { viewModel.handleIntent(CityManageUiIntent.NavigateBack) }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "뒤로"
-                        )
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "뒤로")
                     }
                 },
                 actions = {
-                    TextButton(onClick = { viewModel.handleIntent(CityManageUiIntent.ToggleSelectionMode) }) {
-                        Text(if (state.isInSelectionMode) "취소" else "선택")
+                    TextButton(onClick = onToggleSelectionMode) {
+                        Text(if (isInSelectionMode) "취소" else "선택")
                     }
                 }
             )
         },
         bottomBar = {
-            AnimatedVisibility(visible = state.isInSelectionMode && state.selectedCitySet.isNotEmpty()) {
+            AnimatedVisibility(visible = isInSelectionMode && selectedCitySet.isNotEmpty()) {
                 Button(
                     onClick = { showDeleteDialog = true },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
-                ) { Text("삭제 (${state.selectedCitySet.size})") }
+                ) { Text("삭제 (${selectedCitySet.size})") }
             }
         }
     ) { paddingValues ->
@@ -108,7 +130,7 @@ fun CityManageScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            if (state.cityList.isEmpty()) {
+            if (cityList.isEmpty()) {
                 Text(
                     text = "저장된 도시가 없습니다",
                     modifier = Modifier.align(Alignment.Center),
@@ -116,20 +138,16 @@ fun CityManageScreen(
                 )
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(state.cityList) { city ->
+                    items(cityList) { city ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .combinedClickable(
                                     onClick = {
-                                        if (state.isInSelectionMode) {
-                                            viewModel.handleIntent(CityManageUiIntent.ToggleCitySelection(city))
-                                        }
+                                        if (isInSelectionMode) onToggleCitySelection(city)
                                     },
                                     onLongClick = {
-                                        if (!state.isInSelectionMode) {
-                                            viewModel.handleIntent(CityManageUiIntent.ToggleSelectionMode)
-                                        }
+                                        if (!isInSelectionMode) onToggleSelectionMode()
                                     }
                                 )
                                 .padding(horizontal = 16.dp, vertical = 12.dp),
@@ -137,12 +155,10 @@ fun CityManageScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(city, fontSize = 16.sp)
-                            AnimatedVisibility(visible = state.isInSelectionMode) {
+                            AnimatedVisibility(visible = isInSelectionMode) {
                                 Checkbox(
-                                    checked = city in state.selectedCitySet,
-                                    onCheckedChange = {
-                                        viewModel.handleIntent(CityManageUiIntent.ToggleCitySelection(city))
-                                    }
+                                    checked = city in selectedCitySet,
+                                    onCheckedChange = { onToggleCitySelection(city) }
                                 )
                             }
                         }
@@ -150,6 +166,62 @@ fun CityManageScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+// ────────────── Previews ──────────────
+
+@Preview(showBackground = true, name = "도시 관리 - 일반")
+@Composable
+private fun CityManageScreenPreview() {
+    MaterialTheme {
+        Surface {
+            CityManageScreen(
+                cityList = listOf("서울", "부산", "제주", "대구", "인천"),
+                isInSelectionMode = false,
+                selectedCitySet = emptySet(),
+                onToggleSelectionMode = {},
+                onToggleCitySelection = {},
+                onDeleteSelected = {},
+                onNavigateBack = {}
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "도시 관리 - 선택 모드")
+@Composable
+private fun CityManageScreenSelectionPreview() {
+    MaterialTheme {
+        Surface {
+            CityManageScreen(
+                cityList = listOf("서울", "부산", "제주", "대구", "인천"),
+                isInSelectionMode = true,
+                selectedCitySet = setOf("부산", "제주"),
+                onToggleSelectionMode = {},
+                onToggleCitySelection = {},
+                onDeleteSelected = {},
+                onNavigateBack = {}
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "도시 관리 - 비어있음")
+@Composable
+private fun CityManageScreenEmptyPreview() {
+    MaterialTheme {
+        Surface {
+            CityManageScreen(
+                cityList = emptyList(),
+                isInSelectionMode = false,
+                selectedCitySet = emptySet(),
+                onToggleSelectionMode = {},
+                onToggleCitySelection = {},
+                onDeleteSelected = {},
+                onNavigateBack = {}
+            )
         }
     }
 }
