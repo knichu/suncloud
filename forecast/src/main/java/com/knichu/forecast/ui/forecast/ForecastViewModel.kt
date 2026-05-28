@@ -41,6 +41,7 @@ class ForecastViewModel @Inject constructor(
     }
 
     private fun updateLocation(lon: Double, lat: Double) {
+        if (uiState.value.lonLat == Pair(lon, lat)) return
         setState { copy(lonLat = Pair(lon, lat), selectedCity = null) }
         fetchCurrentPositionCity(lon, lat)
         fetchAllData()
