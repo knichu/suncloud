@@ -1,6 +1,5 @@
 package com.knichu.forecast.ui.forecast
 
-import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -46,12 +45,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.material3.MaterialTheme
+import com.knichu.common_ui.enums.WeatherIcon
+import com.knichu.domain.vo.AirPollutionDataVO
+import com.knichu.domain.vo.SunriseSunsetVO
 import com.knichu.domain.vo.Weather24HourItemVO
+import com.knichu.domain.vo.WeatherForecastTextVO
 import com.knichu.domain.vo.WeatherNowCityListItemVO
+import com.knichu.domain.vo.WeatherNowVO
+import com.knichu.domain.vo.WeatherOtherInfoVO
 import com.knichu.domain.vo.WeatherWeeklyItemVO
 import kotlinx.coroutines.launch
 
@@ -66,7 +72,6 @@ fun ForecastScreen(
     )
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
-    val context = LocalContext.current
     var showExitDialog by remember { mutableStateOf(false) }
     var showCitySelectDialog by remember { mutableStateOf<WeatherNowCityListItemVO?>(null) }
     var showCurrentPositionDialog by remember { mutableStateOf(false) }
@@ -102,7 +107,7 @@ fun ForecastScreen(
             confirmButton = {
                 TextButton(onClick = {
                     showExitDialog = false
-                    (context as? Activity)?.finish()
+                    viewModel.handleIntent(ForecastUiIntent.ExitApp)
                 }) { Text("확인") }
             },
             dismissButton = {
@@ -255,7 +260,7 @@ private fun ForecastDrawerContent(
                 ) {
                     Text(item.city ?: "-", fontSize = 16.sp)
                     Spacer(modifier = Modifier.weight(1f))
-                    Text("${item.temperature}° ${item.weatherCondition ?: ""}", fontSize = 14.sp)
+                    Text("${item.temperature}° ${WeatherIcon.getLabel(item.weatherCondition)}", fontSize = 14.sp)
                 }
                 Divider()
             }
@@ -294,7 +299,7 @@ private fun ForecastContent(
                 WeatherNowSection(
                     temperature = now.temperature,
                     city = now.city,
-                    condition = now.weatherCondition
+                    condition = WeatherIcon.getLabel(now.weatherCondition)
                 )
             }
         }
@@ -384,7 +389,7 @@ private fun Weather24HourSection(items: List<Weather24HourItemVO>) {
             items(items) { item ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(item.time ?: "-", fontSize = 12.sp)
-                    Text(item.weatherCondition ?: "-", fontSize = 11.sp)
+                    Text(WeatherIcon.getLabel(item.weatherCondition), fontSize = 11.sp)
                     Text("${item.temperature ?: "-"}°", fontWeight = FontWeight.Bold)
                     Text("${item.rainProbability ?: "0"}%", fontSize = 11.sp)
                 }
@@ -405,7 +410,7 @@ private fun WeatherWeeklySection(items: List<WeatherWeeklyItemVO>) {
                 ) {
                     Text(item.dayOfTheWeek ?: "-", modifier = Modifier.width(36.dp))
                     Text("${item.rainProbability ?: "0"}%", fontSize = 12.sp)
-                    Text("${item.weatherConditionAM ?: "-"} / ${item.weatherConditionPM ?: "-"}", fontSize = 12.sp)
+                    Text("${WeatherIcon.getLabel(item.weatherConditionAM)} / ${WeatherIcon.getLabel(item.weatherConditionPM)}", fontSize = 12.sp)
                     Text("${item.minTemperature ?: "-"}° / ${item.maxTemperature ?: "-"}°")
                 }
             }
@@ -421,5 +426,66 @@ private fun InfoCard(title: String, content: @Composable () -> Unit) {
             Spacer(modifier = Modifier.height(8.dp))
             content()
         }
+    }
+}
+
+// ────────────── Previews ──────────────
+
+private val previewState = ForecastUiState(
+    weatherNow = WeatherNowVO(city = "서울", temperature = "23", weatherCondition = "맑음"),
+    weather24Hour = listOf(
+        Weather24HourItemVO(time = "1400", weatherCondition = "맑음", temperature = "23", rainProbability = "10"),
+        Weather24HourItemVO(time = "1700", weatherCondition = "구름많음", temperature = "21", rainProbability = "20"),
+        Weather24HourItemVO(time = "2000", weatherCondition = "흐림", temperature = "18", rainProbability = "40"),
+        Weather24HourItemVO(time = "2300", weatherCondition = "비", temperature = "16", rainProbability = "70"),
+    ),
+    weatherWeekly = listOf(
+        WeatherWeeklyItemVO(dayOfTheWeek = "월", rainProbability = "10", weatherConditionAM = "맑음", weatherConditionPM = "맑음", minTemperature = "15", maxTemperature = "25"),
+        WeatherWeeklyItemVO(dayOfTheWeek = "화", rainProbability = "30", weatherConditionAM = "구름", weatherConditionPM = "비", minTemperature = "14", maxTemperature = "22"),
+        WeatherWeeklyItemVO(dayOfTheWeek = "수", rainProbability = "60", weatherConditionAM = "비", weatherConditionPM = "흐림", minTemperature = "13", maxTemperature = "19"),
+    ),
+    sunriseSunset = SunriseSunsetVO(sunriseTime = "0532", sunsetTime = "1948"),
+    weatherOtherInfo = WeatherOtherInfoVO(humidity = "55", windDirection = "북서", windSpeed = "3.2"),
+    weatherForecastText = WeatherForecastTextVO(weatherForecastString = "오늘은 전국적으로 맑은 날씨가 예상됩니다. 낮 최고기온은 25도 내외입니다."),
+    airPollution = AirPollutionDataVO(pm2_5Density = "12", pm10Density = "24", pm2_5Quality = "좋음", pm10Quality = "보통"),
+    storedCityList = listOf(
+        WeatherNowCityListItemVO(city = "부산", temperature = "25", weatherCondition = "맑음"),
+        WeatherNowCityListItemVO(city = "제주", temperature = "27", weatherCondition = "구름많음"),
+    ),
+    currentPositionCity = WeatherNowVO(city = "서울", temperature = "23", weatherCondition = "맑음")
+)
+
+@Preview(showBackground = true, name = "날씨 메인 콘텐츠")
+@Composable
+private fun ForecastContentPreview() {
+    MaterialTheme {
+        ForecastContent(
+            state = previewState,
+            listState = rememberLazyListState()
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "날씨 메인 콘텐츠 - 로딩")
+@Composable
+private fun ForecastContentLoadingPreview() {
+    MaterialTheme {
+        Box(modifier = Modifier.fillMaxSize()) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        }
+    }
+}
+
+@Preview(showBackground = true, widthDp = 320, name = "드로어 - 도시 목록")
+@Composable
+private fun ForecastDrawerPreview() {
+    MaterialTheme {
+        ForecastDrawerContent(
+            state = previewState,
+            onCityClick = {},
+            onCurrentPositionClick = {},
+            onAddCityClick = {},
+            onManageCityClick = {}
+        )
     }
 }
