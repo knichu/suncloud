@@ -1,7 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    kotlin(Plugins.KOTLIN_KAPT)
+    id(Plugins.KSP)
     id(Plugins.HILT_PLUGIN)
 }
 
@@ -54,7 +54,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        dataBinding = true
+        viewBinding = true
         compose = true
     }
     composeOptions {
@@ -75,7 +75,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
-    kapt("com.google.dagger:hilt-android-compiler:2.50")
+    ksp("com.google.dagger:hilt-android-compiler:2.50")
     implementation("com.google.dagger:hilt-android:2.50")
     
     // compose
@@ -96,6 +96,3 @@ dependencies {
 
 }
 
-kapt {
-    correctErrorTypes = true
-}
