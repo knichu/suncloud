@@ -84,9 +84,6 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    api("io.reactivex.rxjava3:rxandroid:3.0.0")
-    api("io.reactivex.rxjava3:rxjava:3.1.0")
-
     api("androidx.fragment:fragment-ktx:1.6.1")
     api("androidx.navigation:navigation-fragment-ktx:2.5.3")
     api("androidx.navigation:navigation-ui-ktx:2.5.3")
@@ -99,6 +96,5 @@ dependencies {
 
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
-    implementation("androidx.datastore:datastore-preferences-rxjava3:1.0.0")
 }
 

@@ -131,7 +131,6 @@ dependencies {
     // Network
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
     // define a BOM and its version
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
     // define any required OkHttp artifacts without version
@@ -140,7 +139,6 @@ dependencies {
 
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
-    implementation("androidx.datastore:datastore-preferences-rxjava3:1.0.0")
 }
 
 fun getPropertyValue(propertyKey: String): String {
