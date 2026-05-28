@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_nationwide"
-    app:startDestination="@id/nationwideFragment">
+    app:startDestination="@id/nationwideHostFragment">
 
     <fragment
-        android:id="@+id/nationwideFragment"
-        android:name="com.knichu.nationwide.ui.NationwideFragment"
+        android:id="@+id/nationwideHostFragment"
+        android:name="com.knichu.nationwide.ui.NationwideHostFragment"
         android:label="fragment_nationwide"
         tools:layout="@layout/fragment_nationwide" />
 </navigation>
