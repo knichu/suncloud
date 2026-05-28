@@ -1,9 +1,7 @@
 package com.knichu.gateway.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.knichu.common_ui.base.BaseActivity
 import com.knichu.forecast.ui.ForecastHostFragment
@@ -13,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GatewayActivity : BaseActivity<ActivityGatewayBinding>(
-    R.layout.activity_gateway,
+    ActivityGatewayBinding::inflate
 ) {
 
     private val navController by lazy {
@@ -23,7 +21,7 @@ class GatewayActivity : BaseActivity<ActivityGatewayBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        with(viewDataBinding) {
+        with(viewBinding) {
 
             with(bottomNavigationView) {
                 if (navController != null) setupWithNavController(this, navController!!)
@@ -55,4 +53,3 @@ class GatewayActivity : BaseActivity<ActivityGatewayBinding>(
         }
     }
 }
-

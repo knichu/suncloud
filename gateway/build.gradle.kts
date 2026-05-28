@@ -1,7 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    kotlin(Plugins.KOTLIN_KAPT)
+    id(Plugins.KSP)
     id(Plugins.HILT_PLUGIN)
 }
 
@@ -54,7 +54,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -76,7 +76,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    kapt("com.google.dagger:hilt-android-compiler:2.50")
+    ksp("com.google.dagger:hilt-android-compiler:2.50")
     implementation("com.google.dagger:hilt-android:2.50")
 
     // Network
@@ -92,6 +92,3 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 }
 
-kapt {
-    correctErrorTypes = true
-}

@@ -1,7 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    kotlin(Plugins.KOTLIN_KAPT)
+    id(Plugins.KSP)
     id(Plugins.HILT_PLUGIN)
 }
 
@@ -60,7 +60,6 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        dataBinding = true
         buildConfig = true
     }
 }
@@ -77,7 +76,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    kapt("com.google.dagger:hilt-android-compiler:2.50")
+    ksp("com.google.dagger:hilt-android-compiler:2.50")
     implementation("com.google.dagger:hilt-android:2.50")
 
     // Coroutines
@@ -86,6 +85,3 @@ dependencies {
     api("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 }
 
-kapt {
-    correctErrorTypes = true
-}

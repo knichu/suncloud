@@ -3,7 +3,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    kotlin(Plugins.KOTLIN_KAPT)
+    id(Plugins.KSP)
     id(Plugins.HILT_PLUGIN)
 }
 
@@ -67,7 +67,6 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        dataBinding = true
         buildConfig = true
     }
 }
@@ -92,7 +91,7 @@ dependencies {
     api("androidx.navigation:navigation-fragment-ktx:2.5.3")
     api("androidx.navigation:navigation-ui-ktx:2.5.3")
 
-    kapt("com.google.dagger:hilt-android-compiler:2.50")
+    ksp("com.google.dagger:hilt-android-compiler:2.50")
     implementation("com.google.dagger:hilt-android:2.50")
 
     // Coroutines
@@ -103,6 +102,3 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences-rxjava3:1.0.0")
 }
 
-kapt {
-    correctErrorTypes = true
-}

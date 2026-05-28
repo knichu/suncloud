@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_setting"
-    app:startDestination="@id/settingFragment">
+    app:startDestination="@id/settingHostFragment">
 
     <fragment
-        android:id="@+id/settingFragment"
-        android:name="com.knichu.setting.ui.SettingFragment"
+        android:id="@+id/settingHostFragment"
+        android:name="com.knichu.setting.ui.SettingHostFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
 </navigation>
