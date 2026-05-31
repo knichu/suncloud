@@ -77,22 +77,10 @@ object DateTimeParser {
         val calendar = Calendar.getInstance()
         calendar.time = dateFormat.parse(currentTime)!!
         val currentHourMinute = SimpleDateFormat("HHmm", Locale.getDefault()).format(calendar.time)
-        val apiTimes = listOf("0600", "1800")
-        for (apiTime in apiTimes) {
-            if (currentHourMinute <= apiTime) {
-                return if (apiTime == apiTimes.first()) {
-                    calendar.add(Calendar.DAY_OF_YEAR, -1)
-                    calendar.set(Calendar.HOUR_OF_DAY, 18)
-                    calendar.set(Calendar.MINUTE, 0)
-                    dateFormat.format(calendar.time)
-                } else {
-                    calendar.set(Calendar.HOUR_OF_DAY, 6)
-                    calendar.set(Calendar.MINUTE, 0)
-                    dateFormat.format(calendar.time)
-                }
-            }
+        if (currentHourMinute < "0600") {
+            calendar.add(Calendar.DAY_OF_YEAR, -1)
         }
-        calendar.set(Calendar.HOUR_OF_DAY, 18)
+        calendar.set(Calendar.HOUR_OF_DAY, 6)
         calendar.set(Calendar.MINUTE, 0)
         return dateFormat.format(calendar.time)
     }

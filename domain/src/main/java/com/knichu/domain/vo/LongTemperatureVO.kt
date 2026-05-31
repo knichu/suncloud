@@ -11,4 +11,6 @@ data class LongTemperatureVO(
     val temperatureMax6: Long? = null,
     val temperatureMin7: Long? = null,
     val temperatureMax7: Long? = null,
+    val temperatureMin8: Long? = null,
+    val temperatureMax8: Long? = null,
 )

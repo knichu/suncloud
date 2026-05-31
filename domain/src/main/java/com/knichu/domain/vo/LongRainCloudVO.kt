@@ -21,4 +21,6 @@ data class LongRainCloudVO(
     val weatherForecast6Pm: String? = null,
     val weatherForecast7Am: String? = null,
     val weatherForecast7Pm: String? = null,
+    val rainProb8: Long? = null,
+    val weatherForecast8: String? = null,
 )
