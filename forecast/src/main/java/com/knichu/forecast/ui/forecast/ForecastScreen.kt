@@ -1,11 +1,12 @@
 package com.knichu.forecast.ui.forecast
 
+import android.content.Context
+import android.graphics.Bitmap
 import androidx.activity.compose.BackHandler
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,32 +17,42 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Divider
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationCity
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,12 +60,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.material3.MaterialTheme
+import androidx.core.content.ContextCompat
+import com.knichu.common_ui.R
 import com.knichu.common_ui.enums.WeatherIcon
+import com.knichu.common_ui.enums.WindDirectionIcon
 import com.knichu.domain.vo.AirPollutionDataVO
 import com.knichu.domain.vo.SunriseSunsetVO
 import com.knichu.domain.vo.Weather24HourItemVO
@@ -64,6 +84,82 @@ import com.knichu.domain.vo.WeatherNowVO
 import com.knichu.domain.vo.WeatherOtherInfoVO
 import com.knichu.domain.vo.WeatherWeeklyItemVO
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
+
+private val BgColor = Color(0xFFEAEAEA)
+
+// 벡터 드로어블을 비트맵으로 한 번만 렌더링해서 재사용 — 스크롤 복귀 시 재렌더링 방지
+private val iconBitmapCache = HashMap<Pair<Int, Int>, ImageBitmap>()
+
+private fun renderVectorToBitmap(context: Context, resId: Int, sizePx: Int): ImageBitmap {
+    val bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
+    val canvas = android.graphics.Canvas(bitmap)
+    val drawable = ContextCompat.getDrawable(context, resId)!!
+    drawable.setBounds(0, 0, sizePx, sizePx)
+    drawable.draw(canvas)
+    return bitmap.asImageBitmap()
+}
+
+@Composable
+private fun WeatherIconImage(weatherCondition: String?, size: Dp, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val resId = WeatherIcon.getIconImage(weatherCondition).icon
+    val sizePx = with(LocalDensity.current) { size.toPx().toInt() }
+    val bitmap = remember(resId, sizePx) {
+        iconBitmapCache.getOrPut(Pair(resId, sizePx)) {
+            renderVectorToBitmap(context, resId, sizePx)
+        }
+    }
+    Image(bitmap = bitmap, contentDescription = null, modifier = modifier.size(size))
+}
+
+@Composable
+private fun WindDirectionIconImage(windDirection: String?, size: Dp, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val resId = WindDirectionIcon.getIconImage(windDirection).icon
+    val sizePx = with(LocalDensity.current) { size.toPx().toInt() }
+    val bitmap = remember(resId, sizePx) {
+        iconBitmapCache.getOrPut(Pair(resId, sizePx)) {
+            renderVectorToBitmap(context, resId, sizePx)
+        }
+    }
+    Image(bitmap = bitmap, contentDescription = null, modifier = modifier.size(size))
+}
+
+private fun formatTimeAmPm(timeString: String?): String {
+    return try {
+        val parser = SimpleDateFormat("HHmm", Locale("ko", "KR"))
+        val time = parser.parse(timeString ?: "1200") ?: return ""
+        val formatter = SimpleDateFormat("a h시", Locale("ko", "KR"))
+        formatter.format(time)
+    } catch (e: Exception) { "" }
+}
+
+private fun formatTimeAmPmDetail(timeString: String?): String {
+    return try {
+        val parser = SimpleDateFormat("HHmm", Locale("ko", "KR"))
+        val time = parser.parse(timeString ?: "1200") ?: return ""
+        val formatter = SimpleDateFormat("a h:mm", Locale("ko", "KR"))
+        formatter.format(time)
+    } catch (e: Exception) { "" }
+}
+
+private fun airQualityColor(quality: String?): Color = when (quality) {
+    "1" -> Color(0xFF00CFCF)
+    "2" -> Color(0xFF00C800)
+    "3" -> Color(0xFFE69500)
+    "4" -> Color(0xFFEC0000)
+    else -> Color.LightGray
+}
+
+private fun airQualityText(quality: String?): String = when (quality) {
+    "1" -> "좋음"
+    "2" -> "보통"
+    "3" -> "나쁨"
+    "4" -> "매우 나쁨"
+    else -> "준비중"
+}
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
@@ -71,33 +167,29 @@ fun ForecastScreen(
     viewModel: ForecastViewModel
 ) {
     val state by viewModel.uiState.collectAsState()
+    val scrollState = rememberScrollState()
+    val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(
         initialValue = if (state.isDrawerOpen) DrawerValue.Open else DrawerValue.Closed
     )
-    val scope = rememberCoroutineScope()
-    val listState = rememberLazyListState()
+    val isScrolled by remember { derivedStateOf { scrollState.value > 400 } }
     val isRefreshing = state.isLoading && state.weatherNow != null
     val pullRefreshState = rememberPullRefreshState(
         refreshing = isRefreshing,
         onRefresh = { viewModel.handleIntent(ForecastUiIntent.Refresh) }
     )
+
     var showExitDialog by remember { mutableStateOf(false) }
     var showCitySelectDialog by remember { mutableStateOf<WeatherNowCityListItemVO?>(null) }
     var showCurrentPositionDialog by remember { mutableStateOf(false) }
 
-    // 드로어 상태와 ViewModel 상태 동기화
     LaunchedEffect(state.isDrawerOpen) {
         if (state.isDrawerOpen) drawerState.open() else drawerState.close()
     }
-
-    // 스크롤 최상단 트리거
     LaunchedEffect(state.scrollToTopTrigger) {
-        if (state.scrollToTopTrigger > 0L) {
-            listState.animateScrollToItem(0)
-        }
+        if (state.scrollToTopTrigger > 0L) scrollState.animateScrollTo(0)
     }
 
-    // 뒤로가기 처리
     BackHandler {
         if (drawerState.isOpen) {
             scope.launch { drawerState.close() }
@@ -107,7 +199,6 @@ fun ForecastScreen(
         }
     }
 
-    // 앱 종료 다이얼로그
     if (showExitDialog) {
         AlertDialog(
             onDismissRequest = { showExitDialog = false },
@@ -125,7 +216,6 @@ fun ForecastScreen(
         )
     }
 
-    // 도시 선택 다이얼로그
     showCitySelectDialog?.let { item ->
         AlertDialog(
             onDismissRequest = { showCitySelectDialog = null },
@@ -143,7 +233,6 @@ fun ForecastScreen(
         )
     }
 
-    // 현재 위치 선택 다이얼로그
     if (showCurrentPositionDialog) {
         AlertDialog(
             onDismissRequest = { showCurrentPositionDialog = false },
@@ -167,7 +256,7 @@ fun ForecastScreen(
             ModalDrawerSheet {
                 ForecastDrawerContent(
                     state = state,
-                    onCityClick = { item -> showCitySelectDialog = item },
+                    onCityClick = { showCitySelectDialog = it },
                     onCurrentPositionClick = { showCurrentPositionDialog = true },
                     onAddCityClick = {
                         scope.launch { drawerState.close() }
@@ -185,32 +274,26 @@ fun ForecastScreen(
             topBar = {
                 TopAppBar(
                     title = {
-                        Text(
-                            text = state.selectedCity ?: state.weatherNow?.city ?: "날씨",
-                            fontWeight = FontWeight.Bold
-                        )
+                        if (isScrolled) {
+                            Text(
+                                text = state.selectedCity ?: state.weatherNow?.city ?: "",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 18.sp
+                            )
+                        }
                     },
                     navigationIcon = {
                         IconButton(onClick = {
                             scope.launch { drawerState.open() }
                             viewModel.handleIntent(ForecastUiIntent.OpenDrawer)
                         }) {
-                            Icon(
-                                imageVector = Icons.Filled.LocationCity,
-                                contentDescription = "도시 목록"
-                            )
+                            Icon(imageVector = Icons.Filled.LocationCity, contentDescription = "도시 목록")
                         }
                     },
-                    actions = {
-                        IconButton(onClick = { viewModel.handleIntent(ForecastUiIntent.Refresh) }) {
-                            Icon(
-                                imageVector = Icons.Filled.Refresh,
-                                contentDescription = "새로고침"
-                            )
-                        }
-                    }
+                    colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = BgColor)
                 )
-            }
+            },
+            containerColor = BgColor
         ) { paddingValues ->
             Box(
                 modifier = Modifier
@@ -221,7 +304,24 @@ fun ForecastScreen(
                 if (state.isLoading && state.weatherNow == null) {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 } else {
-                    ForecastContent(state = state, listState = listState)
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(scrollState)
+                            .padding(bottom = 16.dp)
+                    ) {
+                        ForecastHeroSection(state = state)
+                        if (state.weather24Hour.isNotEmpty()) {
+                            Weather24HourCard(items = state.weather24Hour)
+                        }
+                        if (state.weatherWeekly.isNotEmpty()) {
+                            WeatherWeeklyCard(items = state.weatherWeekly)
+                        }
+                        state.airPollution?.let { AirPollutionCard(data = it) }
+                        state.sunriseSunset?.let { SunriseSunsetCard(data = it) }
+                        state.weatherOtherInfo?.let { WeatherOtherInfoCard(data = it) }
+                        state.weatherForecastText?.let { WeatherForecastTextCard(data = it) }
+                    }
                 }
                 PullRefreshIndicator(
                     refreshing = isRefreshing,
@@ -229,6 +329,322 @@ fun ForecastScreen(
                     modifier = Modifier.align(Alignment.TopCenter)
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun ForecastHeroSection(state: ForecastUiState) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp)
+            .background(BgColor)
+            .padding(start = 24.dp, top = 8.dp, end = 10.dp, bottom = 8.dp)
+    ) {
+        Column(
+            modifier = Modifier.align(Alignment.CenterStart),
+            verticalArrangement = Arrangement.Center
+        ) {
+            if (state.selectedCity == null) {
+                Text("현위치", fontSize = 14.sp, color = Color.Gray)
+            }
+            Text(
+                text = state.selectedCity ?: state.weatherNow?.city ?: "-",
+                fontSize = 38.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+            Text(
+                text = "${state.weatherNow?.temperature ?: "-"}°",
+                fontSize = 34.sp,
+                color = Color.Gray
+            )
+        }
+        WeatherIconImage(
+            weatherCondition = state.weatherNow?.weatherCondition,
+            size = 150.dp,
+            modifier = Modifier.align(Alignment.CenterEnd)
+        )
+    }
+}
+
+@Composable
+private fun WeatherCard(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 6.dp)
+            .padding(bottom = 6.dp),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        content()
+    }
+}
+
+@Composable
+private fun Weather24HourCard(items: List<Weather24HourItemVO>) {
+    WeatherCard {
+        Row(
+            modifier = Modifier
+                .horizontalScroll(rememberScrollState())
+                .padding(horizontal = 6.dp, vertical = 6.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            items.forEach { item ->
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 4.dp)
+                ) {
+                    Text(formatTimeAmPm(item.time), fontSize = 10.sp, color = Color.Gray)
+                    Spacer(modifier = Modifier.height(6.dp))
+                    WeatherIconImage(weatherCondition = item.weatherCondition, size = 32.dp)
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text("${item.temperature ?: "-"}°", fontSize = 18.sp, fontWeight = FontWeight.Medium)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_water_drop),
+                            contentDescription = null,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Text("${item.rainProbability ?: "0"}%", fontSize = 12.sp, color = Color.Gray)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun WeatherWeeklyCard(items: List<WeatherWeeklyItemVO>) {
+    WeatherCard {
+        Column(modifier = Modifier.padding(vertical = 4.dp)) {
+            items.forEachIndexed { index, item ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = item.dayOfTheWeek ?: "-",
+                        fontSize = 16.sp,
+                        modifier = Modifier.width(48.dp)
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.width(56.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_water_drop),
+                            contentDescription = null,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Text("${item.rainProbability ?: "0"}%", fontSize = 14.sp, color = Color.Gray)
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    WeatherIconImage(weatherCondition = item.weatherConditionAM, size = 24.dp)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    WeatherIconImage(weatherCondition = item.weatherConditionPM, size = 24.dp)
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(
+                        "${item.minTemperature ?: "-"}°",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.width(36.dp)
+                    )
+                    Text(
+                        "${item.maxTemperature ?: "-"}°",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.width(36.dp)
+                    )
+                }
+                if (index < items.size - 1) {
+                    Divider(color = Color(0xFFEAEAEA), thickness = 1.dp)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun AirPollutionCard(data: AirPollutionDataVO) {
+    WeatherCard {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 20.dp),
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("미세먼지", fontSize = 16.sp)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    "${airQualityText(data.pm10Quality)} (${data.pm10Density ?: "-"} ㎍/㎥)",
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                LinearProgressIndicator(
+                    progress = (data.pm10Quality?.toIntOrNull() ?: 0) / 4f,
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(6.dp),
+                    color = airQualityColor(data.pm10Quality),
+                    trackColor = Color(0xFFEAEAEA)
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .width(1.dp)
+                    .height(80.dp)
+                    .background(Color(0xFFEAEAEA))
+                    .align(Alignment.CenterVertically)
+            )
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("초미세먼지", fontSize = 16.sp)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    "${airQualityText(data.pm2_5Quality)} (${data.pm2_5Density ?: "-"} ㎍/㎥)",
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                LinearProgressIndicator(
+                    progress = (data.pm2_5Quality?.toIntOrNull() ?: 0) / 4f,
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(6.dp),
+                    color = airQualityColor(data.pm2_5Quality),
+                    trackColor = Color(0xFFEAEAEA)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SunriseSunsetCard(data: SunriseSunsetVO) {
+    WeatherCard {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(vertical = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("일출", fontSize = 16.sp)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(formatTimeAmPmDetail(data.sunriseTime), fontSize = 16.sp)
+                Spacer(modifier = Modifier.height(8.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.ic_sunrise),
+                    contentDescription = null,
+                    modifier = Modifier.size(64.dp)
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(vertical = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("일몰", fontSize = 16.sp)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(formatTimeAmPmDetail(data.sunsetTime), fontSize = 16.sp)
+                Spacer(modifier = Modifier.height(8.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.ic_sunset),
+                    contentDescription = null,
+                    modifier = Modifier.size(64.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun WeatherOtherInfoCard(data: WeatherOtherInfoVO) {
+    WeatherCard {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(vertical = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_wind),
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text("바람", fontSize = 16.sp)
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                WindDirectionIconImage(windDirection = data.windDirection, size = 44.dp)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text("${data.windSpeed ?: "-"} m/s", fontSize = 16.sp)
+            }
+            Box(
+                modifier = Modifier
+                    .width(1.dp)
+                    .height(120.dp)
+                    .background(Color(0xFFEAEAEA))
+                    .align(Alignment.CenterVertically)
+            )
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(vertical = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_humidity_percentage),
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text("습도", fontSize = 16.sp)
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    "${data.humidity ?: "-"}%",
+                    fontSize = 34.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun WeatherForecastTextCard(data: WeatherForecastTextVO) {
+    WeatherCard {
+        Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
+            Text("날씨 전망", fontSize = 16.sp, fontWeight = FontWeight.Medium)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = data.weatherForecastString ?: "-",
+                fontSize = 14.sp,
+                lineHeight = 22.sp,
+                color = Color.DarkGray
+            )
         }
     }
 }
@@ -245,7 +661,6 @@ private fun ForecastDrawerContent(
         Text("도시 목록", fontSize = 20.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(12.dp))
 
-        // 현재 위치 항목
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -263,7 +678,6 @@ private fun ForecastDrawerContent(
         Divider()
         Spacer(modifier = Modifier.height(8.dp))
 
-        // 저장된 도시 목록
         LazyColumn(modifier = Modifier.weight(1f)) {
             items(state.storedCityList) { item ->
                 Row(
@@ -275,171 +689,20 @@ private fun ForecastDrawerContent(
                 ) {
                     Text(item.city ?: "-", fontSize = 16.sp)
                     Spacer(modifier = Modifier.weight(1f))
-                    Text("${item.temperature}° ${WeatherIcon.getLabel(item.weatherCondition)}", fontSize = 14.sp)
+                    WeatherIconImage(weatherCondition = item.weatherCondition, size = 20.dp)
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("${item.temperature ?: "-"}°", fontSize = 14.sp)
                 }
                 Divider()
             }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
-
-        // 도시 추가 버튼
-        TextButton(
-            onClick = onAddCityClick,
-            modifier = Modifier.fillMaxWidth()
-        ) { Text("+ 도시 추가") }
-
-        // 도시 관리 버튼
-        TextButton(
-            onClick = onManageCityClick,
-            modifier = Modifier.fillMaxWidth()
-        ) { Text("도시 목록 관리") }
-    }
-}
-
-@Composable
-private fun ForecastContent(
-    state: ForecastUiState,
-    listState: androidx.compose.foundation.lazy.LazyListState
-) {
-    LazyColumn(
-        state = listState,
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        // 현재 날씨
-        state.weatherNow?.let { now ->
-            item {
-                WeatherNowSection(
-                    temperature = now.temperature,
-                    city = now.city,
-                    condition = WeatherIcon.getLabel(now.weatherCondition)
-                )
-            }
+        TextButton(onClick = onAddCityClick, modifier = Modifier.fillMaxWidth()) {
+            Text("+ 도시 추가")
         }
-
-        // 24시간 날씨
-        if (state.weather24Hour.isNotEmpty()) {
-            item { Weather24HourSection(items = state.weather24Hour) }
-        }
-
-        // 주간 날씨
-        if (state.weatherWeekly.isNotEmpty()) {
-            item { WeatherWeeklySection(items = state.weatherWeekly) }
-        }
-
-        // 일출/일몰
-        state.sunriseSunset?.let { ss ->
-            item {
-                InfoCard(title = "일출/일몰") {
-                    Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("🌅 일출", fontWeight = FontWeight.Bold)
-                            Text(ss.sunriseTime ?: "-")
-                        }
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("🌇 일몰", fontWeight = FontWeight.Bold)
-                            Text(ss.sunsetTime ?: "-")
-                        }
-                    }
-                }
-            }
-        }
-
-        // 기타 정보
-        state.weatherOtherInfo?.let { info ->
-            item {
-                InfoCard(title = "기타 정보") {
-                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Text("습도: ${info.humidity ?: "-"}%")
-                        Text("풍향: ${info.windDirection ?: "-"}")
-                        Text("풍속: ${info.windSpeed ?: "-"} m/s")
-                    }
-                }
-            }
-        }
-
-        // 날씨 예보 텍스트
-        state.weatherForecastText?.let { ft ->
-            item {
-                InfoCard(title = "날씨 예보") {
-                    Text(ft.weatherForecastString ?: "-", lineHeight = 22.sp)
-                }
-            }
-        }
-
-        // 대기 오염
-        state.airPollution?.let { ap ->
-            item {
-                InfoCard(title = "대기 오염") {
-                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Text("PM2.5: ${ap.pm2_5Density ?: "-"} (${ap.pm2_5Quality ?: "-"})")
-                        Text("PM10:  ${ap.pm10Density ?: "-"} (${ap.pm10Quality ?: "-"})")
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun WeatherNowSection(temperature: String?, city: String?, condition: String?) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(city ?: "-", fontSize = 20.sp)
-        Text("${temperature ?: "-"}°", fontSize = 64.sp, fontWeight = FontWeight.Thin)
-        Text(condition ?: "-", fontSize = 18.sp)
-    }
-}
-
-@Composable
-private fun Weather24HourSection(items: List<Weather24HourItemVO>) {
-    InfoCard(title = "시간별 날씨") {
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            items(items) { item ->
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(item.time ?: "-", fontSize = 12.sp)
-                    Text(WeatherIcon.getLabel(item.weatherCondition), fontSize = 11.sp)
-                    Text("${item.temperature ?: "-"}°", fontWeight = FontWeight.Bold)
-                    Text("${item.rainProbability ?: "0"}%", fontSize = 11.sp)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun WeatherWeeklySection(items: List<WeatherWeeklyItemVO>) {
-    InfoCard(title = "주간 날씨") {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            items.forEach { item ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(item.dayOfTheWeek ?: "-", modifier = Modifier.width(36.dp))
-                    Text("${item.rainProbability ?: "0"}%", fontSize = 12.sp)
-                    Text("${WeatherIcon.getLabel(item.weatherConditionAM)} / ${WeatherIcon.getLabel(item.weatherConditionPM)}", fontSize = 12.sp)
-                    Text("${item.minTemperature ?: "-"}° / ${item.maxTemperature ?: "-"}°")
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun InfoCard(title: String, content: @Composable () -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(title, fontWeight = FontWeight.Bold, fontSize = 14.sp)
-            Spacer(modifier = Modifier.height(8.dp))
-            content()
+        TextButton(onClick = onManageCityClick, modifier = Modifier.fillMaxWidth()) {
+            Text("도시 목록 관리")
         }
     }
 }
@@ -447,60 +710,83 @@ private fun InfoCard(title: String, content: @Composable () -> Unit) {
 // ────────────── Previews ──────────────
 
 private val previewState = ForecastUiState(
-    weatherNow = WeatherNowVO(city = "서울", temperature = "23", weatherCondition = "맑음"),
+    weatherNow = WeatherNowVO(city = "부산", temperature = "19", weatherCondition = "12"),
     weather24Hour = listOf(
-        Weather24HourItemVO(time = "1400", weatherCondition = "맑음", temperature = "23", rainProbability = "10"),
-        Weather24HourItemVO(time = "1700", weatherCondition = "구름많음", temperature = "21", rainProbability = "20"),
-        Weather24HourItemVO(time = "2000", weatherCondition = "흐림", temperature = "18", rainProbability = "40"),
-        Weather24HourItemVO(time = "2300", weatherCondition = "비", temperature = "16", rainProbability = "70"),
+        Weather24HourItemVO(time = "0300", weatherCondition = "13", temperature = "20", rainProbability = "0"),
+        Weather24HourItemVO(time = "0600", weatherCondition = "1", temperature = "19", rainProbability = "0"),
+        Weather24HourItemVO(time = "0900", weatherCondition = "1", temperature = "21", rainProbability = "0"),
+        Weather24HourItemVO(time = "1200", weatherCondition = "2", temperature = "23", rainProbability = "30"),
     ),
     weatherWeekly = listOf(
-        WeatherWeeklyItemVO(dayOfTheWeek = "월", rainProbability = "10", weatherConditionAM = "맑음", weatherConditionPM = "맑음", minTemperature = "15", maxTemperature = "25"),
-        WeatherWeeklyItemVO(dayOfTheWeek = "화", rainProbability = "30", weatherConditionAM = "구름", weatherConditionPM = "비", minTemperature = "14", maxTemperature = "22"),
-        WeatherWeeklyItemVO(dayOfTheWeek = "수", rainProbability = "60", weatherConditionAM = "비", weatherConditionPM = "흐림", minTemperature = "13", maxTemperature = "19"),
+        WeatherWeeklyItemVO(dayOfTheWeek = "오늘", rainProbability = "30", weatherConditionAM = "1", weatherConditionPM = "2", minTemperature = "19", maxTemperature = "25"),
+        WeatherWeeklyItemVO(dayOfTheWeek = "토요일", rainProbability = "0", weatherConditionAM = "1", weatherConditionPM = "1", minTemperature = "16", maxTemperature = "29"),
+        WeatherWeeklyItemVO(dayOfTheWeek = "일요일", rainProbability = "0", weatherConditionAM = "1", weatherConditionPM = "1", minTemperature = "18", maxTemperature = "30"),
     ),
-    sunriseSunset = SunriseSunsetVO(sunriseTime = "0532", sunsetTime = "1948"),
-    weatherOtherInfo = WeatherOtherInfoVO(humidity = "55", windDirection = "북서", windSpeed = "3.2"),
-    weatherForecastText = WeatherForecastTextVO(weatherForecastString = "오늘은 전국적으로 맑은 날씨가 예상됩니다. 낮 최고기온은 25도 내외입니다."),
-    airPollution = AirPollutionDataVO(pm2_5Density = "12", pm10Density = "24", pm2_5Quality = "좋음", pm10Quality = "보통"),
+    sunriseSunset = SunriseSunsetVO(sunriseTime = "0512", sunsetTime = "1930"),
+    weatherOtherInfo = WeatherOtherInfoVO(humidity = "69", windDirection = "3", windSpeed = "1.2"),
+    weatherForecastText = WeatherForecastTextVO(weatherForecastString = "○ (하늘상태) 이번 예보기간 구름많은 날이 많겠습니다.\n○ (기온) 이번 예보기간 아침 기온은 14~19℃, 낮 기온은 25~29℃로 예상됩니다."),
+    airPollution = AirPollutionDataVO(pm2_5Density = "74", pm10Density = "82", pm2_5Quality = "3", pm10Quality = "3"),
     storedCityList = listOf(
-        WeatherNowCityListItemVO(city = "부산", temperature = "25", weatherCondition = "맑음"),
-        WeatherNowCityListItemVO(city = "제주", temperature = "27", weatherCondition = "구름많음"),
+        WeatherNowCityListItemVO(city = "서울", temperature = "22", weatherCondition = "1"),
+        WeatherNowCityListItemVO(city = "제주", temperature = "25", weatherCondition = "8"),
     ),
-    currentPositionCity = WeatherNowVO(city = "서울", temperature = "23", weatherCondition = "맑음")
+    currentPositionCity = WeatherNowVO(city = "부산", temperature = "19", weatherCondition = "12")
 )
 
-@Preview(showBackground = true, name = "날씨 메인 콘텐츠")
+@Preview(showBackground = true, name = "히어로 섹션")
 @Composable
-private fun ForecastContentPreview() {
+private fun HeroPreview() {
     MaterialTheme {
-        ForecastContent(
-            state = previewState,
-            listState = rememberLazyListState()
-        )
+        ForecastHeroSection(state = previewState)
     }
 }
 
-@Preview(showBackground = true, name = "날씨 메인 콘텐츠 - 로딩")
+@Preview(showBackground = true, name = "24시간 날씨")
 @Composable
-private fun ForecastContentLoadingPreview() {
+private fun Weather24HourPreview() {
     MaterialTheme {
-        Box(modifier = Modifier.fillMaxSize()) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        Box(modifier = Modifier.background(BgColor)) {
+            Weather24HourCard(items = previewState.weather24Hour)
         }
     }
 }
 
-@Preview(showBackground = true, widthDp = 320, name = "드로어 - 도시 목록")
+@Preview(showBackground = true, name = "주간 날씨")
 @Composable
-private fun ForecastDrawerPreview() {
+private fun WeatherWeeklyPreview() {
     MaterialTheme {
-        ForecastDrawerContent(
-            state = previewState,
-            onCityClick = {},
-            onCurrentPositionClick = {},
-            onAddCityClick = {},
-            onManageCityClick = {}
-        )
+        Box(modifier = Modifier.background(BgColor)) {
+            WeatherWeeklyCard(items = previewState.weatherWeekly)
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "대기 오염")
+@Composable
+private fun AirPollutionPreview() {
+    MaterialTheme {
+        Box(modifier = Modifier.background(BgColor)) {
+            AirPollutionCard(data = previewState.airPollution!!)
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "일출/일몰")
+@Composable
+private fun SunriseSunsetPreview() {
+    MaterialTheme {
+        Box(modifier = Modifier.background(BgColor)) {
+            SunriseSunsetCard(data = previewState.sunriseSunset!!)
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "바람/습도")
+@Composable
+private fun OtherInfoPreview() {
+    MaterialTheme {
+        Box(modifier = Modifier.background(BgColor)) {
+            WeatherOtherInfoCard(data = previewState.weatherOtherInfo!!)
+        }
     }
 }
