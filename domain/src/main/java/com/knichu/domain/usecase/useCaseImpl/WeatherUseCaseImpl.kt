@@ -122,7 +122,8 @@ class WeatherUseCaseImpl @Inject constructor(
         val adjustedMidDate = DateTimeParser.adjustShortWeatherTimeWeekly()
         val (adjustX, adjustY) = LocationParser.getNxNy(lon, lat)
         val nearestCity = CurrentPositionCityParser.getNearestCity(lon, lat, cityLocationVO)
-        val currentLongDateTime = DateTimeParser.adjustLongTermForecastTime().toLong()
+        val currentLongForecastTime = DateTimeParser.adjustLongTermForecastTime()
+        val currentLongDateTime = currentLongForecastTime.toLong()
         return coroutineScope {
             val midDeferred = async {
                 weatherRepository.getMidWeather(
@@ -140,7 +141,8 @@ class WeatherUseCaseImpl @Inject constructor(
                 )
             }
             WeatherWeeklyParser.getWeatherWeeklyVO(
-                midDeferred.await(), longRainDeferred.await(), longTempDeferred.await(), adjustedMidDate.toString()
+                midDeferred.await(), longRainDeferred.await(), longTempDeferred.await(),
+                adjustedMidDate.toString(), currentLongForecastTime
             )
         }
     }
@@ -242,7 +244,8 @@ class WeatherUseCaseImpl @Inject constructor(
         val lat = cityLocationItemVO?.latitude?.toDouble() ?: 37.5683
         val (adjustX, adjustY) = LocationParser.getNxNy(lon, lat)
         val adjustedMidDate = DateTimeParser.adjustShortWeatherTimeWeekly()
-        val currentLongDateTime = DateTimeParser.adjustLongTermForecastTime().toLong()
+        val currentLongForecastTime = DateTimeParser.adjustLongTermForecastTime()
+        val currentLongDateTime = currentLongForecastTime.toLong()
         return coroutineScope {
             val midDeferred = async {
                 weatherRepository.getMidWeather(
@@ -260,7 +263,8 @@ class WeatherUseCaseImpl @Inject constructor(
                 )
             }
             WeatherWeeklyParser.getWeatherWeeklyVO(
-                midDeferred.await(), longRainDeferred.await(), longTempDeferred.await(), adjustedMidDate.toString()
+                midDeferred.await(), longRainDeferred.await(), longTempDeferred.await(),
+                adjustedMidDate.toString(), currentLongForecastTime
             )
         }
     }

@@ -40,7 +40,7 @@ interface WeatherService {
     suspend fun getMidWeather(
         @Query("serviceKey") serviceKey: String? = ApiKeys.APIS_DATA_WEATHER_API_KEY,
         @Query("pageNo") pageNo: Long? = 1,
-        @Query("numOfRows") numOfRows: Long? = 880,
+        @Query("numOfRows") numOfRows: Long? = 1160,
         @Query("dataType") dataType: String? = ApiKeys.JSON,
         @Query("base_date") baseDate: String? = null,
         @Query("base_time") baseTime: String? = "2300",

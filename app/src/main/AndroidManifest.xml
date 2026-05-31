@@ -20,7 +20,8 @@
         tools:targetApi="33">
         <activity
             android:name="com.knichu.gateway.ui.GatewayActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Suncloud.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

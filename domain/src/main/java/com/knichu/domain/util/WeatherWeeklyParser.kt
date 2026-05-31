@@ -17,10 +17,11 @@ object WeatherWeeklyParser {
         midWeather: MidWeatherVO,
         longRainCloud: LongRainCloudVO,
         longTemperature: LongTemperatureVO,
-        baseDate: String
+        baseDate: String,
+        longTermForecastTime: String
     ): WeatherWeeklyVO {
         val midWeatherData = getMidWeatherData(midWeather, baseDate)
-        val longWeatherData = getLongWeatherData(longRainCloud, longTemperature)
+        val longWeatherData = getLongWeatherData(longRainCloud, longTemperature, longTermForecastTime)
         return WeatherWeeklyVO(midWeatherData + longWeatherData)
     }
 
@@ -63,7 +64,7 @@ object WeatherWeeklyParser {
         val tempDate = Calendar.getInstance()
         tempDate.time = dateFormat.parse(baseDate)!!
         var checkIndex = 0
-        for (index in 0..2) {
+        for (index in 0..3) {
             var tempRainProbability: Int? = null
             val weatherConditionAMListSKY: MutableList<Int> = mutableListOf()
             val weatherConditionAMListPTY: MutableList<Int> = mutableListOf()
@@ -171,64 +172,78 @@ object WeatherWeeklyParser {
 
     private fun getLongWeatherData(
         longRainCloud: LongRainCloudVO,
-        longTemperature: LongTemperatureVO
+        longTemperature: LongTemperatureVO,
+        longTermForecastTime: String
     ): List<WeatherWeeklyItemVO> {
         val weatherWeeklyItemList = mutableListOf<WeatherWeeklyItemVO>()
         val dayOfWeekList = getDayOfWeekList()
 
-        for (index in 3..7) {
-            val rainProbAm = when (index) {
-                3 -> longRainCloud.rainProb3Am
+        // 발표 기준일과 오늘의 차이를 계산해서 D+N 인덱스 보정
+        // 오전 6시 이전에는 전날 0600 발표 기준을 사용하므로 D+N이 1일 앞당겨짐
+        val forecastDateStr = longTermForecastTime.substring(0, 8) // "yyyyMMdd"
+        val todayDateStr = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Calendar.getInstance().time)
+        val forecastCal = Calendar.getInstance().also {
+            it.time = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).parse(forecastDateStr)!!
+        }
+        val todayCal = Calendar.getInstance().also {
+            it.time = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).parse(todayDateStr)!!
+        }
+        val dayOffset = ((todayCal.timeInMillis - forecastCal.timeInMillis) / (1000 * 60 * 60 * 24)).toInt()
+
+        for (index in 4..7) {
+            val apiIndex = index + dayOffset
+            val rainProbAm = when (apiIndex) {
                 4 -> longRainCloud.rainProb4Am
                 5 -> longRainCloud.rainProb5Am
                 6 -> longRainCloud.rainProb6Am
                 7 -> longRainCloud.rainProb7Am
+                8 -> longRainCloud.rainProb8
                 else -> 0
             } ?: 0
-            val rainProbPm = when (index) {
-                3 -> longRainCloud.rainProb3Pm
+            val rainProbPm = when (apiIndex) {
                 4 -> longRainCloud.rainProb4Pm
                 5 -> longRainCloud.rainProb5Pm
                 6 -> longRainCloud.rainProb6Pm
                 7 -> longRainCloud.rainProb7Pm
+                8 -> longRainCloud.rainProb8
                 else -> 0
             } ?: 0
 
-            val weatherConditionAMString = when (index) {
-                3 -> longRainCloud.weatherForecast3Am
+            val weatherConditionAMString = when (apiIndex) {
                 4 -> longRainCloud.weatherForecast4Am
                 5 -> longRainCloud.weatherForecast5Am
                 6 -> longRainCloud.weatherForecast6Am
                 7 -> longRainCloud.weatherForecast7Am
-                else -> 0
+                8 -> longRainCloud.weatherForecast8
+                else -> null
             } ?: "맑음"
-            val weatherConditionAM = mapWeatherString(weatherConditionAMString.toString())
+            val weatherConditionAM = mapWeatherString(weatherConditionAMString)
 
-            val weatherConditionPMString = when (index) {
-                3 -> longRainCloud.weatherForecast3Pm
+            val weatherConditionPMString = when (apiIndex) {
                 4 -> longRainCloud.weatherForecast4Pm
                 5 -> longRainCloud.weatherForecast5Pm
                 6 -> longRainCloud.weatherForecast6Pm
                 7 -> longRainCloud.weatherForecast7Pm
-                else -> 0
+                8 -> longRainCloud.weatherForecast8
+                else -> null
             } ?: "맑음"
-            val weatherConditionPM = mapWeatherString(weatherConditionPMString.toString())
+            val weatherConditionPM = mapWeatherString(weatherConditionPMString)
 
-            val maxTemperature = when (index) {
-                3 -> longTemperature.temperatureMax3
+            val maxTemperature = when (apiIndex) {
                 4 -> longTemperature.temperatureMax4
                 5 -> longTemperature.temperatureMax5
                 6 -> longTemperature.temperatureMax6
                 7 -> longTemperature.temperatureMax7
+                8 -> longTemperature.temperatureMax8
                 else -> 0
             } ?: 0
 
-            val minTemperature = when (index) {
-                3 -> longTemperature.temperatureMin3
+            val minTemperature = when (apiIndex) {
                 4 -> longTemperature.temperatureMin4
                 5 -> longTemperature.temperatureMin5
                 6 -> longTemperature.temperatureMin6
                 7 -> longTemperature.temperatureMin7
+                8 -> longTemperature.temperatureMin8
                 else -> 0
             } ?: 0
 

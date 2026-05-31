@@ -14,10 +14,15 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.LocationServices
+import com.knichu.common.base.SplashReadyCallback
 import com.knichu.forecast.ui.forecast.ForecastUiIntent
 import com.knichu.forecast.ui.forecast.ForecastViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ForecastHostFragment : Fragment() {
@@ -32,6 +37,7 @@ class ForecastHostFragment : Fragment() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) fetchCurrentLocation()
+        else (requireActivity() as? SplashReadyCallback)?.onDataReady()
     }
 
     override fun onCreateView(
@@ -52,10 +58,22 @@ class ForecastHostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkLocationPermission()
+        signalSplashWhenReady()
     }
 
     fun scrollToTop() {
         viewModel.handleIntent(ForecastUiIntent.ScrollToTop)
+    }
+
+    private fun signalSplashWhenReady() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState
+                .filter { !it.isLoading && (it.weatherNow != null || it.error != null) }
+                .take(1)
+                .collect {
+                    (requireActivity() as? SplashReadyCallback)?.onDataReady()
+                }
+        }
     }
 
     private fun checkLocationPermission() {

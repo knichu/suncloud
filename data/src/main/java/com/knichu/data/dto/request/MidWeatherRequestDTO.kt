@@ -7,7 +7,7 @@ import com.knichu.data.dto.request.ApiKeys.JSON
 data class MidWeatherRequestDTO(
     @field:SerializedName("serviceKey") val serviceKey: String? = APIS_DATA_WEATHER_API_KEY,
     @field:SerializedName("pageNo") val pageNo: Long? = 1,
-    @field:SerializedName("numOfRows") val numOfRows: Long? = 880,
+    @field:SerializedName("numOfRows") val numOfRows: Long? = 1160,
     @field:SerializedName("dataType") val dataType: String? = JSON,
     @field:SerializedName("base_date") val baseDate: String? = null,
     @field:SerializedName("base_time") val baseTime: String? = "2300",

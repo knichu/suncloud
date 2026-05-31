@@ -9,16 +9,18 @@ data class LongTemperatureResponseDTO(
     fun toDomain(): LongTemperatureVO {
         val item = response?.body?.items?.item?.firstOrNull()
         return LongTemperatureVO(
-            temperatureMin3 = requireNotNull(item?.taMin3),
-            temperatureMax3 = requireNotNull(item?.taMax3),
-            temperatureMin4 = requireNotNull(item?.taMin4),
-            temperatureMax4 = requireNotNull(item?.taMax4),
-            temperatureMin5 = requireNotNull(item?.taMin5),
-            temperatureMax5 = requireNotNull(item?.taMax5),
-            temperatureMin6 = requireNotNull(item?.taMin6),
-            temperatureMax6 = requireNotNull(item?.taMax6),
-            temperatureMin7 = requireNotNull(item?.taMin7),
-            temperatureMax7 = requireNotNull(item?.taMax7)
+            temperatureMin3 = item?.taMin3,
+            temperatureMax3 = item?.taMax3,
+            temperatureMin4 = item?.taMin4,
+            temperatureMax4 = item?.taMax4,
+            temperatureMin5 = item?.taMin5,
+            temperatureMax5 = item?.taMax5,
+            temperatureMin6 = item?.taMin6,
+            temperatureMax6 = item?.taMax6,
+            temperatureMin7 = item?.taMin7,
+            temperatureMax7 = item?.taMax7,
+            temperatureMin8 = item?.taMin8,
+            temperatureMax8 = item?.taMax8
         )
     }
 }

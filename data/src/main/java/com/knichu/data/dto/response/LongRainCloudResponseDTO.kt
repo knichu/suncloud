@@ -9,26 +9,28 @@ data class LongRainCloudResponseDTO(
     fun toDomain(): LongRainCloudVO {
         val item = response?.body?.items?.item?.firstOrNull()
         return LongRainCloudVO(
-            rainProb3Am = requireNotNull(item?.rnSt3Am),
-            rainProb3Pm = requireNotNull(item?.rnSt3Pm),
-            rainProb4Am = requireNotNull(item?.rnSt4Am),
-            rainProb4Pm = requireNotNull(item?.rnSt4Pm),
-            rainProb5Am = requireNotNull(item?.rnSt5Am),
-            rainProb5Pm = requireNotNull(item?.rnSt5Pm),
-            rainProb6Am = requireNotNull(item?.rnSt6Am),
-            rainProb6Pm = requireNotNull(item?.rnSt6Pm),
-            rainProb7Am = requireNotNull(item?.rnSt7Am),
-            rainProb7Pm = requireNotNull(item?.rnSt7Pm),
-            weatherForecast3Am = requireNotNull(item?.wf3Am),
-            weatherForecast3Pm = requireNotNull(item?.wf3Pm),
-            weatherForecast4Am = requireNotNull(item?.wf4Am),
-            weatherForecast4Pm = requireNotNull(item?.wf4Pm),
-            weatherForecast5Am = requireNotNull(item?.wf5Am),
-            weatherForecast5Pm = requireNotNull(item?.wf5Pm),
-            weatherForecast6Am = requireNotNull(item?.wf6Am),
-            weatherForecast6Pm = requireNotNull(item?.wf6Pm),
-            weatherForecast7Am = requireNotNull(item?.wf7Am),
-            weatherForecast7Pm = requireNotNull(item?.wf7Pm)
+            rainProb3Am = item?.rnSt3Am,
+            rainProb3Pm = item?.rnSt3Pm,
+            rainProb4Am = item?.rnSt4Am,
+            rainProb4Pm = item?.rnSt4Pm,
+            rainProb5Am = item?.rnSt5Am,
+            rainProb5Pm = item?.rnSt5Pm,
+            rainProb6Am = item?.rnSt6Am,
+            rainProb6Pm = item?.rnSt6Pm,
+            rainProb7Am = item?.rnSt7Am,
+            rainProb7Pm = item?.rnSt7Pm,
+            weatherForecast3Am = item?.wf3Am,
+            weatherForecast3Pm = item?.wf3Pm,
+            weatherForecast4Am = item?.wf4Am,
+            weatherForecast4Pm = item?.wf4Pm,
+            weatherForecast5Am = item?.wf5Am,
+            weatherForecast5Pm = item?.wf5Pm,
+            weatherForecast6Am = item?.wf6Am,
+            weatherForecast6Pm = item?.wf6Pm,
+            weatherForecast7Am = item?.wf7Am,
+            weatherForecast7Pm = item?.wf7Pm,
+            rainProb8 = item?.rnSt8,
+            weatherForecast8 = item?.wf8
         )
     }
 }
