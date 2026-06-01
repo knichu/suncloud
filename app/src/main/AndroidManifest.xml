@@ -18,6 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Suncloud"
         tools:targetApi="33">
+        <meta-data
+            android:name="com.naver.maps.map.NCP_KEY_ID"
+            android:value="${naverMapsClientId}" />
+
         <activity
             android:name="com.knichu.gateway.ui.GatewayActivity"
             android:exported="true"
