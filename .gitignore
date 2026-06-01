@@ -336,4 +336,7 @@ obj/
 
 !/gradle/wrapper/gradle-wrapper.jar
 
+# Claude Code
+CLAUDE.md
+
 # End of https://www.toptal.com/developers/gitignore/api/intellij,android,androidstudio,kotlin,macos
