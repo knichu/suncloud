@@ -23,7 +23,7 @@ class NationwideHostFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 MaterialTheme {
-                    NationwideScreen()
+                    NationwideScreen(viewModel = viewModel)
                 }
             }
         }
