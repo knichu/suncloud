@@ -37,6 +37,8 @@ android {
         versionName = DefaultConfig.VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders["naverMapsClientId"] = getPropertyValue("naverMapsClientId")
+        buildConfigField("String", "NAVER_MAPS_CLIENT_ID", "\"${getPropertyValue("naverMapsClientId")}\"")
 
 //        // @InstallIn 무시 코드
 //        javaCompileOptions {
@@ -96,6 +98,10 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -116,6 +122,9 @@ dependencies {
     api(project(":nationwide"))
     api(project(":setting"))
     api(project(":data"))
+
+    // Naver Maps (Application 클래스에서 SDK 초기화용)
+    implementation("com.naver.maps:map-sdk:3.23.2")
 
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
