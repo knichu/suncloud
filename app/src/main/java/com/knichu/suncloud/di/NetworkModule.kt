@@ -1,4 +1,4 @@
-package com.knichu.gateway.di
+package com.knichu.suncloud.di
 
 import dagger.Module
 import dagger.Provides

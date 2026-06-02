@@ -1,4 +1,4 @@
-package com.knichu.gateway.di
+package com.knichu.suncloud.di
 
 import com.knichu.domain.useCase.AirPollutionUseCase
 import com.knichu.domain.useCase.DataStoreUseCase

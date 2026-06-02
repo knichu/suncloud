@@ -1,4 +1,4 @@
-package com.knichu.gateway.di
+package com.knichu.suncloud.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore

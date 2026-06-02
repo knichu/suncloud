@@ -1,4 +1,4 @@
-package com.knichu.gateway.di
+package com.knichu.suncloud.di
 
 import android.app.Application
 import android.content.Context
