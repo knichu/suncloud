@@ -118,9 +118,6 @@ dependencies {
 
     // module
     api(project(":gateway"))
-    api(project(":forecast"))
-    api(project(":nationwide"))
-    api(project(":setting"))
     api(project(":data"))
 
     // Naver Maps (Application 클래스에서 SDK 초기화용)

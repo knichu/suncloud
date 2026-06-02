@@ -78,5 +78,9 @@ dependencies {
 
     ksp("com.google.dagger:hilt-android-compiler:2.50")
     implementation("com.google.dagger:hilt-android:2.50")
+
+    // Navigation (GatewayActivity - NavHostFragment, setupWithNavController)
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
 }
 
