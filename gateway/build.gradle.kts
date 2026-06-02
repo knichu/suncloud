@@ -64,7 +64,6 @@ dependencies {
     api(project(":forecast"))
     api(project(":nationwide"))
     api(project(":setting"))
-    api(project(":data"))
 
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
@@ -80,16 +79,8 @@ dependencies {
     ksp("com.google.dagger:hilt-android-compiler:2.50")
     implementation("com.google.dagger:hilt-android:2.50")
 
-    // Network
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    // define a BOM and its version
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
-    // define any required OkHttp artifacts without version
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor")
-
-    // DataStore
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    // Navigation (GatewayActivity - NavHostFragment, setupWithNavController)
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
 }
 

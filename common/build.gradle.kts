@@ -79,6 +79,8 @@ dependencies {
     ksp("com.google.dagger:hilt-android-compiler:2.50")
     implementation("com.google.dagger:hilt-android:2.50")
 
+    api("androidx.fragment:fragment-ktx:1.6.1")
+
     // Coroutines
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
