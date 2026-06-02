@@ -75,6 +75,8 @@ import androidx.core.content.ContextCompat
 import com.knichu.common_ui.R
 import com.knichu.common_ui.enums.WeatherIcon
 import com.knichu.common_ui.enums.WindDirectionIcon
+import com.knichu.domain.constants.WeatherTempUnit
+import com.knichu.domain.util.TemperatureParser
 import com.knichu.domain.vo.AirPollutionDataVO
 import com.knichu.domain.vo.SunriseSunsetVO
 import com.knichu.domain.vo.Weather24HourItemVO
@@ -312,10 +314,10 @@ fun ForecastScreen(
                     ) {
                         ForecastHeroSection(state = state)
                         if (state.weather24Hour.isNotEmpty()) {
-                            Weather24HourCard(items = state.weather24Hour)
+                            Weather24HourCard(items = state.weather24Hour, tempUnit = state.tempUnit)
                         }
                         if (state.weatherWeekly.isNotEmpty()) {
-                            WeatherWeeklyCard(items = state.weatherWeekly)
+                            WeatherWeeklyCard(items = state.weatherWeekly, tempUnit = state.tempUnit)
                         }
                         state.airPollution?.let { AirPollutionCard(data = it) }
                         state.sunriseSunset?.let { SunriseSunsetCard(data = it) }
@@ -356,7 +358,7 @@ private fun ForecastHeroSection(state: ForecastUiState) {
                 color = Color.Black
             )
             Text(
-                text = "${state.weatherNow?.temperature ?: "-"}°",
+                text = "${TemperatureParser.convert(state.weatherNow?.temperature, state.tempUnit) ?: "-"}°",
                 fontSize = 34.sp,
                 color = Color.Gray
             )
@@ -388,7 +390,7 @@ private fun WeatherCard(
 }
 
 @Composable
-private fun Weather24HourCard(items: List<Weather24HourItemVO>) {
+private fun Weather24HourCard(items: List<Weather24HourItemVO>, tempUnit: WeatherTempUnit) {
     WeatherCard {
         Row(
             modifier = Modifier
@@ -405,7 +407,7 @@ private fun Weather24HourCard(items: List<Weather24HourItemVO>) {
                     Spacer(modifier = Modifier.height(6.dp))
                     WeatherIconImage(weatherCondition = item.weatherCondition, size = 32.dp)
                     Spacer(modifier = Modifier.height(6.dp))
-                    Text("${item.temperature ?: "-"}°", fontSize = 18.sp, fontWeight = FontWeight.Medium)
+                    Text("${TemperatureParser.convert(item.temperature, tempUnit) ?: "-"}°", fontSize = 18.sp, fontWeight = FontWeight.Medium)
                     Spacer(modifier = Modifier.height(4.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
@@ -422,7 +424,7 @@ private fun Weather24HourCard(items: List<Weather24HourItemVO>) {
 }
 
 @Composable
-private fun WeatherWeeklyCard(items: List<WeatherWeeklyItemVO>) {
+private fun WeatherWeeklyCard(items: List<WeatherWeeklyItemVO>, tempUnit: WeatherTempUnit) {
     WeatherCard {
         Column(modifier = Modifier.padding(vertical = 4.dp)) {
             items.forEachIndexed { index, item ->
@@ -455,13 +457,13 @@ private fun WeatherWeeklyCard(items: List<WeatherWeeklyItemVO>) {
                     WeatherIconImage(weatherCondition = item.weatherConditionPM, size = 24.dp)
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(
-                        "${item.minTemperature ?: "-"}°",
+                        "${TemperatureParser.convert(item.minTemperature, tempUnit) ?: "-"}°",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.width(36.dp)
                     )
                     Text(
-                        "${item.maxTemperature ?: "-"}°",
+                        "${TemperatureParser.convert(item.maxTemperature, tempUnit) ?: "-"}°",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.width(36.dp)
@@ -671,7 +673,7 @@ private fun ForecastDrawerContent(
             Text("📍 현재 위치", fontSize = 16.sp)
             state.currentPositionCity?.let {
                 Spacer(modifier = Modifier.weight(1f))
-                Text("${it.temperature}°", fontSize = 14.sp)
+                Text("${TemperatureParser.convert(it.temperature, state.tempUnit) ?: "-"}°", fontSize = 14.sp)
             }
         }
 
@@ -691,7 +693,7 @@ private fun ForecastDrawerContent(
                     Spacer(modifier = Modifier.weight(1f))
                     WeatherIconImage(weatherCondition = item.weatherCondition, size = 20.dp)
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("${item.temperature ?: "-"}°", fontSize = 14.sp)
+                    Text("${TemperatureParser.convert(item.temperature, state.tempUnit) ?: "-"}°", fontSize = 14.sp)
                 }
                 Divider()
             }
@@ -746,7 +748,7 @@ private fun HeroPreview() {
 private fun Weather24HourPreview() {
     MaterialTheme {
         Box(modifier = Modifier.background(BgColor)) {
-            Weather24HourCard(items = previewState.weather24Hour)
+            Weather24HourCard(items = previewState.weather24Hour, tempUnit = WeatherTempUnit.CELSIUS)
         }
     }
 }
@@ -756,7 +758,7 @@ private fun Weather24HourPreview() {
 private fun WeatherWeeklyPreview() {
     MaterialTheme {
         Box(modifier = Modifier.background(BgColor)) {
-            WeatherWeeklyCard(items = previewState.weatherWeekly)
+            WeatherWeeklyCard(items = previewState.weatherWeekly, tempUnit = WeatherTempUnit.CELSIUS)
         }
     }
 }
