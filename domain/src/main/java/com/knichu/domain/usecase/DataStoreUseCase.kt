@@ -8,6 +8,8 @@ interface DataStoreUseCase {
 
     suspend fun getUserTempUnit(): WeatherTempUnit
 
+    fun getTempUnitFlow(): Flow<WeatherTempUnit>
+
     suspend fun storeCity(cityName: String)
 
     fun getCityList(): Flow<List<String>>

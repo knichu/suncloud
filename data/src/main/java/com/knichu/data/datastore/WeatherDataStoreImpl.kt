@@ -29,6 +29,14 @@ class WeatherDataStoreImpl @Inject constructor(
         else WeatherTempUnit.valueOf(unitStr.uppercase())
     }
 
+    override fun getTempUnitFlow(): Flow<WeatherTempUnit> {
+        return dataStore.data.map { pref ->
+            val unitStr = pref[TEMP_UNIT_KEY] ?: ""
+            if (unitStr.isEmpty()) WeatherTempUnit.CELSIUS
+            else WeatherTempUnit.valueOf(unitStr.uppercase())
+        }
+    }
+
     override suspend fun storeCity(cityName: String) {
         dataStore.updateData { pref ->
             pref.toMutablePreferences().also {

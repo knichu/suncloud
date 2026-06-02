@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface WeatherDataStore {
     suspend fun storeUserTempUnit(unit: WeatherTempUnit)
     suspend fun getUserTempUnit(): WeatherTempUnit
+    fun getTempUnitFlow(): Flow<WeatherTempUnit>
     suspend fun storeCity(cityName: String)
     fun getCityList(): Flow<List<String>>
     suspend fun deleteCity(selectedCityList: MutableSet<String>)
