@@ -3,6 +3,7 @@ package com.knichu.nationwide.ui
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.knichu.common.base.BaseMviViewModel
+import com.knichu.domain.useCase.DataStoreUseCase
 import com.knichu.domain.useCase.WeatherUseCase
 import com.knichu.nationwide.model.CITY_TIER_MAP
 import com.knichu.nationwide.model.CityInfo
@@ -20,15 +21,28 @@ import javax.inject.Inject
 @HiltViewModel
 class NationwideViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val weatherUseCase: WeatherUseCase
+    private val weatherUseCase: WeatherUseCase,
+    private val dataStoreUseCase: DataStoreUseCase
 ) : BaseMviViewModel<NationwideUiIntent, NationwideUiState, NationwideUiEffect>() {
 
     override fun initialState() = NationwideUiState()
+
+    init {
+        observeTempUnit()
+    }
 
     override fun handleIntent(intent: NationwideUiIntent) {
         when (intent) {
             is NationwideUiIntent.LoadInitialData -> loadInitialData()
             is NationwideUiIntent.OnCameraIdle -> onCameraIdle(intent.zoom)
+        }
+    }
+
+    private fun observeTempUnit() {
+        viewModelScope.launch {
+            dataStoreUseCase.getTempUnitFlow().collect { unit ->
+                setState { copy(tempUnit = unit) }
+            }
         }
     }
 

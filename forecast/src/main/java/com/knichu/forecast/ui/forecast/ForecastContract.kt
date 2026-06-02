@@ -1,5 +1,6 @@
 package com.knichu.forecast.ui.forecast
 
+import com.knichu.domain.constants.WeatherTempUnit
 import com.knichu.domain.vo.AirPollutionDataVO
 import com.knichu.domain.vo.SunriseSunsetVO
 import com.knichu.domain.vo.Weather24HourItemVO
@@ -10,6 +11,7 @@ import com.knichu.domain.vo.WeatherOtherInfoVO
 import com.knichu.domain.vo.WeatherWeeklyItemVO
 
 data class ForecastUiState(
+    val tempUnit: WeatherTempUnit = WeatherTempUnit.CELSIUS,
     val isLoading: Boolean = false,
     val isDrawerOpen: Boolean = false,
     val selectedCity: String? = null,           // null = 현재 위치

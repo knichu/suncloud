@@ -19,6 +19,10 @@ class DataStoreUseCaseImpl @Inject constructor(
         return weatherDataStore.getUserTempUnit()
     }
 
+    override fun getTempUnitFlow(): Flow<WeatherTempUnit> {
+        return weatherDataStore.getTempUnitFlow()
+    }
+
     override suspend fun storeCity(cityName: String) {
         val cityList = weatherDataStore.getCityList().first()
         if (cityList.contains(cityName)) {

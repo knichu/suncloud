@@ -23,7 +23,7 @@ class SettingHostFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 MaterialTheme {
-                    SettingScreen()
+                    SettingScreen(viewModel = viewModel)
                 }
             }
         }

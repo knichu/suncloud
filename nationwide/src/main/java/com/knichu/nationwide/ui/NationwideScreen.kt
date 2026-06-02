@@ -78,9 +78,9 @@ private fun NationwideMapView(
         modifier = modifier
     )
 
-    // zoom 변화 또는 날씨 데이터 변화 시 마커 업데이트
+    // zoom, 날씨 데이터, 온도 단위 변화 시 마커 업데이트
     val map = naverMapRef.value
-    LaunchedEffect(map, uiState.cityWeatherMap, uiState.allCities, currentZoom.value) {
+    LaunchedEffect(map, uiState.cityWeatherMap, uiState.allCities, currentZoom.value, uiState.tempUnit) {
         if (map == null) return@LaunchedEffect
         updateMarkers(context, map, uiState, markersRef)
     }
@@ -132,7 +132,7 @@ private fun updateMarkers(
         if (weather.isLoading || weather.temperature == null) return@forEach
 
         val cityInfo = uiState.allCities.find { it.name == cityName } ?: return@forEach
-        val icon = MarkerBitmapFactory.create(context, weather.weatherCondition, weather.temperature)
+        val icon = MarkerBitmapFactory.create(context, weather.weatherCondition, weather.temperature, uiState.tempUnit)
 
         val existing = markers[cityName]
         if (existing != null) {

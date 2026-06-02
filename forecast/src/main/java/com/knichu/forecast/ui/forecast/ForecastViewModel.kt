@@ -23,6 +23,7 @@ class ForecastViewModel @Inject constructor(
 
     init {
         observeCityList()
+        observeTempUnit()
     }
 
     override fun handleIntent(intent: ForecastUiIntent) {
@@ -156,6 +157,14 @@ class ForecastViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching { weatherUseCase.getCurrentPositionWeatherNow(lon, lat) }
                 .onSuccess { result -> setState { copy(currentPositionCity = result) } }
+        }
+    }
+
+    private fun observeTempUnit() {
+        viewModelScope.launch {
+            dataStoreUseCase.getTempUnitFlow().collect { unit ->
+                setState { copy(tempUnit = unit) }
+            }
         }
     }
 

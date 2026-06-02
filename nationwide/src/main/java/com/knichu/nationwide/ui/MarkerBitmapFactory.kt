@@ -11,12 +11,14 @@ import android.graphics.Typeface
 import android.util.TypedValue
 import androidx.appcompat.content.res.AppCompatResources
 import com.knichu.common_ui.enums.WeatherIcon
+import com.knichu.domain.constants.WeatherTempUnit
+import com.knichu.domain.util.TemperatureParser
 import com.naver.maps.map.overlay.OverlayImage
 
 object MarkerBitmapFactory {
 
-    fun create(context: Context, weatherCondition: String?, temperature: String?): OverlayImage =
-        OverlayImage.fromBitmap(createBitmap(context, weatherCondition, temperature))
+    fun create(context: Context, weatherCondition: String?, temperature: String?, unit: WeatherTempUnit = WeatherTempUnit.CELSIUS): OverlayImage =
+        OverlayImage.fromBitmap(createBitmap(context, weatherCondition, TemperatureParser.convert(temperature, unit)))
 
     private fun createBitmap(context: Context, weatherCondition: String?, temperature: String?): Bitmap {
         val dm = context.resources.displayMetrics

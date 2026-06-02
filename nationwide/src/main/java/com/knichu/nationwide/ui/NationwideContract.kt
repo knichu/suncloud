@@ -1,8 +1,10 @@
 package com.knichu.nationwide.ui
 
+import com.knichu.domain.constants.WeatherTempUnit
 import com.knichu.nationwide.model.CityInfo
 
 data class NationwideUiState(
+    val tempUnit: WeatherTempUnit = WeatherTempUnit.CELSIUS,
     val allCities: List<CityInfo> = emptyList(),
     val cityWeatherMap: Map<String, CityWeatherState> = emptyMap(),
     val error: String? = null
